@@ -30,32 +30,34 @@ class Menu extends MainMenu
 	        public void paintComponent(Graphics g) 
 	        {
 	            super.paintComponent(g);
-	            g.drawImage(image, -70, -100, 768, 768, this);
+	            g.drawImage(image, -45, -100, 768, 768, this);
 	        }
 	    });
-		ImageIcon icon = new ImageIcon("src/main/java/images/startnewgame.png");
-		ImageIcon icon1 = new ImageIcon("src/main/java/images/credits1.png");
-		ImageIcon icon2 = new ImageIcon("src/main/java/images/exit.png");
+		
+		ImageIcon iconStartNewGame = new ImageIcon("src/main/java/images/NewGame.png");
+		ImageIcon iconScore = new ImageIcon("src/main/java/images/score.png");
+		ImageIcon iconExit = new ImageIcon("src/main/java/images/exit.png");
 		
 		//Start New Game
 		JButton buttonStart = new JButton();
-		buttonStart.setBounds(145, 380, 350, 60);
+		buttonStart.setBounds(185, 380, 300, 60);
     	int offset = buttonStart.getInsets().left;
-    	buttonStart.setIcon(resizeIcon(icon, buttonStart.getWidth() - offset, buttonStart.getHeight() - offset));
+    	buttonStart.setIcon(resizeIcon(iconStartNewGame, buttonStart.getWidth() - offset, buttonStart.getHeight() - offset));
     	buttonStart.setBackground(Color.BLACK);
     	buttonStart.addActionListener(e -> 
     	{
     	    new FakeInvaders();
-   
     	});
     	
-    	//Credits
-    	JButton buttonLogin = new JButton();
-    	buttonLogin.setBounds(215, 450, 200, 50);
-    	int offset1 = buttonLogin.getInsets().left;
-    	buttonLogin.setIcon(resizeIcon(icon1, buttonLogin.getWidth() - offset1, buttonLogin.getHeight() - offset1));
-    	buttonLogin.setBackground(Color.BLACK);
-    	buttonLogin.addActionListener(e -> 
+    	//Score
+    	
+    	//TODO
+    	JButton buttonScore = new JButton();
+    	buttonScore.setBounds(260, 450, 150, 55);
+    	int offset1 = buttonScore.getInsets().left;
+    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth() - offset1, buttonScore.getHeight() - offset1));
+    	buttonScore.setBackground(Color.BLACK);
+    	buttonScore.addActionListener(e -> 
     	{
     		try {
 				new Login();
@@ -67,19 +69,19 @@ class Menu extends MainMenu
     	});
     	
     	//Exit
-    	JButton b2 = new JButton();
-    	b2.setBounds(265, 510, 100, 50);
-    	int offset2 = b2.getInsets().left;
-    	b2.setIcon(resizeIcon(icon2, b2.getWidth() - offset2, b2.getHeight() - offset2));
-    	b2.setBackground(Color.BLACK);
-    	b2.addActionListener(e -> 
+    	JButton buttonExit = new JButton();
+    	buttonExit.setBounds(285, 520, 100, 50);
+    	int offset2 = buttonExit.getInsets().left;
+    	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth() - offset2, buttonExit.getHeight() - offset2));
+    	buttonExit.setBackground(Color.BLACK);
+    	buttonExit.addActionListener(e -> 
     	{
     		frame.dispose();
     	});
     	
         frame.add(buttonStart);
-        frame.add(buttonLogin);
-        frame.add(b2);
+        frame.add(buttonScore);
+        frame.add(buttonExit);
 		frame.setTitle("FAKE INVADERS"); 
 		frame.setLayout(null);
 		frame.setVisible(true);

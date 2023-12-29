@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -37,23 +38,43 @@ class LoginMenu extends MainMenu
 	        public void paintComponent(Graphics g) 
 	        {
 	            super.paintComponent(g);
-	            g.drawImage(image, -70, -100, 768, 768, this);
+	            g.drawImage(image, -45, -100, 768, 768, this);
 	        }
 	    });
 		
+		ImageIcon iconL = new ImageIcon("src/main/java/images/login.png");
+		ImageIcon iconU = new ImageIcon("src/main/java/images/username.png");
+		ImageIcon iconP = new ImageIcon("src/main/java/images/password.png");
+		
+		
+		//username 
+		JLabel usernameL = new JLabel();
+		usernameL.setBounds(125, 375, 200, 50);
+		usernameL.setIcon(resizeIcon(iconU, usernameL.getWidth(), usernameL.getHeight()));
 		
     	JTextField username = new JTextField();
-    	username.setBounds(145, 380, 350, 60);
-    	username.setBackground(Color.BLACK);
+    	username.setBounds(335, 380, 200, 40);	
+    	username.setBackground(new Color(255, 241, 202));
+    	
+    	
+    	//password 
+    	JLabel passwordL = new JLabel();
+    	passwordL.setBounds(125, 445, 200, 50);
+    	passwordL.setIcon(resizeIcon(iconP, passwordL.getWidth(), passwordL.getHeight()));
     	
     	JTextField password = new JTextField();
-    	password.setBounds(145, 450, 350, 60);
-    	password.setBackground(Color.BLACK);
+    	password.setBounds(335, 450, 200, 40);
+    	password.setBackground(new Color(255, 241, 202));
     	
-    	//Credits
+    	//login
     	JButton buttonLogin = new JButton();
-    	buttonLogin.setBounds(265, 510, 100, 50);
+    	buttonLogin.setBounds(285, 520, 100, 50);
+    	buttonLogin.setIcon(resizeIcon(iconL, buttonLogin.getWidth(), buttonLogin.getHeight()));
+    	buttonLogin.setBackground(Color.GRAY);
     	
+    	
+    	frame.add(usernameL);
+    	frame.add(passwordL);
         frame.add(username);
         frame.add(password);
         frame.add(buttonLogin);
@@ -111,10 +132,7 @@ class LoginMenu extends MainMenu
 				e1.printStackTrace();
 			}
     	});
-		
-		
 	}
-	
 }
 
 

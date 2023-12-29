@@ -34,9 +34,6 @@ public class MainMenu
 	public static void main(String[] args) throws Exception
 	{
 		LoginMenu logmenu = new LoginMenu();
-		
-		
-		
 	}
 	
 	public static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) 
