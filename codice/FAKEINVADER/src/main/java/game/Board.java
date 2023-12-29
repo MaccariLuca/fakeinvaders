@@ -31,6 +31,8 @@ public class Board extends JPanel
     private List<Alien> aliens;
     private Player player;
     private Shot shot;
+    private PowerShot powerShot;
+    boolean powerShotShooted = true;
     
     private int direction = -1;
     private int deaths = 0;
@@ -81,6 +83,7 @@ public class Board extends JPanel
 
         player = new Player();//...the player...
         shot = new Shot();//...and the shot
+        powerShot = new PowerShot();
     }
 
     private void drawAliens(Graphics g) 
@@ -122,11 +125,18 @@ public class Board extends JPanel
         }
     }
 
-    private void drawBombing(Graphics g) {
+    private void drawPowerShot(Graphics g) {
+
+		if (powerShot.isVisible()) {
+
+            g.drawImage(powerShot.getImage(), powerShot.getX(), powerShot.getY(), this);
+        }
+    }
+    private void drawBomb(Graphics g) {
 
         for (Alien a : aliens) {
 
-            Alien.Bomb b = a.getBomb();
+            Bomb b = a.getBomb();
 
             if (!b.isDestroyed()) {
 
@@ -154,7 +164,8 @@ public class Board extends JPanel
             drawAliens(g);
             drawPlayer(g);
             drawShot(g);
-            drawBombing(g);
+            drawPowerShot(g);
+            drawBomb(g);
 
         } 
         else 
@@ -196,9 +207,7 @@ public class Board extends JPanel
         String message = "Menu";
         
         //TODO
-       System.out.println("WELAH");
        g.dispose();
-       System.out.println("WELAH");
     }
 
     private void update() {
@@ -215,10 +224,13 @@ public class Board extends JPanel
         player.act();
 
         // shot
-        if (shot.isVisible()) {
+        if (shot.isVisible() || powerShot.isVisible()) {
 
             int shotX = shot.getX();
             int shotY = shot.getY();
+            
+            int pShotX = powerShot.getX();
+            int pShotY = powerShot.getY();
 
             for (Alien alien : aliens) {
 
@@ -238,6 +250,19 @@ public class Board extends JPanel
                         shot.die();
                     }
                 }
+                if (alien.isVisible() && powerShot.isVisible()) {
+                    if (pShotX >= (alienX)
+                        && pShotX <= (alienX + Commons.ALIEN_WIDTH)
+                        && pShotY >= (alienY)
+                        && pShotY <= (alienY + Commons.ALIEN_HEIGHT)){
+
+                        var icon = new ImageIcon(explImg);
+                        alien.setImage(icon.getImage());
+                        alien.setDying(true);
+                        deaths++;//TODO
+                        shot.die();
+                    }
+                }
             }
 
             int y = shot.getY();
@@ -248,6 +273,46 @@ public class Board extends JPanel
             } else {
                 shot.setY(y);
             }
+            
+            
+        }
+
+     // shot
+        if (powerShot.isVisible()) {
+
+            int pShotX = shot.getX();
+            int pShotY = shot.getY();
+
+            for (Alien alien : aliens) {
+
+                int alienX = alien.getX();
+                int alienY = alien.getY();
+
+                if (alien.isVisible() && shot.isVisible()) {
+                    if (pShotX >= (alienX)
+                        && pShotX <= (alienX + Commons.ALIEN_WIDTH)
+                        && pShotY >= (alienY)
+                        && pShotY <= (alienY + Commons.ALIEN_HEIGHT)){
+
+                        var icon = new ImageIcon(explImg);
+                        alien.setImage(icon.getImage());
+                        alien.setDying(true);
+                        deaths++;//TODO
+                        shot.die();
+                    }
+                }
+            }
+
+            int y = powerShot.getY();
+            y -= 4;
+
+            if (y < 0) {
+                powerShot.die();
+            } else {
+                powerShot.setY(y);
+            }
+            
+            
         }
 
         // aliens
@@ -309,7 +374,7 @@ public class Board extends JPanel
         {
 
             int shot = generator.nextInt(350);//random number that defines the time value of the shot (1 in 350 chance to shoot)
-            Alien.Bomb bomb = alien.getBomb();
+            Bomb bomb = alien.getBomb();
 
             if (shot == 0 && alien.isVisible() && bomb.isDestroyed()) //if the alien is still alive and the bomb is destroyed
             {
@@ -400,10 +465,18 @@ public class Board extends JPanel
                         shot = new Shot(x, y);
                     }
                 }
-                else
-                {
-                	System.out.println("Chiuso lol");
-                }
+            }
+            if(key == KeyEvent.VK_R && powerShotShooted)
+            {
+
+    			powerShotShooted = false;
+            	if(inGame)
+            	{
+            		if(!powerShot.isVisible())
+            		{
+            			powerShot = new PowerShot(x, y);
+            		}
+            	}			
             }
         }
     }

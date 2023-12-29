@@ -34,6 +34,7 @@ public class Player extends Sprite
     {
 
         x += dx;
+        y += up;
 
         if (x <= 2) 
         {
@@ -64,6 +65,16 @@ public class Player extends Sprite
 
             dx = 2;
         }
+        if (key == KeyEvent.VK_UP) 
+        {
+
+            up = -2;
+        }
+        if (key == KeyEvent.VK_DOWN) 
+        {
+
+            up = 2;
+        }
     }
 
     public void keyReleased(KeyEvent e) 
@@ -81,6 +92,18 @@ public class Player extends Sprite
         {
 
             dx = 0;
+        }
+        
+        if (key == KeyEvent.VK_UP) 
+        {
+
+            up = 0;
+        }
+
+        if (key == KeyEvent.VK_DOWN) 
+        {
+
+            up = 0;
         }
     }
 }

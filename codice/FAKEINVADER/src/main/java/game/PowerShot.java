@@ -2,14 +2,15 @@ package game;
 
 import javax.swing.ImageIcon;
 
-public class Shot extends Sprite {
+public class PowerShot extends Shot {
 
-    public Shot() 
-    {}
-
-    public Shot(int x, int y) 
+    public PowerShot() 
     {
-        var shotImg = "src/main/java/images/shot.png";
+    }
+
+    public PowerShot(int x, int y) 
+    {
+        var shotImg = "src/main/java/images/powerShot.png";
         var ii = new ImageIcon(shotImg);
         setImage(ii.getImage());
 

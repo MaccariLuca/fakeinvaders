@@ -12,6 +12,7 @@ public class Sprite {
     int x;
     int y;
     int dx;
+    int up;
 
     public Sprite() 
     {
