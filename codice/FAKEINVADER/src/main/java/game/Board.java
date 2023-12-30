@@ -1,6 +1,26 @@
 package game;
 
 import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -181,8 +201,10 @@ public class Board extends JPanel
         //Toolkit.getDefaultToolkit().sync();
     }
 
-    private void gameOver(Graphics g) {
-
+    private void gameOver(Graphics g) 
+    {
+    	ImageIcon iconExit = new ImageIcon("src/main/java/images/exit.png");
+    	
         g.setColor(Color.black);
         g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
@@ -207,7 +229,10 @@ public class Board extends JPanel
         String message = "Menu";
         
         //TODO
-       g.dispose();
+        g.dispose();
+        
+        
+        
     }
 
     private void update() {

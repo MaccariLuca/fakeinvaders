@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -45,6 +46,7 @@ class LoginMenu extends MainMenu
 		ImageIcon iconL = new ImageIcon("src/main/java/images/login.png");
 		ImageIcon iconU = new ImageIcon("src/main/java/images/username.png");
 		ImageIcon iconP = new ImageIcon("src/main/java/images/password.png");
+		ImageIcon iconS = new ImageIcon("src/main/java/images/signin.png");
 		
 		
 		//username 
@@ -66,18 +68,33 @@ class LoginMenu extends MainMenu
     	password.setBounds(335, 450, 200, 40);
     	password.setBackground(new Color(255, 241, 202));
     	
+    	
     	//login
     	JButton buttonLogin = new JButton();
-    	buttonLogin.setBounds(285, 520, 100, 50);
+    	buttonLogin.setBounds(335, 520, 100, 50);
     	buttonLogin.setIcon(resizeIcon(iconL, buttonLogin.getWidth(), buttonLogin.getHeight()));
     	buttonLogin.setBackground(Color.GRAY);
     	
+    	
+    	//Registration
+    	JButton buttonRegistration = new JButton();
+    	buttonRegistration.setBounds(200, 523, 120, 50);
+    	buttonRegistration.setIcon(resizeIcon(iconS, buttonRegistration.getWidth(), buttonRegistration.getHeight()));
+    	buttonRegistration.setBackground(Color.GRAY);
+    	
+    	//Error
+    	JTextField error = new JTextField();
+    	error.setBounds(230, 580, 230, 40);
+    	error.setBackground(Color.BLACK);
+    	error.setForeground(Color.RED);
     	
     	frame.add(usernameL);
     	frame.add(passwordL);
         frame.add(username);
         frame.add(password);
         frame.add(buttonLogin);
+        frame.add(error);
+        frame.add(buttonRegistration);
 		frame.setTitle("FAKE INVADERS"); 
 		frame.setLayout(null);
 		frame.setVisible(true);
@@ -90,32 +107,39 @@ class LoginMenu extends MainMenu
     	{
     		final String DB_REL_FILE = "src/main/java/database/database.db3";
     		final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-    		try {			
+    		try 
+    		{			
     		 Connection conn = DriverManager.getConnection(DB_URL);
-    		 if (conn != null) {
+    		 if (conn != null) 
+    		 {
     		   DatabaseMetaData meta = conn.getMetaData();
     		   System.out.println("The driver name is " + meta.getDriverName());
     		   System.out.println("A new database has been created.");
     		 }
+    		 
     		 // controllo che il file esista a questo punto
     		 System.out.println("il file esiste? " + new File(DB_REL_FILE).exists());
     		 
     		 Statement stmt = conn.createStatement();
-    		 String sql = "INSERT INTO PLAYERS VALUES (" + " \""+username.getText()+" \"," + " \""+ password.getText() + " \" )";
-    		 stmt.executeUpdate(sql);
-    		 System.out.println("Utente inserito con successo");
     		 
-    		 stmt = conn.createStatement();
-     		 sql = "SELECT * FROM PLAYERS";
-     		System.out.println("risultati:");
-     		ResultSet resultSet = stmt.executeQuery(sql);
-     		// stampa i risultati
-     		while (resultSet.next()) {
-     		    for (int i = 1; i <= 2; i++) {
-     		        System.out.print(resultSet.getString(i)+ " ");
-     		    }
-     		    System.out.println();
+    		 String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
+    		 PreparedStatement preparedStatement = conn.prepareStatement(sql);
+    		 preparedStatement.setString(1, username.getText());
+    		 preparedStatement.setString(2, password.getText());
+    		 ResultSet resultSet = preparedStatement.executeQuery();
+
+    		 if (resultSet.next()) 
+    		 {
+    			 frame.dispose();
+	     		 try { new Menu(); } catch (IOException e1) { e1.printStackTrace(); }
+     		}else
+     		{
+     			System.out.println("utente non registrato");
+     			 username.setText(" ");
+    		     password.setText(" ");
+    		     error.setText(" Attenzione : Utente non registrato!");
      		}
+     		
      		stmt.close();
      		conn.close();
      		System.out.println("query eseguita con successo");
@@ -123,16 +147,59 @@ class LoginMenu extends MainMenu
     		} catch (SQLException ex) {
     		  System.out.println(ex.getMessage());
     		}
-    		
-    		frame.dispose();
-    		try {
-				new Menu();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
     	});
+		
+		
+		buttonRegistration.addActionListener(e -> 
+    	{
+    		final String DB_REL_FILE = "src/main/java/database/database.db3";
+    		final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
+    		try 
+    		{			
+	    		 Connection conn = DriverManager.getConnection(DB_URL);
+	    		 
+	    		 if (conn != null) 
+	    		 {
+	    		   DatabaseMetaData meta = conn.getMetaData();
+	    		   System.out.println("The driver name is " + meta.getDriverName());
+	    		   System.out.println("A new database has been created.");
+	    		 }
+	    		 
+	    		 // controllo che il file esista a questo punto
+	    		 System.out.println("il file esiste? " + new File(DB_REL_FILE).exists());
+	    		 
+	    		 Statement stmt = conn.createStatement();
+	    		 
+	    		 //query di verifica se utente è gia registrato
+	    		 
+	    		 String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
+	    		 PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	    		 preparedStatement.setString(1, username.getText());
+	    		 preparedStatement.setString(2, password.getText());
+	    		 ResultSet resultSet = preparedStatement.executeQuery();
+
+	    		 if (resultSet.next()) 
+	    		 {
+	    		     System.out.println("Utente già registrato");
+	    		     username.setText(" ");
+	    		     password.setText(" ");
+	    		     error.setText(" Attenzione : Utente già registrato!");
+	    		 }else 
+	    		 {
+	    		     // Inserisci il nuovo utente
+	    		     String insertSql = "INSERT INTO PLAYERS (username, password) VALUES (?, ?)";
+	    		     PreparedStatement insertStatement = conn.prepareStatement(insertSql);
+	    		     insertStatement.setString(1, username.getText());
+	    		     insertStatement.setString(2, password.getText());
+	    		     insertStatement.executeUpdate();
+
+	    		     System.out.println("Utente inserito con successo");
+	    		 
+		    		 frame.dispose();
+		     		 try { new Menu(); } catch (IOException e1) { e1.printStackTrace(); }
+	    		 }
+    		} catch (SQLException ex) { System.out.println(ex.getMessage());}
+	});
 	}
 }
-
 
