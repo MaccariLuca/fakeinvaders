@@ -41,7 +41,6 @@ class Menu extends MainMenu
 		ImageIcon iconExit = new ImageIcon("src/main/java/images/exit.png");
 		
 		//Start New Game
-		
 		JButton buttonStart = new JButton();
 		buttonStart.setBounds(185, 380, 300, 60);
     	int offset = buttonStart.getInsets().left;

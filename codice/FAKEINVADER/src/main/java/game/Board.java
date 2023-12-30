@@ -1,28 +1,10 @@
 package game;
 
 import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -201,10 +184,8 @@ public class Board extends JPanel
         //Toolkit.getDefaultToolkit().sync();
     }
 
-    private void gameOver(Graphics g) 
-    {
-    	ImageIcon iconExit = new ImageIcon("src/main/java/images/exit.png");
-    	
+    private void gameOver(Graphics g) {
+
         g.setColor(Color.black);
         g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
@@ -223,16 +204,19 @@ public class Board extends JPanel
                 Commons.BOARD_WIDTH / 2);
         
         
-        g.drawRect(265, 510, 100, 50); //x, y, larg, alt
-        g.setColor(Color.white);
-        g.setFont(small);
-        String message = "Menu";
-        
         //TODO
+
         g.dispose();
-        
-        
-        
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            frame.dispose(); // Chiudi il frame genitore
+       
+        try {
+			new GameOverMenu(deaths);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
     }
 
     private void update() {
