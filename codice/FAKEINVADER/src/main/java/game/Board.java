@@ -2,7 +2,9 @@ package game;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -201,13 +204,19 @@ public class Board extends JPanel
                 Commons.BOARD_WIDTH / 2);
         
         
-        g.drawRect(265, 510, 100, 50); //x, y, larg, alt
-        g.setColor(Color.white);
-        g.setFont(small);
-        String message = "Menu";
-        
         //TODO
-       g.dispose();
+
+        g.dispose();
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            frame.dispose(); // Chiudi il frame genitore
+       
+        try {
+			new GameOverMenu(deaths);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
     }
 
     private void update() {

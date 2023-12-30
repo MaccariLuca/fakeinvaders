@@ -12,12 +12,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-class Menu extends MainMenu 
+class GameOverMenu extends MainMenu 
 {
-	Menu() throws IOException
+	GameOverMenu(int lastScore) throws IOException
 	{
 		JFrame frame = new JFrame();
-		ImageIcon icon = new ImageIcon("src/main/java/images/alien.png");
+
+		ImageIcon icon = new ImageIcon("src/main/java/images/ship.png");
 		frame.setIconImage(icon.getImage());
 		frame.setContentPane(new JPanel() 
 		{			
@@ -26,13 +27,15 @@ class Menu extends MainMenu
 			 */
 			private static final long serialVersionUID = 1L;
 			
-			File pathmenu  = new File("src/main/java/images/menu.jpg");
+			File pathmenu  = new File("src/main/java/images/gameOver.jpg");
+			ImageIcon icon = new ImageIcon("src/main/java/images/ship.png");
 			BufferedImage image = ImageIO.read(pathmenu);
 			
 	        public void paintComponent(Graphics g) 
 	        {
 	            super.paintComponent(g);
 	            g.drawImage(image, -45, -100, 768, 768, this);
+	            System.out.println(lastScore);
 	        }
 	    });
 		
@@ -62,13 +65,7 @@ class Menu extends MainMenu
     	buttonScore.setBackground(Color.BLACK);
     	buttonScore.addActionListener(e -> 
     	{
-    		try {
-				new Login();
-				frame.dispose();
-			} catch (IOException e1) {
-				System.out.println("Nothing");
-				e1.printStackTrace();
-			}
+    		System.out.println(lastScore);
     	});
     	
     	//Exit
@@ -80,6 +77,12 @@ class Menu extends MainMenu
     	buttonExit.addActionListener(e -> 
     	{
     		frame.dispose();
+    		try {
+				new Menu();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
     	});
     	
         frame.add(buttonStart);
