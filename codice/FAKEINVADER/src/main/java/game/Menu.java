@@ -132,8 +132,6 @@ class Menu extends MainMenu
     	});
     	
     	
-
-    	
         frame.add(buttonStart);
         frame.add(buttonScore);
         frame.add(buttonExit);

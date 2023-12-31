@@ -10,7 +10,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 class GameOverMenu extends MainMenu 
 {
@@ -39,16 +41,29 @@ class GameOverMenu extends MainMenu
 	        }
 	    });
 		
-		ImageIcon iconStartNewGame = new ImageIcon("src/main/java/images/NewGame.png");
+		ImageIcon iconStartNewGame = new ImageIcon("src/main/java/images/newGame.png");
+		ImageIcon iconStartNewGamePush = new ImageIcon("src/main/java/images/newGamePush.png");
+		
 		ImageIcon iconScore = new ImageIcon("src/main/java/images/score.png");
 		ImageIcon iconExit = new ImageIcon("src/main/java/images/exit.png");
+		ImageIcon iconExitPush = new ImageIcon("src/main/java/images/exitPush.png");
 		
 		//Start New Game
-		JButton buttonStart = new JButton();
-		buttonStart.setBounds(185, 380, 300, 60);
-    	int offset = buttonStart.getInsets().left;
-    	buttonStart.setIcon(resizeIcon(iconStartNewGame, buttonStart.getWidth() - offset, buttonStart.getHeight() - offset));
-    	buttonStart.setBackground(Color.BLACK);
+		
+    	JButton buttonStart = new JButton();
+		buttonStart.setBounds(185, 450, 300, 60);
+    	buttonStart.setIcon(resizeIcon(iconStartNewGame, buttonStart.getWidth() , buttonStart.getHeight() ));
+    	//buttonStart.setBackground(Color.BLACK);
+    	buttonStart.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonStart.setIcon(resizeIcon(iconStartNewGamePush, buttonStart.getWidth(), buttonStart.getHeight() )); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonStart.setIcon(resizeIcon(iconStartNewGame, buttonStart.getWidth(), buttonStart.getHeight() )); 
+    	    }
+    	});
+    	
     	buttonStart.addActionListener(e -> 
     	{
     	    new FakeInvaders();
@@ -56,38 +71,37 @@ class GameOverMenu extends MainMenu
     	});
     	
     	//Score
-    	
-    	//TODO
-    	JButton buttonScore = new JButton();
-    	buttonScore.setBounds(260, 450, 150, 55);
-    	int offset1 = buttonScore.getInsets().left;
-    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth() - offset1, buttonScore.getHeight() - offset1));
-    	buttonScore.setBackground(Color.BLACK);
-    	buttonScore.addActionListener(e -> 
-    	{
-    		System.out.println(lastScore);
-    	});
+    	JLabel scoreLabel = new JLabel();
+    	scoreLabel.setBounds(285, 380, 100, 40);
+    	scoreLabel.setBackground(Color.WHITE);
+    	scoreLabel.setText("YOUR SCORE : " + String.valueOf(lastScore));
+    	scoreLabel.setForeground(Color.RED);
     	
     	//Exit
     	JButton buttonExit = new JButton();
     	buttonExit.setBounds(285, 520, 100, 50);
-    	int offset2 = buttonExit.getInsets().left;
-    	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth() - offset2, buttonExit.getHeight() - offset2));
-    	buttonExit.setBackground(Color.BLACK);
-    	buttonExit.addActionListener(e -> 
-    	{
-    		frame.dispose();
-    		try {
-				new Menu();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+    	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth(), buttonExit.getHeight()));
+    	//buttonExit.setBackground(Color.BLACK);
+
+    	buttonExit.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonExit.setIcon(resizeIcon(iconExitPush, buttonExit.getWidth(), buttonExit.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth(), buttonExit.getHeight())); 
+    	    }
     	});
+    
+		buttonExit.addActionListener(e -> {
+		    frame.dispose();
+		});
     	
+		
+		
         frame.add(buttonStart);
-        frame.add(buttonScore);
         frame.add(buttonExit);
+        frame.add(scoreLabel);
 		frame.setTitle("FAKE INVADERS"); 
 		frame.setLayout(null);
 		frame.setVisible(true);
