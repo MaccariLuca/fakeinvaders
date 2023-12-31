@@ -36,55 +36,109 @@ class Menu extends MainMenu
 	        }
 	    });
 		
-		ImageIcon iconStartNewGame = new ImageIcon("src/main/java/images/NewGame.png");
+		ImageIcon iconStartNewGame = new ImageIcon("src/main/java/images/newGame.png");
+		ImageIcon iconStartNewGamePush = new ImageIcon("src/main/java/images/newGamePush.png");
+		
 		ImageIcon iconScore = new ImageIcon("src/main/java/images/score.png");
+		ImageIcon iconScorePush = new ImageIcon("src/main/java/images/scorePush.png");
+		
+		ImageIcon iconRules = new ImageIcon("src/main/java/images/rules.png");
+		ImageIcon iconRulesPush = new ImageIcon("src/main/java/images/rulesPush.png");
+		
 		ImageIcon iconExit = new ImageIcon("src/main/java/images/exit.png");
+		ImageIcon iconExitPush = new ImageIcon("src/main/java/images/exitPush.png");
 		
 		//Start New Game
 		JButton buttonStart = new JButton();
 		buttonStart.setBounds(185, 380, 300, 60);
-    	int offset = buttonStart.getInsets().left;
-    	buttonStart.setIcon(resizeIcon(iconStartNewGame, buttonStart.getWidth() - offset, buttonStart.getHeight() - offset));
-    	buttonStart.setBackground(Color.BLACK);
+    	buttonStart.setIcon(resizeIcon(iconStartNewGame, buttonStart.getWidth() , buttonStart.getHeight() ));
+    	//buttonStart.setBackground(Color.BLACK);
+    	buttonStart.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonStart.setIcon(resizeIcon(iconStartNewGamePush, buttonStart.getWidth(), buttonStart.getHeight() )); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonStart.setIcon(resizeIcon(iconStartNewGame, buttonStart.getWidth(), buttonStart.getHeight() )); 
+    	    }
+    	});
+    	
     	buttonStart.addActionListener(e -> 
     	{
     	    new FakeInvaders();
     	    frame.dispose();
     	});
     	
-    	//Score
     	
-    	//TODO
+    	
+    	//Score
     	JButton buttonScore = new JButton();
-    	buttonScore.setBounds(260, 450, 150, 55);
-    	int offset1 = buttonScore.getInsets().left;
-    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth() - offset1, buttonScore.getHeight() - offset1));
-    	buttonScore.setBackground(Color.BLACK);
+    	buttonScore.setBounds(175, 450, 150, 50);
+    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth() , buttonScore.getHeight() ));
+    	//buttonScore.setBackground(Color.BLACK);
+    	
+    	buttonScore.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonScore.setIcon(resizeIcon(iconScorePush, buttonScore.getWidth(), buttonScore.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth(), buttonScore.getHeight())); 
+    	    }
+    	});
+
     	buttonScore.addActionListener(e -> 
     	{
-    		try {
-				new Login();
-				frame.dispose();
-			} catch (IOException e1) {
-				System.out.println("Nothing");
-				e1.printStackTrace();
-			}
+    		// fare select che visualizzi 
     	});
+    	
+    	
+    	
+    	//Rules 
+    	JButton buttonRules = new JButton();
+    	buttonRules.setBounds(345, 453, 150, 45);
+    	buttonRules.setIcon(resizeIcon(iconRules, buttonRules.getWidth(), buttonRules.getHeight()));
+    	//buttonRules.setBackground(Color.BLACK);
+    	buttonRules.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonRules.setIcon(resizeIcon(iconRulesPush, buttonRules.getWidth(), buttonRules.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonRules.setIcon(resizeIcon(iconRules, buttonRules.getWidth(), buttonRules.getHeight())); 
+    	    }
+    	});
+
+    	
+    	
     	
     	//Exit
     	JButton buttonExit = new JButton();
     	buttonExit.setBounds(285, 520, 100, 50);
-    	int offset2 = buttonExit.getInsets().left;
-    	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth() - offset2, buttonExit.getHeight() - offset2));
-    	buttonExit.setBackground(Color.BLACK);
-    	buttonExit.addActionListener(e -> 
-    	{
-    		frame.dispose();
+    	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth(), buttonExit.getHeight()));
+    	//buttonExit.setBackground(Color.BLACK);
+
+    	buttonExit.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonExit.setIcon(resizeIcon(iconExitPush, buttonExit.getWidth(), buttonExit.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth(), buttonExit.getHeight())); 
+    	    }
     	});
+
+    	buttonExit.addActionListener(e -> {
+    	    frame.dispose();
+    	});
+    	
+    	
+
     	
         frame.add(buttonStart);
         frame.add(buttonScore);
         frame.add(buttonExit);
+        frame.add(buttonRules);
+        
 		frame.setTitle("FAKE INVADERS"); 
 		frame.setLayout(null);
 		frame.setVisible(true);

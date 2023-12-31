@@ -43,10 +43,14 @@ class LoginMenu extends MainMenu
 	        }
 	    });
 		
-		ImageIcon iconL = new ImageIcon("src/main/java/images/login.png");
+		ImageIcon iconLogin = new ImageIcon("src/main/java/images/login.png");
+		ImageIcon iconLoginPush = new ImageIcon("src/main/java/images/loginPush.png");
+		
 		ImageIcon iconU = new ImageIcon("src/main/java/images/username.png");
 		ImageIcon iconP = new ImageIcon("src/main/java/images/password.png");
-		ImageIcon iconS = new ImageIcon("src/main/java/images/signin.png");
+		
+		ImageIcon iconSingin = new ImageIcon("src/main/java/images/signin.png");
+		ImageIcon iconSinginPush = new ImageIcon("src/main/java/images/signinPush.png");
 		
 		
 		//username 
@@ -72,15 +76,34 @@ class LoginMenu extends MainMenu
     	//login
     	JButton buttonLogin = new JButton();
     	buttonLogin.setBounds(335, 520, 100, 50);
-    	buttonLogin.setIcon(resizeIcon(iconL, buttonLogin.getWidth(), buttonLogin.getHeight()));
-    	buttonLogin.setBackground(Color.GRAY);
+    	buttonLogin.setIcon(resizeIcon(iconLogin, buttonLogin.getWidth(), buttonLogin.getHeight()));
+    	
+    	
+    	buttonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonLogin.setIcon(resizeIcon(iconLoginPush, buttonLogin.getWidth(), buttonLogin.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonLogin.setIcon(resizeIcon(iconLogin, buttonLogin.getWidth(), buttonLogin.getHeight())); 
+    	    }
+    	});
     	
     	
     	//Registration
     	JButton buttonRegistration = new JButton();
     	buttonRegistration.setBounds(200, 523, 120, 50);
-    	buttonRegistration.setIcon(resizeIcon(iconS, buttonRegistration.getWidth(), buttonRegistration.getHeight()));
-    	buttonRegistration.setBackground(Color.GRAY);
+    	buttonRegistration.setIcon(resizeIcon(iconSingin, buttonRegistration.getWidth(), buttonRegistration.getHeight()));
+   
+    	buttonRegistration.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonRegistration.setIcon(resizeIcon(iconSinginPush, buttonRegistration.getWidth(), buttonRegistration.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonRegistration.setIcon(resizeIcon(iconSingin, buttonRegistration.getWidth(), buttonRegistration.getHeight())); 
+    	    }
+    	});
     	
     	//Error
     	JTextField error = new JTextField();

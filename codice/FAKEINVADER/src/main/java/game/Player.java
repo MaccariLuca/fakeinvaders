@@ -5,19 +5,15 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Sprite 
 {
-
     private int width;
 
     public Player() 
     {
-
         initPlayer();
     }
 
     private void initPlayer() 
     {
-
-
         var playerImg = "src/main/java/images/ship.png";
         var ii = new ImageIcon(playerImg);
 
