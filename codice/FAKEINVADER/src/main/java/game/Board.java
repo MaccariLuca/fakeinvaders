@@ -161,8 +161,8 @@ public class Board extends JPanel
         g.fillRect(0, 0, d.width, d.height);
         g.setColor(Color.green);
 
-        if (inGame) {
-
+        if (inGame) 
+        {
             g.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
             drawAliens(g);
             drawPlayer(g);
@@ -171,53 +171,49 @@ public class Board extends JPanel
             drawBomb(g);
 
         } 
-        else 
+        else if(deaths != 0)
         {
 
-            if (timer.isRunning()) {
+            if (timer.isRunning()) 
+            {
                 timer.stop();
-        }
-
+            }
+            
             gameOver(g);
+        }else
+        {
+        	System.out.println("funziono"); 
+        	gameOver(g);
         }
 
         //Toolkit.getDefaultToolkit().sync();
     }
 
-    private void gameOver(Graphics g) {
+    private void gameOver(Graphics g) 
+    {
+    	Timer timer = new Timer(500, new ActionListener() 
+    	{
+	        @Override
+	        public void actionPerformed(ActionEvent e) 
+	        {
+	            
+	            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(Board.this);
+	            frame.dispose();
+	            g.dispose();
+	
+	            try {
+	                new GameOverMenu(deaths);
+	            } catch (IOException ex) {
+	                ex.printStackTrace();
+	            }
+	        }
+        });
 
-        g.setColor(Color.black);
-        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-
-        g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
-        g.setColor(Color.white);
-        g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
-
-        var small = new Font("Helvetica", Font.BOLD, 14);
-        var fontMetrics = this.getFontMetrics(small);
-
-        g.setColor(Color.white);
-        g.setFont(small);
-        String messageWithPoints = (message + " - " + deaths + " points");
-        g.drawString(messageWithPoints, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(messageWithPoints)) / 2,
-                Commons.BOARD_WIDTH / 2);
-        
-        
-        //TODO
-
-        g.dispose();
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            frame.dispose(); // Chiudi il frame genitore
-       
-        try {
-			new GameOverMenu(deaths);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-       
+        timer.setRepeats(false); // Imposta il timer per eseguire l'azione solo una volta
+        timer.start(); // Avvia il timer
     }
+    
+
 
     private void update() {
 
@@ -357,7 +353,7 @@ public class Board extends JPanel
             }
         }
 
-        Iterator<Alien> it = aliens.iterator();
+        Iterator <Alien> it = aliens.iterator();
 
         while (it.hasNext()) {
 
@@ -377,6 +373,7 @@ public class Board extends JPanel
         }
 
         // bombs
+        
         var generator = new Random();
 
         for (Alien alien : aliens)
