@@ -17,7 +17,7 @@ class Menu extends MainMenu
 	Menu() throws IOException
 	{
 		JFrame frame = new JFrame();
-		ImageIcon icon = new ImageIcon("src/main/java/images/alien.png");
+		ImageIcon icon = new ImageIcon("src/main/java/images/ship.png");
 		frame.setIconImage(icon.getImage());
 		frame.setContentPane(new JPanel() 
 		{			

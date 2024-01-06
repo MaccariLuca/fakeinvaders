@@ -25,11 +25,11 @@ public class Alien extends Sprite
         String alienImage = "src/main/java/images/alien.png"; //default sprite of the alien 
         if(y == 60)
         {
-        	alienImage = "src/main/java/images/alien2.jpg"; //second sprite of the alien
+        	alienImage = "src/main/java/images/alien2.png"; //second sprite of the alien
         }
         else if(y < 60)
         {
-        	alienImage = "src/main/java/images/alien3.jpg"; //third sprite of the alien
+        	alienImage = "src/main/java/images/alien3.png"; //third sprite of the alien
         }
         var icon = new ImageIcon(alienImage); //sets the image to the alien
 
