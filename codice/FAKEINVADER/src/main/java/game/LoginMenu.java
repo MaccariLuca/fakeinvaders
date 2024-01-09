@@ -21,7 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-class LoginMenu extends MainMenu 
+public class LoginMenu extends MainMenu 
 {
 	LoginMenu() throws IOException
 	{
@@ -126,77 +126,34 @@ class LoginMenu extends MainMenu
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
-		/*
-		buttonLogin.addActionListener(e -> 
-    	{
-    		final String DB_REL_FILE = "src/main/java/database/database.db3";
-    		final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-    		try 
-    		{			
-    		 Connection conn = DriverManager.getConnection(DB_URL);
-    		 if (conn != null) 
-    		 {
-    		   DatabaseMetaData meta = conn.getMetaData();
-    		   System.out.println("The driver name is " + meta.getDriverName());
-    		   System.out.println("A new database has been created.");
-    		 }
-    		 
-    		 // controllo che il file esista a questo punto
-    		 System.out.println("il file esiste? " + new File(DB_REL_FILE).exists());
-    		 
-    		 Statement stmt = conn.createStatement();
-    		 
-    		 String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
-    		 PreparedStatement preparedStatement = conn.prepareStatement(sql);
-    		 preparedStatement.setString(1, username.getText());
-    		 preparedStatement.setString(2, password.getText());
-    		 ResultSet resultSet = preparedStatement.executeQuery();
-
-    		 if (resultSet.next()) 
-    		 {
-    			 frame.dispose();
-	     		 try { new Menu(); } catch (IOException e1) { e1.printStackTrace(); }
-     		}else
-     		{
-     			System.out.println("utente non registrato");
-     			 username.setText(" ");
-    		     password.setText(" ");
-    		     error.setText(" Attenzione : Utente non registrato!");
-     		}
-     		
-     		stmt.close();
-     		conn.close();
-     		System.out.println("query eseguita con successo");
-     		
-    		} catch (SQLException ex) {
-    		  System.out.println(ex.getMessage());
-    		}
-    	});
-		*/
 		
-		buttonLogin.addActionListener(e -> {
+		buttonLogin.addActionListener(e -> 
+		{
 		    final String DB_REL_FILE = "src/main/java/database/database.db3";
 		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-
+	
 		    Connection conn = null;
 		    try {
 		        conn = DriverManager.getConnection(DB_URL);
-
+	
 		        if (conn != null) {
 		            DatabaseMetaData meta = conn.getMetaData();
 		            System.out.println("The driver name is " + meta.getDriverName());
 		        }
-
+	
 		        // Controllo che il file esista a questo punto
 		        System.out.println("Il file esiste? " + new File(DB_REL_FILE).exists());
-
+	
 		        String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
 		        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 		            preparedStatement.setString(1, username.getText());
 		            preparedStatement.setString(2, password.getText());
-
+	
 		            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-		                if (resultSet.next()) {
+		                if (resultSet.next()) 
+		                {
+		                	SessionManager.setCurrentUsername(username.getText());
+
 		                    frame.dispose();
 		                    try {
 		                        new Menu();
@@ -209,7 +166,7 @@ class LoginMenu extends MainMenu
 		                }
 		            }
 		        }
-
+	
 		        System.out.println("Query eseguita con successo");
 
 		    } catch (SQLException ex) {
@@ -231,9 +188,8 @@ class LoginMenu extends MainMenu
 		});
 
 
-
-		
-		buttonRegistration.addActionListener(e -> {
+		buttonRegistration.addActionListener(e -> 
+		{
 		    final String DB_REL_FILE = "src/main/java/database/database.db3";
 		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
 
@@ -283,5 +239,9 @@ class LoginMenu extends MainMenu
 		});
 
 	}
+	
+	
 }
+
+
 

@@ -5,6 +5,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -89,7 +94,31 @@ class Menu extends MainMenu
 
     	buttonScore.addActionListener(e -> 
     	{
-    		// fare select che visualizzi 
+    		final String DB_REL_FILE = "src/main/java/database/database.db3";
+		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
+    		
+    		String currentUsername = SessionManager.getCurrentUsername();
+
+    		String sql = "SELECT SCORE FROM LAST_GAMES WHERE USERNAME = ?";
+    		try (Connection conn = DriverManager.getConnection(DB_URL);
+    		    PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+    		    preparedStatement.setString(1, currentUsername);
+
+    		    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    		        while (resultSet.next()) {
+    		            int score = resultSet.getInt("SCORE");
+    		            System.out.println("Score: " + score);
+    		            // Puoi elaborare il risultato come preferisci
+    		        }
+    		        if(!(resultSet.next())) {
+   		        	 System.out.println("aggiungi lo score coglione");
+   		    }
+    		    }
+    		} catch (SQLException ex) {
+    		    ex.printStackTrace();
+    		}
+
+
     	});
     	
     	

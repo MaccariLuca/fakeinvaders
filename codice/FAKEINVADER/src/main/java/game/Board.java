@@ -164,6 +164,7 @@ public class Board extends JPanel
         if (inGame) 
         {
             g.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
+            
             drawAliens(g);
             drawPlayer(g);
             drawShot(g);
@@ -171,19 +172,14 @@ public class Board extends JPanel
             drawBomb(g);
 
         } 
-        else if(deaths != 0)
+        else 
         {
 
-            if (timer.isRunning()) 
-            {
+            if (timer.isRunning()) {
                 timer.stop();
-            }
-            
+        }
+
             gameOver(g);
-        }else
-        {
-        	System.out.println("funziono"); 
-        	gameOver(g);
         }
 
         //Toolkit.getDefaultToolkit().sync();
