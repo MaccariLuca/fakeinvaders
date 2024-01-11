@@ -108,10 +108,12 @@ class Menu extends MainMenu
     		        while (resultSet.next()) {
     		            int score = resultSet.getInt("SCORE");
     		            System.out.println("Score: " + score);
+    		            
     		            // Puoi elaborare il risultato come preferisci
     		        }
     		        if(!(resultSet.next())) {
    		        	 System.out.println("aggiungi lo score coglione");
+   		        	 System.out.println(currentUsername);
    		    }
     		    }
     		} catch (SQLException ex) {

@@ -43,7 +43,7 @@ class GameOverMenu extends MainMenu
 	        {
 	            super.paintComponent(g);
 	            g.drawImage(image, -45, -100, 768, 768, this);
-	            System.out.println(lastScore);
+	            //System.out.println(lastScore);
 	        }
 	       
 	    });
@@ -112,7 +112,7 @@ class GameOverMenu extends MainMenu
     	    }
     	});
 		buttonBack.addActionListener(e -> {
-    		try { new Menu(); } catch (IOException e1) { e1.printStackTrace(); }
+    		try { new Menu() ; frame.dispose(); } catch (IOException e1) { e1.printStackTrace(); }
 		});
     	
 		

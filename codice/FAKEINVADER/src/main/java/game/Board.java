@@ -73,7 +73,7 @@ public class Board extends JPanel
 
         aliens = new ArrayList<>();
 
-        for (int i = 0; i < 4; i++) 
+        for (int i = 0; i < 3; i++) 
         {
             for (int j = 0; j < 6; j++) 
             {
