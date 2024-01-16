@@ -65,12 +65,13 @@ class GameOverMenu extends MainMenu
 		//SCORE LABEL
 		
     	JLabel scoreLabel = new JLabel();
-    	scoreLabel.setBounds(270, 340, 130, 40);
+    	scoreLabel.setBounds(272, 340, 135, 40);
     	scoreLabel.setText("YOUR SCORE : " + String.valueOf(lastScore));
     	scoreLabel.setForeground(Color.RED);
     	Font customFont = new Font(scoreLabel.getFont().getName(), Font.PLAIN, 16);
     	scoreLabel.setFont(customFont);
-		
+ 
+		System.out.println(String.valueOf(lastScore));
     	
 		
 		//START NEW GAME BUTTON
@@ -137,6 +138,7 @@ class GameOverMenu extends MainMenu
 		buttonExit.addActionListener(e -> {
 		    frame.dispose();
 		});
+		
 		
 		
 		

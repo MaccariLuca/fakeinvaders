@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 public class Player extends Sprite 
 {
     private int width;
+    private int height;
 
     public Player() 
     {
@@ -18,6 +19,7 @@ public class Player extends Sprite
         var ii = new ImageIcon(playerImg);
 
         width = ii.getImage().getWidth(null);
+        height = ii.getImage().getHeight(null);
         setImage(ii.getImage());
 
         int START_X = 270;
@@ -27,24 +29,34 @@ public class Player extends Sprite
         setY(START_Y);
     }
 
-    public void act() 
-    {
-
+    public void act() {
         x += dx;
         y += up;
 
-        if (x <= 2) 
-        {
-
+        
+        if (x <= 2) {
             x = 2;
         }
 
-        if (x >= Commons.BOARD_WIDTH - 2 * width) 
-        {
+        if (x >= Commons.BOARD_WIDTH - width) {
+            x = Commons.BOARD_WIDTH - width;
+        }
 
-            x = Commons.BOARD_WIDTH - 2 * width;
+        // Blocca il giocatore a metà dell'altezza della board
+        
+        int halfBoardHeight = Commons.BOARD_HEIGHT / 2;
+        if (y < halfBoardHeight) {
+            y = halfBoardHeight;
+        } else if (y > Commons.BOARD_HEIGHT - height) {
+            y = Commons.BOARD_HEIGHT - height;
+        }
+        
+        // Blocca il giocatore al terreno 
+        if (y > 550) {
+            y = 550;
         }
     }
+
 
     public void keyPressed(KeyEvent e) 
     {
@@ -53,23 +65,19 @@ public class Player extends Sprite
 
         if (key == KeyEvent.VK_LEFT) 
         {
-
             dx = -2;
         }
 
         if (key == KeyEvent.VK_RIGHT) 
         {
-
             dx = 2;
         }
         if (key == KeyEvent.VK_UP) 
         {
-
             up = -2;
         }
         if (key == KeyEvent.VK_DOWN) 
         {
-
             up = 2;
         }
     }

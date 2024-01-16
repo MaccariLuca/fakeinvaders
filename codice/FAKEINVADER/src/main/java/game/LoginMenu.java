@@ -186,10 +186,9 @@ public class LoginMenu extends MainMenu
 		        password.setText("");
 		    }
 		});
-
-
-		buttonRegistration.addActionListener(e -> 
-		{
+		
+		
+		buttonRegistration.addActionListener(e -> {
 		    final String DB_REL_FILE = "src/main/java/database/database.db3";
 		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
 
@@ -202,31 +201,41 @@ public class LoginMenu extends MainMenu
 		        // Controllo che il file esista a questo punto
 		        System.out.println("Il file esiste? " + new File(DB_REL_FILE).exists());
 
-		        // Query di verifica se l'utente è già registrato
-		        String checkSql = "SELECT * FROM PLAYERS WHERE username = ?";
-		        try (PreparedStatement checkStatement = conn.prepareStatement(checkSql)) {
-		            checkStatement.setString(1, username.getText());
-		            try (ResultSet resultSet = checkStatement.executeQuery()) {
-		                if (resultSet.next()) {
-		                    System.out.println("Utente già registrato");
-		                    username.setText("");
-		                    password.setText("");
-		                    error.setText(" Attenzione : Utente già registrato!");
-		                } else {
-		                    // Inserisci il nuovo utente
-		                    String insertSql = "INSERT INTO PLAYERS (username, password) VALUES (?, ?)";
-		                    try (PreparedStatement insertStatement = conn.prepareStatement(insertSql)) {
-		                        insertStatement.setString(1, username.getText());
-		                        insertStatement.setString(2, password.getText());
-		                        insertStatement.executeUpdate();
+		        // Validazione dell'input
+		        String inputUsername = username.getText();
+		        String inputPassword = password.getText();
 
-		                        System.out.println("Utente inserito con successo");
+		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) {
+		            System.out.println("Attenzione: Inserire username e password");
+		            error.setText("Attenzione: Inserire username e password");
+		        } else {
+		            // Query di verifica se l'utente è già registrato
+		            String checkSql = "SELECT * FROM PLAYERS WHERE username = ?";
+		            try (PreparedStatement checkStatement = conn.prepareStatement(checkSql)) {
+		                checkStatement.setString(1, inputUsername);
 
-		                        frame.dispose();
-		                        try {
-		                            new Menu();
-		                        } catch (IOException e1) {
-		                            e1.printStackTrace();
+		                try (ResultSet resultSet = checkStatement.executeQuery()) {
+		                    if (resultSet.next()) {
+		                        System.out.println("Utente già registrato");
+		                        username.setText("");
+		                        password.setText("");
+		                        error.setText("Attenzione: Utente già registrato!");
+		                    } else {
+		                        // Inserisci il nuovo utente
+		                        String insertSql = "INSERT INTO PLAYERS (username, password) VALUES (?, ?)";
+		                        try (PreparedStatement insertStatement = conn.prepareStatement(insertSql)) {
+		                            insertStatement.setString(1, inputUsername);
+		                            insertStatement.setString(2, inputPassword);
+		                            insertStatement.executeUpdate();
+
+		                            System.out.println("Utente inserito con successo");
+
+		                            frame.dispose();
+		                            try {
+		                                new Menu();
+		                            } catch (IOException e1) {
+		                                e1.printStackTrace();
+		                            }
 		                        }
 		                    }
 		                }
@@ -235,10 +244,18 @@ public class LoginMenu extends MainMenu
 
 		    } catch (SQLException ex) {
 		        ex.printStackTrace();
+		        // Gestione degli errori SQL
+		        System.out.println("Errore SQL: " + ex.getMessage());
+		        error.setText("Errore durante l'accesso al database");
+		    } catch (Exception ex) {
+		        ex.printStackTrace();
+		        // Gestione di altri tipi di errori
+		        System.out.println("Errore: " + ex.getMessage());
+		        error.setText("Errore sconosciuto");
 		    }
 		});
-
 	}
+	
 	
 	
 }
