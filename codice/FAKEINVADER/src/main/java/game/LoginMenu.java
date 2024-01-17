@@ -60,7 +60,6 @@ public class LoginMenu extends MainMenu
 		usernameL.setIcon(resizeIcon(iconU, usernameL.getWidth(), usernameL.getHeight()));
 		
     	JTextField username = new JTextField();
-    	username.setBounds(335, 380, 200, 40);	
     	username.setBackground(new Color(255, 241, 202));
     	
     	
@@ -75,7 +74,6 @@ public class LoginMenu extends MainMenu
     	
     	//login
     	JButton buttonLogin = new JButton();
-    	buttonLogin.setBounds(335, 520, 100, 50);
     	buttonLogin.setIcon(resizeIcon(iconLogin, buttonLogin.getWidth(), buttonLogin.getHeight()));
     	
     	
