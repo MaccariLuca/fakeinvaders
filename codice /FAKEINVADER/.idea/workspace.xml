@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="293fdbb9-7c37-4c09-876c-4cf2e4314eb9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/Alien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/Alien.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/alien.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/alien2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/alien3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/exit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/exitPush.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/explosion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/gameOver.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/loginPush.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/mainMenu.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/mainMenuPush.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/menu.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/newGame.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/newGamePush.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/password.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/powerShot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/rules.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/rulesPush.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/score.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/scorePush.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/ship.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/shot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/shot2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/signin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/signinPush.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/images/username.png" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2b54NqIoPv5w0CZT4mcK8T4ZD77" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.MainMenu.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;francesco&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/francesco/fakeinvader/codice /FAKEINVADER&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.9-corretto-17.0.9-f644763e9732-203781b8" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="293fdbb9-7c37-4c09-876c-4cf2e4314eb9" name="Changes" comment="" />
+      <created>1705491571256</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1705491571256</updated>
+      <workItem from="1705491572919" duration="730000" />
+      <workItem from="1705492311358" duration="91000" />
+      <workItem from="1705492495224" duration="830000" />
+      <workItem from="1705493436867" duration="271000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
