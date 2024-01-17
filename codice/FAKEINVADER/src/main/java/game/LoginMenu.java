@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class LoginMenu extends MainMenu 
 {
@@ -69,7 +70,6 @@ public class LoginMenu extends MainMenu
     	passwordL.setIcon(resizeIcon(iconP, passwordL.getWidth(), passwordL.getHeight()));
     	
     	JTextField password = new JTextField();
-    	password.setBounds(335, 450, 200, 40);
     	password.setBackground(new Color(255, 241, 202));
     	
     	
@@ -92,7 +92,6 @@ public class LoginMenu extends MainMenu
     	
     	//Registration
     	JButton buttonRegistration = new JButton();
-    	buttonRegistration.setBounds(200, 523, 120, 50);
     	buttonRegistration.setIcon(resizeIcon(iconSingin, buttonRegistration.getWidth(), buttonRegistration.getHeight()));
    
     	buttonRegistration.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -107,9 +106,11 @@ public class LoginMenu extends MainMenu
     	
     	//Error
     	JTextField error = new JTextField();
-    	error.setBounds(230, 580, 230, 40);
     	error.setBackground(Color.BLACK);
     	error.setForeground(Color.RED);
+    	error.setHorizontalAlignment(SwingConstants.CENTER);
+    	
+    	
     	
     	frame.add(usernameL);
     	frame.add(passwordL);
@@ -162,7 +163,6 @@ public class LoginMenu extends MainMenu
 		                    }
 		                } else {
 		                    System.out.println("Utente non registrato");
-		                    error.setText(" Attenzione : Utente non registrato!");
 		                }
 		            }
 		        }
@@ -207,7 +207,6 @@ public class LoginMenu extends MainMenu
 
 		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) {
 		            System.out.println("Attenzione: Inserire username e password");
-		            error.setText("Attenzione: Inserire username e password");
 		        } else {
 		            // Query di verifica se l'utente è già registrato
 		            String checkSql = "SELECT * FROM PLAYERS WHERE username = ?";
@@ -219,7 +218,6 @@ public class LoginMenu extends MainMenu
 		                        System.out.println("Utente già registrato");
 		                        username.setText("");
 		                        password.setText("");
-		                        error.setText("Attenzione: Utente già registrato!");
 		                    } else {
 		                        // Inserisci il nuovo utente
 		                        String insertSql = "INSERT INTO PLAYERS (username, password) VALUES (?, ?)";
@@ -246,12 +244,10 @@ public class LoginMenu extends MainMenu
 		        ex.printStackTrace();
 		        // Gestione degli errori SQL
 		        System.out.println("Errore SQL: " + ex.getMessage());
-		        error.setText("Errore durante l'accesso al database");
 		    } catch (Exception ex) {
 		        ex.printStackTrace();
 		        // Gestione di altri tipi di errori
 		        System.out.println("Errore: " + ex.getMessage());
-		        error.setText("Errore sconosciuto");
 		    }
 		});
 	}
