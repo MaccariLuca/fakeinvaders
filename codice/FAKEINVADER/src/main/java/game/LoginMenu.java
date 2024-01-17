@@ -60,6 +60,7 @@ public class LoginMenu extends MainMenu
 		usernameL.setIcon(resizeIcon(iconU, usernameL.getWidth(), usernameL.getHeight()));
 		
     	JTextField username = new JTextField();
+    	username.setBounds(355, 380, 190, 40);	
     	username.setBackground(new Color(255, 241, 202));
     	
     	
@@ -69,11 +70,13 @@ public class LoginMenu extends MainMenu
     	passwordL.setIcon(resizeIcon(iconP, passwordL.getWidth(), passwordL.getHeight()));
     	
     	JTextField password = new JTextField();
+    	password.setBounds(355, 450, 190, 40);
     	password.setBackground(new Color(255, 241, 202));
     	
     	
     	//login
     	JButton buttonLogin = new JButton();
+    	buttonLogin.setBounds(355, 520, 100, 50);
     	buttonLogin.setIcon(resizeIcon(iconLogin, buttonLogin.getWidth(), buttonLogin.getHeight()));
     	
     	
@@ -90,6 +93,7 @@ public class LoginMenu extends MainMenu
     	
     	//Registration
     	JButton buttonRegistration = new JButton();
+    	buttonRegistration.setBounds(194, 523, 120, 50);
     	buttonRegistration.setIcon(resizeIcon(iconSingin, buttonRegistration.getWidth(), buttonRegistration.getHeight()));
    
     	buttonRegistration.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,6 +108,7 @@ public class LoginMenu extends MainMenu
     	
     	//Error
     	JTextField error = new JTextField();
+    	error.setBounds(179, 580, 310, 40);
     	error.setBackground(Color.BLACK);
     	error.setForeground(Color.RED);
     	error.setHorizontalAlignment(SwingConstants.CENTER);
@@ -161,6 +166,7 @@ public class LoginMenu extends MainMenu
 		                    }
 		                } else {
 		                    System.out.println("Utente non registrato");
+		                    error.setText(" Attention: unregistered user!");
 		                }
 		            }
 		        }
@@ -205,6 +211,7 @@ public class LoginMenu extends MainMenu
 
 		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) {
 		            System.out.println("Attenzione: Inserire username e password");
+		            error.setText("Attention: Enter your username and password");
 		        } else {
 		            // Query di verifica se l'utente è già registrato
 		            String checkSql = "SELECT * FROM PLAYERS WHERE username = ?";
@@ -216,6 +223,7 @@ public class LoginMenu extends MainMenu
 		                        System.out.println("Utente già registrato");
 		                        username.setText("");
 		                        password.setText("");
+		                        error.setText("Attention: User already registered!");
 		                    } else {
 		                        // Inserisci il nuovo utente
 		                        String insertSql = "INSERT INTO PLAYERS (username, password) VALUES (?, ?)";
@@ -242,10 +250,12 @@ public class LoginMenu extends MainMenu
 		        ex.printStackTrace();
 		        // Gestione degli errori SQL
 		        System.out.println("Errore SQL: " + ex.getMessage());
+		        error.setText("Error while accessing database");
 		    } catch (Exception ex) {
 		        ex.printStackTrace();
 		        // Gestione di altri tipi di errori
 		        System.out.println("Errore: " + ex.getMessage());
+		        error.setText("Unknown error");
 		    }
 		});
 	}
