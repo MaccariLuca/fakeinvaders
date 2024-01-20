@@ -43,5 +43,6 @@ public class MainMenu
 		return new ImageIcon(resizedImage);
 	}
 
+
 }
 

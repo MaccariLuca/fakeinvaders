@@ -259,9 +259,6 @@ public class LoginMenu extends MainMenu
 		    }
 		});
 	}
-	
-	
-	
 }
 
 
