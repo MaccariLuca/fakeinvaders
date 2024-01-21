@@ -139,6 +139,7 @@ class GameOverMenu extends MainMenu
     	});
     
 		buttonExit.addActionListener(e -> {
+			
 		    frame.dispose();
 		});
 		
