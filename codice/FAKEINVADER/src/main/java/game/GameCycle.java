@@ -1,5 +1,6 @@
 package game;
 
-public class GameCycle {
+public class GameCycle 
+{
 
 }

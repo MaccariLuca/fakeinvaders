@@ -46,11 +46,16 @@ public class Board extends JPanel
 
     private Timer timer;
 
+    private int level = 1;
+    private int increaseLine = 0;
+    private int increaseColums = 0;
+    
+    private int targetDeaths = 0;
 
     public Board() {
 
         initBoard();
-        gameInit();
+        gameCycle();
     }
 
     private void initBoard() 
@@ -64,26 +69,42 @@ public class Board extends JPanel
         timer = new Timer(Commons.DELAY, new GameCycle()); //used to control the state of the aliens in the game
         timer.start();
 
-        gameInit();
+        gameCycle();
     }
 
 
-    private void gameInit() 
+    //TODO
+    private void gameCycle()
     {
-
+    	gameInit(level);
+    }
+    
+    private void gameInit(int level) 
+    {
         aliens = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) 
+        
+        if(level % 2 == 0) 
         {
-            for (int j = 0; j < 6; j++) 
+        	increaseColums++;
+        }else
+        {
+        	if(level != 1)
+        		increaseLine++;
+        }
+        
+        for (int i = 0; i < 3 + increaseLine; i++) 
+        {
+            for (int j = 0; j < 6 + increaseColums; j++) 
             {
-
                 var alien = new Alien(Commons.ALIEN_INIT_X + 50 * j,
                         Commons.ALIEN_INIT_Y + 50 * i);
                 aliens.add(alien); //paints the alien...
             }
         }
-
+        
+        targetDeaths = (3 + increaseLine)* (6 + increaseColums);
+        
         player = new Player();//...the player...
         shot = new Shot();//...and the shot
         powerShot = new PowerShot();
@@ -135,6 +156,7 @@ public class Board extends JPanel
             g.drawImage(powerShot.getImage(), powerShot.getX(), powerShot.getY(), this);
         }
     }
+    
     private void drawBomb(Graphics g) {
 
         for (Alien a : aliens) {
@@ -192,7 +214,6 @@ public class Board extends JPanel
 	        @Override
 	        public void actionPerformed(ActionEvent e) 
 	        {
-	            
 	            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(Board.this);
 	            frame.dispose();
 	            g.dispose();
@@ -210,16 +231,39 @@ public class Board extends JPanel
     }
     
 
+    //numeri dispari --> aumento righe + 6
+    //numeri pari --> aumento colonne + 3
 
-    private void update() {
-
-        if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-
-            inGame = false;
-            timer.stop();
-            message = "Game won!";
-            
+    
+    //livello 1 --> 18 alieni
+    //livello 2 --> 21  --> 3*7 5 in piu del liv
+    //livello 3 --> 27 -->  3*9 6 in piu del liv
+    //livello 4 --> 30 -->  3*
+    //livello 5 --> 36
+    private void update() 
+    {
+        if (deaths == targetDeaths) 
+        {
+        	level++;
+        	/*
+        	if (level % 2 == 0) {
+                // Livello pari
+            	targetDeaths += 3;
+            	System.out.println("livello pari : " + targetDeaths);
+               
+            } else {
+                // Livello dispari
+            	if(level != 1)
+            		targetDeaths += 6;	
+            	System.out.println("livello dispari " + targetDeaths);
+            }
+        	*/
+        	System.out.println(targetDeaths);
+        	powerShotShooted = true;
+        	deaths = 0;
+        	gameCycle();
         }
+        
 
         // player
         player.act();
@@ -274,12 +318,11 @@ public class Board extends JPanel
             } else {
                 shot.setY(y);
             }
-            
-            
         }
 
      // shot
-        if (powerShot.isVisible()) {
+        if (powerShot.isVisible()) 
+        {
 
             int pShotX = shot.getX();
             int pShotY = shot.getY();
@@ -289,7 +332,8 @@ public class Board extends JPanel
                 int alienX = alien.getX();
                 int alienY = alien.getY();
 
-                if (alien.isVisible() && shot.isVisible()) {
+                if (alien.isVisible() && shot.isVisible()) 
+                {
                     if (pShotX >= (alienX)
                         && pShotX <= (alienX + Commons.ALIEN_WIDTH)
                         && pShotY >= (alienY)
@@ -312,8 +356,6 @@ public class Board extends JPanel
             } else {
                 powerShot.setY(y);
             }
-            
-            
         }
 
         // aliens
