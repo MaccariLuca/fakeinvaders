@@ -39,6 +39,7 @@ public class Board extends JPanel
     
     private int direction = -1;
     private int deaths = 0;
+    private int score = deaths;
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";
@@ -219,7 +220,7 @@ public class Board extends JPanel
 	            g.dispose();
 	
 	            try {
-	                new GameOverMenu(deaths);
+	                new GameOverMenu(score);
 	            } catch (IOException ex) {
 	                ex.printStackTrace();
 	            }
@@ -292,6 +293,7 @@ public class Board extends JPanel
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;//TODO
+                        score++;
                         shot.die();
                     }
                 }
@@ -305,6 +307,7 @@ public class Board extends JPanel
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;//TODO
+                        score++;
                         shot.die();
                     }
                 }
@@ -343,6 +346,7 @@ public class Board extends JPanel
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;//TODO
+                        score++;
                         shot.die();
                     }
                 }
