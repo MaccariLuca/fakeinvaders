@@ -137,10 +137,12 @@ public class LoginMenu extends MainMenu
 		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
 	
 		    Connection conn = null;
-		    try {
+		    try 
+		    {
 		        conn = DriverManager.getConnection(DB_URL);
 	
-		        if (conn != null) {
+		        if (conn != null) 
+		        {
 		            DatabaseMetaData meta = conn.getMetaData();
 		            System.out.println("The driver name is " + meta.getDriverName());
 		        }
@@ -148,31 +150,43 @@ public class LoginMenu extends MainMenu
 		        // Controllo che il file esista a questo punto
 		        System.out.println("Il file esiste? " + new File(DB_REL_FILE).exists());
 	
-		        String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
-		        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-		            preparedStatement.setString(1, username.getText());
-		            preparedStatement.setString(2, password.getText());
-	
-		            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-		                if (resultSet.next()) 
-		                {
-		                	SessionManager.setCurrentUsername(username.getText());
+		        String inputUsername = username.getText();
+		        String inputPassword = password.getText();
 
-		                    frame.dispose();
-		                    try {
-		                        new Menu();
-		                    } catch (IOException e1) {
-		                        e1.printStackTrace();
-		                    }
-		                } else {
-		                    System.out.println("Utente non registrato");
-		                    error.setText(" Attention: unregistered user!");
-		                }
-		            }
+		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) 
+		        {
+		            System.out.println("Attenzione: Inserire username e password");
+		            error.setText("Attention: Enter your username and password");
+		        }else
+		        {
+		        	
+		        
+			        String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
+			        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) 
+			        {
+			            preparedStatement.setString(1, username.getText());
+			            preparedStatement.setString(2, password.getText());
+		
+			            try (ResultSet resultSet = preparedStatement.executeQuery()) 
+			            {
+			                if (resultSet.next()) 
+			                {
+			                	SessionManager.setCurrentUsername(username.getText());
+	
+			                    frame.dispose();
+			                    try {
+			                        new Menu();
+			                    } catch (IOException e1) {
+			                        e1.printStackTrace();
+			                    }
+			                } else {
+			                    System.out.println("Utente non registrato");
+			                    error.setText(" Attention: unregistered user!");
+			                }
+			            }
+			        }
+			        System.out.println("Query eseguita con successo");
 		        }
-	
-		        System.out.println("Query eseguita con successo");
-
 		    } catch (SQLException ex) {
 		        ex.printStackTrace();
 		    } finally {
@@ -209,7 +223,8 @@ public class LoginMenu extends MainMenu
 		        String inputUsername = username.getText();
 		        String inputPassword = password.getText();
 
-		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) {
+		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) 
+		        {
 		            System.out.println("Attenzione: Inserire username e password");
 		            error.setText("Attention: Enter your username and password");
 		        } else {
@@ -219,7 +234,9 @@ public class LoginMenu extends MainMenu
 		                checkStatement.setString(1, inputUsername);
 
 		                try (ResultSet resultSet = checkStatement.executeQuery()) {
-		                    if (resultSet.next()) {
+		                    if (resultSet.next()) 
+		                    {
+		                    	SessionManager.setCurrentUsername(username.getText());
 		                        System.out.println("Utente già registrato");
 		                        username.setText("");
 		                        password.setText("");

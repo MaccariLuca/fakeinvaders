@@ -144,8 +144,6 @@ class GameOverMenu extends MainMenu
 		});
 		
 		
-		
-		
     	//LIST
         frame.add(buttonStart);
         frame.add(buttonExit);
