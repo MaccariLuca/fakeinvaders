@@ -10,13 +10,13 @@ public class Shot extends Sprite {
     public Shot(int x, int y) 
     {
         var shotImg = "src/main/java/images/shot.png";
-        var ii = new ImageIcon(shotImg);
-        setImage(ii.getImage());
+        var imageIcon = new ImageIcon(shotImg);
+        setImage(imageIcon.getImage());
 
-        int H_SPACE = 17;
-        setX(x + H_SPACE);
+        int height = 17;
+        setX(x + height);
 
-        int V_SPACE = 1;
-        setY(y - V_SPACE);
+        int width = 1;
+        setY(y - width);
     }
 }

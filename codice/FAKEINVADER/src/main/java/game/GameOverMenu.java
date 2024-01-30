@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,7 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 class GameOverMenu extends MainMenu 
 {
@@ -36,7 +34,6 @@ class GameOverMenu extends MainMenu
 			private static final long serialVersionUID = 1L;
 			
 			File pathmenu  = new File("src/main/java/images/gameOver.jpg");
-			ImageIcon icon = new ImageIcon("src/main/java/images/ship.png");
 			BufferedImage image = ImageIO.read(pathmenu);
 			
 	        public void paintComponent(Graphics g) 
@@ -49,8 +46,6 @@ class GameOverMenu extends MainMenu
 	    });
 		
 		//IMAGES
-		
-		ImageIcon iconScore = new ImageIcon("src/main/java/images/score.png");
 		
 		ImageIcon iconStartNewGame = new ImageIcon("src/main/java/images/newGame.png");
 		ImageIcon iconStartNewGamePush = new ImageIcon("src/main/java/images/newGamePush.png");
