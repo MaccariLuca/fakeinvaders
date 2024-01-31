@@ -155,12 +155,9 @@ public class LoginMenu extends MainMenu
 
 		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) 
 		        {
-		            System.out.println("Attenzione: Inserire username e password");
 		            error.setText("Attention: Enter your username and password");
 		        }else
 		        {
-		        	
-		        
 			        String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
 			        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) 
 			        {
