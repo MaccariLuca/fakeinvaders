@@ -29,9 +29,9 @@ import javax.swing.border.EtchedBorder;
 import game.SessionManager;
 import modelPack.Commons;
 
-class Menu extends MainMenu 
+public class Menu extends MainMenu 
 {
-	Menu() throws IOException
+	public Menu() throws IOException
 	{
 		JFrame frame = new JFrame();
 		ImageIcon icon = new ImageIcon("src/main/java/images/ship.png");

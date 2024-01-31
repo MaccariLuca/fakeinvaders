@@ -27,9 +27,20 @@ import modelPack.Commons;
 
 public class LoginMenu extends MainMenu 
 {
+	
+
+	private JLabel usernameL = new JLabel();
+	private JTextField username = new JTextField();
+	private JLabel passwordL = new JLabel();
+	private JTextField password = new JTextField();
+	private JButton buttonRegistration = new JButton();
+	private JButton buttonLogin = new JButton();
+	private JFrame frame = new JFrame();
+	private JTextField error = new JTextField();
+	
 	LoginMenu() throws IOException
 	{
-		JFrame frame = new JFrame();
+		
 		frame.setContentPane(new JPanel() 
 		{			
 			/**
@@ -58,44 +69,43 @@ public class LoginMenu extends MainMenu
 		
 		
 		//username 
-		JLabel usernameL = new JLabel();
 		usernameL.setBounds(125, 375, 200, 50);
 		usernameL.setIcon(resizeIcon(iconU, usernameL.getWidth(), usernameL.getHeight()));
 		
-    	JTextField username = new JTextField();
     	username.setBounds(355, 380, 190, 40);	
     	username.setBackground(new Color(255, 241, 202));
     	
     	
     	//password 
-    	JLabel passwordL = new JLabel();
     	passwordL.setBounds(125, 445, 200, 50);
     	passwordL.setIcon(resizeIcon(iconP, passwordL.getWidth(), passwordL.getHeight()));
     	
-    	JTextField password = new JTextField();
+    	
     	password.setBounds(355, 450, 190, 40);
     	password.setBackground(new Color(255, 241, 202));
     	
+    	//Error
+    	error.setBounds(179, 580, 310, 40);
+    	error.setBackground(Color.BLACK);
+    	error.setForeground(Color.RED);
+    	error.setHorizontalAlignment(SwingConstants.CENTER);
+    	
     	
     	//login
-    	JButton buttonLogin = new JButton();
-    	buttonLogin.setBounds(355, 520, 100, 50);
-    	buttonLogin.setIcon(resizeIcon(iconLogin, buttonLogin.getWidth(), buttonLogin.getHeight()));
+    	getButtonLogin().setBounds(355, 520, 100, 50);
+    	getButtonLogin().setIcon(resizeIcon(iconLogin, getButtonLogin().getWidth(), getButtonLogin().getHeight()));
     	
-    	
-    	buttonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+    	getButtonLogin().addMouseListener(new java.awt.event.MouseAdapter() {
     	    public void mouseEntered(java.awt.event.MouseEvent evt) {
-    	    	buttonLogin.setIcon(resizeIcon(iconLoginPush, buttonLogin.getWidth(), buttonLogin.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+    	    	getButtonLogin().setIcon(resizeIcon(iconLoginPush, getButtonLogin().getWidth(), getButtonLogin().getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
     	    }
 
     	    public void mouseExited(java.awt.event.MouseEvent evt) {
-    	    	buttonLogin.setIcon(resizeIcon(iconLogin, buttonLogin.getWidth(), buttonLogin.getHeight())); 
+    	    	getButtonLogin().setIcon(resizeIcon(iconLogin, getButtonLogin().getWidth(), getButtonLogin().getHeight())); 
     	    }
     	});
     	
-    	
     	//Registration
-    	JButton buttonRegistration = new JButton();
     	buttonRegistration.setBounds(194, 523, 120, 50);
     	buttonRegistration.setIcon(resizeIcon(iconSingin, buttonRegistration.getWidth(), buttonRegistration.getHeight()));
    
@@ -109,12 +119,7 @@ public class LoginMenu extends MainMenu
     	    }
     	});
     	
-    	//Error
-    	JTextField error = new JTextField();
-    	error.setBounds(179, 580, 310, 40);
-    	error.setBackground(Color.BLACK);
-    	error.setForeground(Color.RED);
-    	error.setHorizontalAlignment(SwingConstants.CENTER);
+    	
     	
     	
     	
@@ -122,7 +127,7 @@ public class LoginMenu extends MainMenu
     	frame.add(passwordL);
         frame.add(username);
         frame.add(password);
-        frame.add(buttonLogin);
+        frame.add(getButtonLogin());
         frame.add(error);
         frame.add(buttonRegistration);
 		frame.setTitle("FAKE INVADERS"); 
@@ -131,150 +136,48 @@ public class LoginMenu extends MainMenu
 		frame.setResizable(false);
 		frame.setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+	}
 		
-		buttonLogin.addActionListener(e -> 
-		{
-		    final String DB_REL_FILE = "src/main/java/database/database.db3";
-		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-	
-		    Connection conn = null;
-		    try 
-		    {
-		        conn = DriverManager.getConnection(DB_URL);
-	
-		        if (conn != null) 
-		        {
-		            DatabaseMetaData meta = conn.getMetaData();
-		            System.out.println("The driver name is " + meta.getDriverName());
-		        }
-	
-		        // Controllo che il file esista a questo punto
-		        System.out.println("Il file esiste? " + new File(DB_REL_FILE).exists());
-	
-		        String inputUsername = username.getText();
-		        String inputPassword = password.getText();
 
-		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) 
-		        {
-		            error.setText("Attention: Enter your username and password");
-		        }else
-		        {
-			        String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
-			        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) 
-			        {
-			            preparedStatement.setString(1, username.getText());
-			            preparedStatement.setString(2, password.getText());
-		
-			            try (ResultSet resultSet = preparedStatement.executeQuery()) 
-			            {
-			                if (resultSet.next()) 
-			                {
-			                	SessionManager.setCurrentUsername(username.getText());
-	
-			                    frame.dispose();
-			                    try {
-			                        new Menu();
-			                    } catch (IOException e1) {
-			                        e1.printStackTrace();
-			                    }
-			                } else {
-			                    System.out.println("Utente non registrato");
-			                    error.setText(" Attention: unregistered user!");
-			                }
-			            }
-			        }
-			        System.out.println("Query eseguita con successo");
-		        }
-		    } catch (SQLException ex) {
-		        ex.printStackTrace();
-		    } finally {
-		        // Chiudi la connessione qui per garantire che venga eseguita anche in caso di eccezione
-		        try {
-		            if (conn != null) {
-		                conn.close();
-		            }
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        }
 
-		        // Resetta i campi qui indipendentemente dal risultato della query
-		        username.setText("");
-		        password.setText("");
-		    }
-		});
-		
-		
-		buttonRegistration.addActionListener(e -> {
-		    final String DB_REL_FILE = "src/main/java/database/database.db3";
-		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
+	public JButton getButtonLogin() {
+		return buttonLogin;
+	}
 
-		    try (Connection conn = DriverManager.getConnection(DB_URL)) {
-		        if (conn != null) {
-		            DatabaseMetaData meta = conn.getMetaData();
-		            System.out.println("The driver name is " + meta.getDriverName());
-		        }
-
-		        // Controllo che il file esista a questo punto
-		        System.out.println("Il file esiste? " + new File(DB_REL_FILE).exists());
-
-		        // Validazione dell'input
-		        String inputUsername = username.getText();
-		        String inputPassword = password.getText();
-
-		        if (inputUsername.isEmpty() || inputPassword.isEmpty()) 
-		        {
-		            System.out.println("Attenzione: Inserire username e password");
-		            error.setText("Attention: Enter your username and password");
-		        } else {
-		            // Query di verifica se l'utente è già registrato
-		            String checkSql = "SELECT * FROM PLAYERS WHERE username = ?";
-		            try (PreparedStatement checkStatement = conn.prepareStatement(checkSql)) {
-		                checkStatement.setString(1, inputUsername);
-
-		                try (ResultSet resultSet = checkStatement.executeQuery()) {
-		                    if (resultSet.next()) 
-		                    {
-		                    	SessionManager.setCurrentUsername(username.getText());
-		                        System.out.println("Utente già registrato");
-		                        username.setText("");
-		                        password.setText("");
-		                        error.setText("Attention: User already registered!");
-		                    } else {
-		                        // Inserisci il nuovo utente
-		                        String insertSql = "INSERT INTO PLAYERS (username, password) VALUES (?, ?)";
-		                        try (PreparedStatement insertStatement = conn.prepareStatement(insertSql)) {
-		                            insertStatement.setString(1, inputUsername);
-		                            insertStatement.setString(2, inputPassword);
-		                            insertStatement.executeUpdate();
-
-		                            System.out.println("Utente inserito con successo");
-
-		                            frame.dispose();
-		                            try {
-		                                new Menu();
-		                            } catch (IOException e1) {
-		                                e1.printStackTrace();
-		                            }
-		                        }
-		                    }
-		                }
-		            }
-		        }
-
-		    } catch (SQLException ex) {
-		        ex.printStackTrace();
-		        // Gestione degli errori SQL
-		        System.out.println("Errore SQL: " + ex.getMessage());
-		        error.setText("Error while accessing database");
-		    } catch (Exception ex) {
-		        ex.printStackTrace();
-		        // Gestione di altri tipi di errori
-		        System.out.println("Errore: " + ex.getMessage());
-		        error.setText("Unknown error");
-		    }
-		});
+	public void setButtonLogin(JButton buttonLogin) {
+		this.buttonLogin = buttonLogin;
+	}
+	public JTextField getUsername() {
+		return username;
+	}
+	public void setUsername(JTextField username) {
+		this.username = username;
+	}
+	public JTextField getPassword() {
+		return password;
+	}
+	public void setPassword(JTextField password) {
+		this.password = password;
+	}
+	public JFrame getFrame() {
+		return frame;
+	}
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+	public JTextField getError() {
+		return error;
+	}
+	public void setError(JTextField error) {
+		this.error = error;
+	}
+	public JButton getButtonRegistration() {
+		return buttonRegistration;
+	}
+	public void setButtonRegistration(JButton buttonRegistration) {
+		this.buttonRegistration = buttonRegistration;
 	}
 }
 
