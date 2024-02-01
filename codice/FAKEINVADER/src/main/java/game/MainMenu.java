@@ -30,7 +30,6 @@ import javax.swing.JOptionPane;
 
 public class MainMenu
 {
-
 	public static void main(String[] args) throws Exception
 	{
 		LoginMenu logmenu = new LoginMenu();
@@ -42,7 +41,5 @@ public class MainMenu
 		Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
 		return new ImageIcon(resizedImage);
 	}
-
-
 }
 
