@@ -29,9 +29,6 @@ public class LoginMenu extends MainMenu
 		JFrame frame = new JFrame();
 		frame.setContentPane(new JPanel() 
 		{			
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			
 			File pathmenu  = new File("src/main/java/images/menu.jpg");
