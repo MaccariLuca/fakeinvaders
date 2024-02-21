@@ -16,11 +16,11 @@ public class Player extends Sprite
     private void initPlayer() 
     {
         var playerImg = "src/main/java/images/ship.png";
-        var ii = new ImageIcon(playerImg);
+        var imageIcon = new ImageIcon(playerImg);
 
-        width = ii.getImage().getWidth(null);
-        height = ii.getImage().getHeight(null);
-        setImage(ii.getImage());
+        width = imageIcon.getImage().getWidth(null);
+        height = imageIcon.getImage().getHeight(null);
+        setImage(imageIcon.getImage());
 
         int START_X = 270;
         setX(START_X);
