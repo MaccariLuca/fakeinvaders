@@ -13,7 +13,7 @@ public class FakeInvaders extends JFrame  {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	FakeInvaders() 
+	public FakeInvaders() 
 	{
 		var board = new Board();
         add(board);

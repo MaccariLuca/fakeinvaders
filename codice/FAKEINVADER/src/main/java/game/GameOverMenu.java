@@ -1,4 +1,4 @@
-package game;
+ package game;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,9 +19,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-class GameOverMenu extends MainMenu 
+import ViewPack.FakeInvaders;
+
+public class GameOverMenu extends MainMenu 
 {
-	GameOverMenu(int lastScore) throws IOException
+	public GameOverMenu(int lastScore) throws IOException
 	{
 		JFrame frame = new JFrame();
 

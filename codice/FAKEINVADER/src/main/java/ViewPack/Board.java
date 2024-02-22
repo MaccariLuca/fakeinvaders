@@ -14,6 +14,7 @@ import modelPack.Commons;
 import modelPack.Player;
 import modelPack.PowerShot;
 import modelPack.Shot;
+import game.GameOverMenu;
 
 import java.awt.Color;
 import java.awt.Dimension;

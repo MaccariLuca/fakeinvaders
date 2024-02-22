@@ -21,6 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import ViewPack.FakeInvaders;
+
 class Menu extends MainMenu 
 {
 	Menu() throws IOException
