@@ -80,58 +80,7 @@ class Menu extends MainMenu
     	    frame.dispose();
     	});
     	
-    	
-    	
-    	//Score
-    	JButton buttonScore = new JButton();
-    	buttonScore.setBounds(175, 450, 150, 50);
-    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth() , buttonScore.getHeight() ));
-    	//buttonScore.setBackground(Color.BLACK);
-    	
-    	buttonScore.addMouseListener(new java.awt.event.MouseAdapter() {
-    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
-    	    	buttonScore.setIcon(resizeIcon(iconScoreHover, buttonScore.getWidth(), buttonScore.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
-    	    }
-
-    	    public void mouseExited(java.awt.event.MouseEvent evt) {
-    	    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth(), buttonScore.getHeight())); 
-    	    }
-    	});
-
-    	buttonScore.addActionListener(e -> 
-    	{
-    		final String DB_REL_FILE = "src/main/java/database/database.db3";
-		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-    		
-    		String currentUsername = SessionManager.getCurrentUsername();
-
-    		String sql = "SELECT SCORE FROM LAST_GAMES WHERE USERNAME = ?";
-    		try (Connection conn = DriverManager.getConnection(DB_URL);
-    		    PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-    		    preparedStatement.setString(1, currentUsername);
-
-    		    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-    		        while (resultSet.next()) {
-    		            int score = resultSet.getInt("SCORE");
-    		            System.out.println("Score: " + score);
-    		            
-    		            // Puoi elaborare il risultato come preferisci
-    		        }
-    		        if(!(resultSet.next())) {
-   		        	 System.out.println("aggiungi lo score coglione");
-   		        	 System.out.println(currentUsername);
-   		    }
-    		    }
-    		} catch (SQLException ex) {
-    		    ex.printStackTrace();
-    		}
-
-
-    	});
-    	
-    	
-    	
-    	//Rules 
+    	//RULES
     	JButton buttonRules = new JButton();
     	buttonRules.setBounds(345, 453, 150, 45);
     	buttonRules.setIcon(resizeIcon(iconRules, buttonRules.getWidth(), buttonRules.getHeight()));
@@ -144,6 +93,7 @@ class Menu extends MainMenu
     	    	buttonRules.setIcon(resizeIcon(iconRules, buttonRules.getWidth(), buttonRules.getHeight())); 
     	    }
     	});
+    	
     	buttonRules.addActionListener(e -> {
 		    
         	//CREAZIONE DELLA FRAME RULES
@@ -161,14 +111,14 @@ class Menu extends MainMenu
 				        g.drawImage(image, -45, -100, 768, 768, this);
 				    }
 				});
-			} catch (IOException exception) 
+			} catch (IOException e2) 
             {
 				// TODO Auto-generated catch block
-				exception.printStackTrace();
+				e2.printStackTrace();
 			}
 
             ImageIcon iconMainMenu = new ImageIcon("src/main/java/images/mainMenu.png");
-            ImageIcon iconMainMenuHover = new ImageIcon("src/main/java/images/mainMenuPush.png");
+            ImageIcon iconMainMenuPush = new ImageIcon("src/main/java/images/mainMenuPush.png");
 
             rulesframe.setLayout(null);
             rulesframe.setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
@@ -189,7 +139,12 @@ class Menu extends MainMenu
             rulesTextArea.setBackground(Color.black);
             rulesTextArea.setForeground(Color.white);
             
-            rulesTextArea.setText("qui ci vanno le regole :)");
+            rulesTextArea.setText("HOW TO PLAY THE GAME\n");
+            rulesTextArea.append("KILL ALL THE ALIENS TO GET THE HARDEST LEVEL POSSIBLE!\n\n");
+            rulesTextArea.append("Arrows:\t Move the player's ship\n");
+            rulesTextArea.append("Spacebar:\t Shoot your bullet. You can't shoot until the previous bullet has reached an alien\n\t or the border of the gameboard\n");
+            rulesTextArea.append("R button:\t Shoot your powershot! You can shoot only once per level\n\n");
+            rulesTextArea.append("If an alien reaches the bottom border OR an alien's shot kills you, YOU LOSE!");
  
             JButton buttonBack = new JButton();
             buttonBack.setBounds(215, 470, 260, 47);
@@ -199,7 +154,7 @@ class Menu extends MainMenu
             {
         	    public void mouseEntered(java.awt.event.MouseEvent evt) 
         	    {
-        	    	buttonBack.setIcon(resizeIcon(iconMainMenuHover, buttonBack.getWidth(), buttonBack.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+        	    	buttonBack.setIcon(resizeIcon(iconMainMenuPush, buttonBack.getWidth(), buttonBack.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
         	    }
         	    public void mouseExited(java.awt.event.MouseEvent evt) 
         	    {
@@ -223,14 +178,129 @@ class Menu extends MainMenu
 
             frame.dispose();
 		});
-    	
-
-    	
 
     	
     	
+//SCORE
     	
-    	//Exit
+    	JButton buttonScore = new JButton();
+    	buttonScore.setBounds(175, 450, 150, 50);
+    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth() , buttonScore.getHeight() ));
+    	buttonScore.addMouseListener(new java.awt.event.MouseAdapter() {
+    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+    	    	buttonScore.setIcon(resizeIcon(iconScoreHover, buttonScore.getWidth(), buttonScore.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+    	    }
+
+    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+    	    	buttonScore.setIcon(resizeIcon(iconScore, buttonScore.getWidth(), buttonScore.getHeight())); 
+    	    }
+    	});
+
+    	buttonScore.addActionListener(e -> {
+		    final String DB_REL_FILE = "src/main/java/database/database.db3";
+		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
+		
+		    try (Connection conn = DriverManager.getConnection(DB_URL)) 
+		    {
+		        if (conn != null) {
+		            String username = SessionManager.getCurrentUsername();
+		            String selectQuery = "SELECT * FROM LAST_GAMES WHERE USERNAME = ?";
+		
+		            try (PreparedStatement preparedStatement = conn.prepareStatement(selectQuery)) 
+		            {
+		                preparedStatement.setString(1, username);
+		
+		                try (ResultSet resultSet = preparedStatement.executeQuery()) 
+		                {
+		
+		                	//CREAZIONE DELLA FRAME SCORE
+		                    JFrame scoreframe = new JFrame();
+		
+		                    scoreframe.setContentPane(new JPanel() 
+		                    {
+		                        private static final long serialVersionUID = 1L;
+		                        File pathmenuscore = new File("src/main/java/images/black.png");
+		                        BufferedImage image = ImageIO.read(pathmenuscore);
+		
+		                        public void paintComponent(Graphics g) {
+		                            super.paintComponent(g);
+		                            g.drawImage(image, -45, -100, 768, 768, this);
+		                        }
+		                    });
+		
+		                    ImageIcon iconMainMenu = new ImageIcon("src/main/java/images/mainMenu.png");
+		                    ImageIcon iconMainMenuPush = new ImageIcon("src/main/java/images/mainMenuPush.png");
+		
+		                    scoreframe.setLayout(null);
+		                    scoreframe.setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+		                    scoreframe.setLocationRelativeTo(null);
+		                    scoreframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		                    JTextArea resultTextArea = new JTextArea();
+		                    JScrollPane scrollPane = new JScrollPane(resultTextArea);
+		                    scrollPane.setBounds(85,50,500,400);
+		                    scoreframe.add(scrollPane);
+		                    
+		                    Color colore = new Color(0, 186, 224);
+		                    Border compoundBorder = BorderFactory.createMatteBorder(2, 2, 2, 2,colore);
+
+		                    scrollPane.setBorder(compoundBorder);
+		                  
+		                    resultTextArea.setEditable(false);
+		                    resultTextArea.setBackground(Color.black);
+		                    resultTextArea.setForeground(Color.white);
+		                    
+		 
+		                    JButton buttonBack = new JButton();
+		                    buttonBack.setBounds(215, 470, 260, 47);
+		                    buttonBack.setIcon(resizeIcon(iconMainMenu, buttonBack.getWidth(), buttonBack.getHeight()));
+		                    
+		                    buttonBack.addMouseListener(new java.awt.event.MouseAdapter() 
+		                    {
+	                    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+	                    	    	buttonBack.setIcon(resizeIcon(iconMainMenuPush, buttonBack.getWidth(), buttonBack.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+	                    	    }
+	
+	                    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+	                    	    	buttonBack.setIcon(resizeIcon(iconMainMenu, buttonBack.getWidth(), buttonBack.getHeight())); 
+	                    	    }
+		                 
+		                    });
+		                    
+		                    buttonBack.addActionListener(a -> {
+		                        try {
+		                            new Menu();
+		                            scoreframe.dispose();
+		                        } catch (IOException e1) {
+		                            e1.printStackTrace();
+		                        }
+		                    });
+		
+		                    scoreframe.add(buttonBack);
+		                    scoreframe.setVisible(true);
+		                    scoreframe.setTitle("RECORDS");
+		
+		                    while (resultSet.next()) 
+		                    {
+		                        String retrievedUsername = resultSet.getString("USERNAME");
+		                        int retrievedScore = resultSet.getInt("SCORE");
+		                        String retrievedDate = resultSet.getString("DAY");
+		                        resultTextArea.append("Username: " + retrievedUsername + ", Score: " + retrievedScore
+		                                + ", Date: " + retrievedDate + "\n");
+		                    }
+		                }
+		            }
+		        }
+		
+		        frame.dispose();
+		
+		    } catch (SQLException | IOException ex) {
+		        ex.printStackTrace();
+		    }
+		});
+
+    	
+    	//EXIT
     	JButton buttonExit = new JButton();
     	buttonExit.setBounds(285, 520, 100, 50);
     	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth(), buttonExit.getHeight()));
@@ -251,6 +321,8 @@ class Menu extends MainMenu
     	});
     	
     	
+    	
+    	
         frame.add(buttonStart);
         frame.add(buttonScore);
         frame.add(buttonExit);
@@ -262,10 +334,7 @@ class Menu extends MainMenu
 		frame.setResizable(false);
 		frame.setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
-		
-	}
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
+	}
 }
-
-

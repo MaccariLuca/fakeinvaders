@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import controllerPack.BombController;
 import controllerPack.PlayerController;
 import modelPack.Alien;
 import modelPack.Bomb;
@@ -174,10 +175,12 @@ public class Board extends JPanel
         for (Alien a : aliens) {
 
             Bomb b = a.getBomb();
+            BombView bombView = new BombView();
+            BombController bombController = new BombController(b, bombView);
 
-            if (!b.isDestroyed()) {
+            if (!bombController.isDestroyed()) {
 
-                g.drawImage(b.getImage(), b.getX(), b.getY(), this);
+                g.drawImage(bombView.getImage(), bombController.getBomb().getX(), bombController.getBomb().getY(), this);
             }
         }
     }
@@ -434,20 +437,22 @@ public class Board extends JPanel
 
             int shot = generator.nextInt(350);//random number that defines the time value of the shot (1 in 350 chance to shoot)
             Bomb bomb = alien.getBomb();
+            BombView bombView = new BombView();
+            BombController bombController = new BombController(bomb, bombView);
 
-            if (shot == 0 && alien.isVisible() && bomb.isDestroyed()) //if the alien is still alive and the bomb is destroyed
+            if (shot == 0 && alien.isVisible() && bombController.isDestroyed()) //if the alien is still alive and the bomb is destroyed
             {
-                bomb.setDestroyed(false);
-                bomb.setX(alien.getX());
-                bomb.setY(alien.getY());
+                bombController.setDestroyed(false);
+                bombController.getBomb().setX(alien.getX());
+                bombController.getBomb().setY(alien.getY());
             }
 
-            int bombX = bomb.getX();
-            int bombY = bomb.getY();
+            int bombX = bombController.getBomb().getX();
+            int bombY = bombController.getBomb().getY();
             int playerX = playerView.getX();
             int playerY = playerView.getY();
 
-            if (playerView.isVisible() && !bomb.isDestroyed()) //used to determine if the player is shot
+            if (playerView.isVisible() && !bombController.isDestroyed()) //used to determine if the player is shot
             {
 
                 if (bombX >= (playerX)
@@ -459,19 +464,19 @@ public class Board extends JPanel
                     var icon = new ImageIcon(explImg); //image of the player being shot
                     playerView.setImage(icon.getImage());
                     playerView.setDying(true);
-                    bomb.setDestroyed(true);
+                    bombController.setDestroyed(true);
                 }
             }
 
-            if (!bomb.isDestroyed()) 
+            if (!bombController.isDestroyed()) 
             {
 
-                bomb.setY(bomb.getY() + 1);
+                bombController.getBomb().setY(bombController.getBomb().getY() + 1);
 
-                if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) 
+                if (bombController.getBomb().getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) 
                 {
 
-                    bomb.setDestroyed(true);
+                    bombController.getBomb().setDestroyed(true);
                 }
             }
         }

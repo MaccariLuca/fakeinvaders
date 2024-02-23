@@ -9,8 +9,8 @@ public class Sprite {
     private Image image;
     private boolean dying;
 
-    int x;
-    int y;
+    protected int x;
+    protected int y;
     private int dx;
     private int up;
 

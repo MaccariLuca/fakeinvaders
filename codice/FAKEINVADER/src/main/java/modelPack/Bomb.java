@@ -3,9 +3,9 @@ package modelPack;
 import javax.swing.ImageIcon;
 
 public class Bomb extends Sprite 
-{
-    private boolean destroyed;
-    
+{   
+	private boolean destroyed;
+	
     public Bomb(int x, int y) {
         initBomb(x, y);
     }
@@ -15,9 +15,6 @@ public class Bomb extends Sprite
         setDestroyed(true);
         this.x = x;
         this.y = y;
-        var bombImg = "src/main/java/images/shot2.png";
-        var icon = new ImageIcon(bombImg);
-        setImage(icon.getImage());
     }
 
     public void setDestroyed(boolean destroyed) {
@@ -29,4 +26,6 @@ public class Bomb extends Sprite
 
         return destroyed;
     }
+
+    
 }
