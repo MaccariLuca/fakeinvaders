@@ -32,7 +32,7 @@ public class Sprite {
         return visible;
     }
 
-    protected void setVisible(boolean visible) 
+    public void setVisible(boolean visible) 
     {
 
         this.visible = visible;

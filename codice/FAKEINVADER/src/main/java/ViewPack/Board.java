@@ -9,6 +9,7 @@ import javax.swing.Timer;
 
 import controllerPack.BombController;
 import controllerPack.PlayerController;
+import controllerPack.ShotController;
 import modelPack.Alien;
 import modelPack.Bomb;
 import modelPack.Commons;
@@ -46,6 +47,8 @@ public class Board extends JPanel
     private PlayerController player;
     private Player playerView = new Player();
     private Shot shot;
+    private ShotView shotView;
+    private ShotController shotController;
     private PowerShot powerShot;
     boolean powerShotShooted = true;
     
@@ -120,6 +123,8 @@ public class Board extends JPanel
         
         player = new PlayerController(playerView);//...the player...
         shot = new Shot();//...and the shot
+        shotView = new ShotView();
+        shotController = new ShotController(shot, shotView);
         powerShot = new PowerShot();
     }
 
@@ -156,9 +161,9 @@ public class Board extends JPanel
 
     private void drawShot(Graphics g) {
 
-        if (shot.isVisible()) {
+        if (shotController.getView().isVisible()) {
 
-            g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
+            g.drawImage(shotController.getView().getImage(), shotController.getX(), shotController.getY(), this);
         }
     }
 
@@ -284,10 +289,13 @@ public class Board extends JPanel
         playerView.act();
 
         // shot
-        if (shot.isVisible() || powerShot.isVisible()) {
+        if (shotController.getView().isVisible() || powerShot.isVisible()) {
 
-            int shotX = shot.getX();
-            int shotY = shot.getY();
+            int shotX = shotController.getX();
+            int shotY = shotController.getY();
+            
+            System.out.println(shotX);
+            System.out.println(shotY);
             
             int pShotX = powerShot.getX();
             int pShotY = powerShot.getY();
@@ -306,8 +314,9 @@ public class Board extends JPanel
                         var icon = new ImageIcon(explImg);
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
-                        deaths++;//TODO
+                        deaths++;
                         score++;
+                        shotController.die();
                         shot.die();
                     }
                 }
@@ -322,18 +331,18 @@ public class Board extends JPanel
                         alien.setDying(true);
                         deaths++;//TODO
                         score++;
-                        shot.die();
+                        shotController.die();
                     }
                 }
             }
 
-            int y = shot.getY();
+            int y = shotController.getY();
             y -= 4;
 
-            if (y < 0) {
-                shot.die();
+            if (y < 1) {
+                shotController.die();
             } else {
-                shot.setY(y);
+                shotController.setY(y);
             }
         }
 
@@ -341,15 +350,15 @@ public class Board extends JPanel
         if (powerShot.isVisible()) 
         {
 
-            int pShotX = shot.getX();
-            int pShotY = shot.getY();
+            int pShotX = shotController.getX();
+            int pShotY = shotController.getY();
 
             for (Alien alien : aliens) {
 
                 int alienX = alien.getX();
                 int alienY = alien.getY();
 
-                if (alien.isVisible() && shot.isVisible()) 
+                if (alien.isVisible() && shotController.isVisible()) 
                 {
                     if (pShotX >= (alienX)
                         && pShotX <= (alienX + Commons.ALIEN_WIDTH)
@@ -361,6 +370,7 @@ public class Board extends JPanel
                         alien.setDying(true);
                         deaths++;//TODO
                         score++;
+                        shotController.die();
                         shot.die();
                     }
                 }
@@ -524,9 +534,11 @@ public class Board extends JPanel
 
                 if (inGame) {
 
-                    if (!shot.isVisible()) {
+                	shotController.getView().setVisible(true);
+                    if (shotController.getView().isVisible()) {
 
                         shot = new Shot(x, y);
+                        shotController.reload(shot);
                     }
                 }
             }
