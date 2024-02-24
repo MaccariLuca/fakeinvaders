@@ -11,6 +11,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -155,33 +157,35 @@ public class GameOverMenu extends MainMenu
 		
 		
 		
-		//QUERY PART
-		//TODO
-		
-        final String DB_REL_FILE = "src/main/java/database/database.db3";
-		final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-		try 
-		{			
-		 Connection conn = DriverManager.getConnection(DB_URL);
-		 if (conn != null) 
-		 {
-		   DatabaseMetaData meta = conn.getMetaData();
-		   System.out.println("The driver name is " + meta.getDriverName());
-		   System.out.println("A new database has been created.");
-		 }
-		 
-		 Statement stmt = conn.createStatement();
-		 
-		stmt.close();
-  		conn.close();
-  		System.out.println("query eseguita con successo");
-  		
- 		} catch (SQLException ex) {
- 		  System.out.println(ex.getMessage());
- 		}
-		
-	}
-	
+		final String DB_REL_FILE = "src/main/java/database/database.db3";
+        final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL);
+
+            if (conn != null) 
+            {
+                
+                String username = SessionManager.getCurrentUsername();
+                
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDate = dateFormat.format(new Date());
+
+                String insertQuery = "INSERT INTO LAST_GAMES (USERNAME, SCORE, DAY) VALUES ('" + username + "', "
+                        + lastScore + ", '" + currentDate + "')";
+
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(insertQuery);
+
+                System.out.println("Record inserito con successo nella tabella LAST_GAMES.");
+
+                stmt.close();
+                conn.close();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+    }
+
 }
-
-

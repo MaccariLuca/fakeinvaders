@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import controllerPack.AlienController;
 import controllerPack.BombController;
 import controllerPack.PlayerController;
 import controllerPack.ShotController;
@@ -43,7 +44,9 @@ public class Board extends JPanel
 	private static final long serialVersionUID = 2797967856640653592L;//AUTO_GENERATED
 	
 	private Dimension d;
-    private List<Alien> aliens;
+    //private List<Alien> alienModels;
+    //private List<AlienView> alienViews;
+    private List<AlienController> aliens;
     private PlayerController player;
     private Player playerView = new Player();
     private Shot shot;
@@ -82,7 +85,7 @@ public class Board extends JPanel
         d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT); //Dimension based on the default dimension
         setBackground(Color.black); //background black like the space
 
-        timer = new Timer(Commons.DELAY, new GameCycle()); //used to control the state of the aliens in the game
+        timer = new Timer(Commons.DELAY, new GameCycle()); //used to control the state of the alienModels in the game
         timer.start();
 
         gameCycle();
@@ -97,8 +100,9 @@ public class Board extends JPanel
     
     private void gameInit(int level) 
     {
+        //alienModels = new ArrayList<>();
+        //alienViews = new ArrayList<>();
         aliens = new ArrayList<>();
-
         
         if(level % 2 == 0) 
         {
@@ -115,7 +119,11 @@ public class Board extends JPanel
             {
                 var alien = new Alien(Commons.ALIEN_INIT_X + 50 * j,
                         Commons.ALIEN_INIT_Y + 50 * i);
-                aliens.add(alien); //paints the alien...
+                //alienModels.add(alien);
+                var alienView = new AlienView(Commons.ALIEN_INIT_Y + 50 * i);
+                //alienViews.add(alienView);
+                var alienController = new AlienController(alien, alienView);
+                aliens.add(alienController);
             }
         }
         
@@ -131,7 +139,7 @@ public class Board extends JPanel
     private void drawAliens(Graphics g) 
     {
 
-        for (Alien alien : aliens) {
+        for (AlienController alien : aliens) {
 
             if (alien.isVisible()) {
 
@@ -177,9 +185,9 @@ public class Board extends JPanel
     
     private void drawBomb(Graphics g) {
 
-        for (Alien a : aliens) {
+        for (AlienController alien : aliens) {
 
-            Bomb b = a.getBomb();
+            Bomb b = alien.getBomb();
             BombView bombView = new BombView();
             BombController bombController = new BombController(b, bombView);
 
@@ -300,7 +308,7 @@ public class Board extends JPanel
             int pShotX = powerShot.getX();
             int pShotY = powerShot.getY();
 
-            for (Alien alien : aliens) {
+            for (AlienController alien : aliens) {
 
                 int alienX = alien.getX();
                 int alienY = alien.getY();
@@ -317,7 +325,6 @@ public class Board extends JPanel
                         deaths++;
                         score++;
                         shotController.die();
-                        shot.die();
                     }
                 }
                 if (alien.isVisible() && powerShot.isVisible()) {
@@ -353,7 +360,7 @@ public class Board extends JPanel
             int pShotX = shotController.getX();
             int pShotY = shotController.getY();
 
-            for (Alien alien : aliens) {
+            for (AlienController alien : aliens) {
 
                 int alienX = alien.getX();
                 int alienY = alien.getY();
@@ -368,10 +375,9 @@ public class Board extends JPanel
                         var icon = new ImageIcon(explImg);
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
-                        deaths++;//TODO
+                        deaths++;
                         score++;
                         shotController.die();
-                        shot.die();
                     }
                 }
             }
@@ -388,7 +394,7 @@ public class Board extends JPanel
 
         // aliens
 
-        for (Alien alien : aliens) {
+        for (AlienController alien : aliens) {
 
             int x = alien.getX();
 
@@ -396,11 +402,11 @@ public class Board extends JPanel
 
                 direction = -1;
 
-                Iterator<Alien> i1 = aliens.iterator();
+                Iterator<AlienController> i1 = aliens.iterator();
 
                 while (i1.hasNext()) {
 
-                    Alien a2 = i1.next();
+                    AlienController a2 = i1.next();
                     a2.setY(a2.getY() + Commons.GO_DOWN);
                 }
             }
@@ -409,21 +415,21 @@ public class Board extends JPanel
 
                 direction = 1;
 
-                Iterator<Alien> i2 = aliens.iterator();
+                Iterator<AlienController> i2 = aliens.iterator();
 
                 while (i2.hasNext()) {
 
-                    Alien a = i2.next();
+                    AlienController a = i2.next();
                     a.setY(a.getY() + Commons.GO_DOWN);
                 }
             }
         }
 
-        Iterator <Alien> it = aliens.iterator();
+        Iterator <AlienController> it = aliens.iterator();
 
         while (it.hasNext()) {
 
-            Alien alien = it.next();
+            AlienController alien = it.next();
 
             if (alien.isVisible()) {
 
@@ -442,7 +448,7 @@ public class Board extends JPanel
         
         var generator = new Random();
 
-        for (Alien alien : aliens)
+        for (AlienController alien : aliens)
         {
 
             int shot = generator.nextInt(350);//random number that defines the time value of the shot (1 in 350 chance to shoot)
