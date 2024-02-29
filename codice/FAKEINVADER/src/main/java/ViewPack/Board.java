@@ -92,7 +92,7 @@ public class Board extends JPanel
     }
 
 
-    //TODO
+  
     private void gameCycle()
     {
     	gameInit(level);
@@ -259,33 +259,12 @@ public class Board extends JPanel
     }
     
 
-    //numeri dispari --> aumento righe + 6
-    //numeri pari --> aumento colonne + 3
-
-    
-    //livello 1 --> 18 alieni
-    //livello 2 --> 21  --> 3*7 5 in piu del liv
-    //livello 3 --> 27 -->  3*9 6 in piu del liv
-    //livello 4 --> 30 -->  3*
-    //livello 5 --> 36
     private void update() 
     {
         if (deaths == targetDeaths) 
         {
         	level++;
-        	/*
-        	if (level % 2 == 0) {
-                // Livello pari
-            	targetDeaths += 3;
-            	System.out.println("livello pari : " + targetDeaths);
-               
-            } else {
-                // Livello dispari
-            	if(level != 1)
-            		targetDeaths += 6;	
-            	System.out.println("livello dispari " + targetDeaths);
-            }
-        	*/
+        	
         	System.out.println(targetDeaths);
         	powerShotShooted = true;
         	deaths = 0;
@@ -297,8 +276,8 @@ public class Board extends JPanel
         playerView.act();
 
         // shot
-        if (shotController.getView().isVisible() || powerShot.isVisible()) {
-
+        if (shotController.getView().isVisible() || powerShot.isVisible()) 
+        {
             int shotX = shotController.getX();
             int shotY = shotController.getY();
             
@@ -308,16 +287,19 @@ public class Board extends JPanel
             int pShotX = powerShot.getX();
             int pShotY = powerShot.getY();
 
-            for (AlienController alien : aliens) {
+            for (AlienController alien : aliens) 
+            {
 
                 int alienX = alien.getX();
                 int alienY = alien.getY();
 
-                if (alien.isVisible() && shot.isVisible()) {
+                if (alien.isVisible() && shot.isVisible()) 
+                {
                     if (shotX >= (alienX)
                         && shotX <= (alienX + Commons.ALIEN_WIDTH)
                         && shotY >= (alienY)
-                        && shotY <= (alienY + Commons.ALIEN_HEIGHT)){
+                        && shotY <= (alienY + Commons.ALIEN_HEIGHT))
+                    {
 
                         var icon = new ImageIcon(explImg);
                         alien.setImage(icon.getImage());
@@ -327,16 +309,18 @@ public class Board extends JPanel
                         shotController.die();
                     }
                 }
-                if (alien.isVisible() && powerShot.isVisible()) {
+                if (alien.isVisible() && powerShot.isVisible()) 
+                {
                     if (pShotX >= (alienX)
                         && pShotX <= (alienX + Commons.ALIEN_WIDTH)
                         && pShotY >= (alienY)
-                        && pShotY <= (alienY + Commons.ALIEN_HEIGHT)){
+                        && pShotY <= (alienY + Commons.ALIEN_HEIGHT))
+                    {
 
                         var icon = new ImageIcon(explImg);
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
-                        deaths++;//TODO
+                        deaths++;
                         score++;
                         shotController.die();
                     }

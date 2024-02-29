@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ViewPack.FakeInvaders;
+import modelPack.LastGamesDAO;
 
 public class GameOverMenu extends MainMenu 
 {
@@ -160,32 +161,22 @@ public class GameOverMenu extends MainMenu
 		final String DB_REL_FILE = "src/main/java/database/database.db3";
         final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
 
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL);
 
-            if (conn != null) 
-            {
-                
+        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+            if (conn != null) {
                 String username = SessionManager.getCurrentUsername();
-                
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String currentDate = dateFormat.format(new Date());
 
-                String insertQuery = "INSERT INTO LAST_GAMES (USERNAME, SCORE, DAY) VALUES ('" + username + "', "
-                        + lastScore + ", '" + currentDate + "')";
-
-                Statement stmt = conn.createStatement();
-                stmt.executeUpdate(insertQuery);
+                LastGamesDAO lastGamesDAO = new LastGamesDAO(conn);
+                lastGamesDAO.insertLastGame(username, lastScore, currentDate);
 
                 System.out.println("Record inserito con successo nella tabella LAST_GAMES.");
-
-                stmt.close();
-                conn.close();
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-        }
+        };
+    }
+    
         
     }
-
-}
