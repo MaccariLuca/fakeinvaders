@@ -4,8 +4,7 @@ import javax.swing.ImageIcon;
 
 public class Shot extends Sprite {
 
-    public Shot() 
-    {}
+    public Shot() {}
 
     public Shot(int x, int y) 
     {

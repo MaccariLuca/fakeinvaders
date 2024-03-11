@@ -1,6 +1,6 @@
-/game/
-/ViewPack/
-/database/
-/modelPack/
-/controllerPack/
 /META-INF/
+/controllerPack/
+/database/
+/game/
+/modelPack/
+/ViewPack/

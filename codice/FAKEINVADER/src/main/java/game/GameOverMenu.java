@@ -1,28 +1,24 @@
  package game;
 
 import java.awt.Color;
+
+import java.time.LocalDateTime;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import ViewPack.FakeInvaders;
-import modelPack.LastGamesDAO;
 
 public class GameOverMenu extends MainMenu 
 {
@@ -139,11 +135,9 @@ public class GameOverMenu extends MainMenu
 		buttonExit.addActionListener(e -> {
 		    frame.dispose();
 		});
+	
 		
-		
-		
-		
-    	//LIST
+    	//frame
         frame.add(buttonStart);
         frame.add(buttonExit);
         frame.add(scoreLabel);
@@ -156,27 +150,44 @@ public class GameOverMenu extends MainMenu
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
-		
-		
+		//parte query
 		final String DB_REL_FILE = "src/main/java/database/database.db3";
         final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
 
-
-        try (Connection conn = DriverManager.getConnection(DB_URL)) {
-            if (conn != null) {
+        try (Connection conn = DriverManager.getConnection(DB_URL)) 
+        {
+            if (conn != null) 
+            {
+                //username
                 String username = SessionManager.getCurrentUsername();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String currentDate = dateFormat.format(new Date());
-
-                LastGamesDAO lastGamesDAO = new LastGamesDAO(conn);
-                lastGamesDAO.insertLastGame(username, lastScore, currentDate);
-
-                System.out.println("Record inserito con successo nella tabella LAST_GAMES.");
+                
+                //data
+                LocalDateTime currentDate = LocalDateTime.now();
+                
+                // Creazione della query con PreparedStatement
+                String query = "INSERT INTO LAST_GAMES (USERNAME, SCORE, DAY) VALUES (?, ?, ?)";
+                
+                try (PreparedStatement pstmt = conn.prepareStatement(query)) 
+                {
+                    pstmt.setString(1, username);
+                    pstmt.setInt(2, lastScore);
+                    pstmt.setObject(3, currentDate);
+                    
+                    // Esecuzione della query
+                    int rowsAffected = pstmt.executeUpdate(); //restituisce il numero di righe che sono state inserite nel db 
+                    
+                    if (rowsAffected > 0) 
+                    {
+                        System.out.println("Record inserito con successo nella tabella LAST_GAMES.");
+                    } else 
+                    {
+                        System.out.println("Errore durante l'inserimento del record nella tabella LAST_GAMES.");
+                    }
+                }
             }
-        } catch (SQLException ex) {
+        } catch (SQLException ex) 
+        {
             System.out.println(ex.getMessage());
-        };
+        }
     }
-    
-        
-    }
+}
