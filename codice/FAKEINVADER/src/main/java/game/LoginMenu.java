@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import modelPack.PlayerDAO;
+
 public class LoginMenu extends MainMenu 
 {
 	LoginMenu() throws IOException
@@ -113,7 +115,7 @@ public class LoginMenu extends MainMenu
     	error.setHorizontalAlignment(SwingConstants.CENTER);
     	
     	
-    	
+    	//Frame
     	frame.add(usernameL);
     	frame.add(passwordL);
         frame.add(username);
@@ -130,67 +132,45 @@ public class LoginMenu extends MainMenu
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
 		
-		buttonLogin.addActionListener(e -> 
-		{
-		    final String DB_REL_FILE = "src/main/java/database/database.db3";
-		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-	
-		    Connection conn = null;
+		//Listener 
+		
+		buttonLogin.addActionListener(e -> {
+			 final String DB_REL_FILE = "src/main/java/database/database.db3";
+			 final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
+
 		    try {
-		        conn = DriverManager.getConnection(DB_URL);
-	
-		        if (conn != null) {
-		            DatabaseMetaData meta = conn.getMetaData();
-		            System.out.println("The driver name is " + meta.getDriverName());
-		        }
-	
-		        // Controllo che il file esista a questo punto
-		        System.out.println("Il file esiste? " + new File(DB_REL_FILE).exists());
-	
-		        String sql = "SELECT * FROM PLAYERS WHERE username = ? AND password = ?";
-		        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-		            preparedStatement.setString(1, username.getText());
-		            preparedStatement.setString(2, password.getText());
-	
-		            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-		                if (resultSet.next()) 
-		                {
-		                	SessionManager.setCurrentUsername(username.getText());
+		        // Creazione del PlayerDAO utilizzando la connessione al database
+		        PlayerDAO playerDAO = new PlayerDAO(DriverManager.getConnection(DB_URL));
 
-		                    frame.dispose();
-		                    try {
-		                        new Menu();
-		                    } catch (IOException e1) {
-		                        e1.printStackTrace();
-		                    }
-		                } else {
-		                    System.out.println("Utente non registrato");
-		                    error.setText(" Attention: unregistered user!");
-		                }
-		            }
-		        }
-	
-		        System.out.println("Query eseguita con successo");
+		        // Verifica delle credenziali dell'utente nel database
+		        String usernameInput = username.getText();
+		        String passwordInput = password.getText();
 
+		        if (playerDAO.checkCredentials(usernameInput, passwordInput)) {
+		            // Se le credenziali sono corrette, imposta l'utente corrente e apri il menu
+		            SessionManager.setCurrentUsername(usernameInput);
+		            frame.dispose();
+		            try {
+						new Menu();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} 
+		        } else {
+		            // Se le credenziali non sono corrette, mostra un messaggio di errore
+		            System.out.println("Utente non registrato");
+		            error.setText("Attention: unregistered user!");
+		        }
 		    } catch (SQLException ex) {
+		        // Gestione delle eccezioni
 		        ex.printStackTrace();
 		    } finally {
-		        // Chiudi la connessione qui per garantire che venga eseguita anche in caso di eccezione
-		        try {
-		            if (conn != null) {
-		                conn.close();
-		            }
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        }
-
-		        // Resetta i campi qui indipendentemente dal risultato della query
+		        // Resetta i campi indipendentemente dal risultato della query
 		        username.setText("");
 		        password.setText("");
 		    }
 		});
-		
-		
+	
+
 		buttonRegistration.addActionListener(e -> {
 		    final String DB_REL_FILE = "src/main/java/database/database.db3";
 		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
@@ -201,9 +181,6 @@ public class LoginMenu extends MainMenu
 		            System.out.println("The driver name is " + meta.getDriverName());
 		        }
 
-		        // Controllo che il file esista a questo punto
-		        System.out.println("Il file esiste? " + new File(DB_REL_FILE).exists());
-
 		        // Validazione dell'input
 		        String inputUsername = username.getText();
 		        String inputPassword = password.getText();
@@ -212,39 +189,34 @@ public class LoginMenu extends MainMenu
 		            System.out.println("Attenzione: Inserire username e password");
 		            error.setText("Attention: Enter your username and password");
 		        } else {
-		            // Query di verifica se l'utente è già registrato
-		            String checkSql = "SELECT * FROM PLAYERS WHERE username = ?";
-		            try (PreparedStatement checkStatement = conn.prepareStatement(checkSql)) {
-		                checkStatement.setString(1, inputUsername);
+		            try {
+		                // Creazione del PlayerDAO utilizzando la connessione al database
+		                PlayerDAO playerDAO = new PlayerDAO(conn);
 
-		                try (ResultSet resultSet = checkStatement.executeQuery()) {
-		                    if (resultSet.next()) {
-		                        System.out.println("Utente già registrato");
-		                        username.setText("");
-		                        password.setText("");
-		                        error.setText("Attention: User already registered!");
+		                // Verifica se l'utente è già registrato
+		                if (playerDAO.playerExists(inputUsername)) {
+		                    System.out.println("Utente già registrato");
+		                    username.setText("");
+		                    password.setText("");
+		                    error.setText("Attention: User already registered!");
+		                } else {
+		                    // Inserisci il nuovo utente
+		                    if (playerDAO.insertPlayer(inputUsername, inputPassword)) {
+		                        System.out.println("Utente inserito con successo");
+		                        frame.dispose();
+		                        new Menu();
 		                    } else {
-		                        // Inserisci il nuovo utente
-		                        String insertSql = "INSERT INTO PLAYERS (username, password) VALUES (?, ?)";
-		                        try (PreparedStatement insertStatement = conn.prepareStatement(insertSql)) {
-		                            insertStatement.setString(1, inputUsername);
-		                            insertStatement.setString(2, inputPassword);
-		                            insertStatement.executeUpdate();
-
-		                            System.out.println("Utente inserito con successo");
-
-		                            frame.dispose();
-		                            try {
-		                                new Menu();
-		                            } catch (IOException e1) {
-		                                e1.printStackTrace();
-		                            }
-		                        }
+		                        System.out.println("Errore durante l'inserimento dell'utente");
+		                        error.setText("Error while registering user");
 		                    }
 		                }
+		            } catch (SQLException ex) {
+		                ex.printStackTrace();
+		                // Gestione degli errori SQL
+		                System.out.println("Errore SQL: " + ex.getMessage());
+		                error.setText("Error while accessing database");
 		            }
 		        }
-
 		    } catch (SQLException ex) {
 		        ex.printStackTrace();
 		        // Gestione degli errori SQL
@@ -258,8 +230,6 @@ public class LoginMenu extends MainMenu
 		    }
 		});
 	}
-	
-	
 	
 }
 
