@@ -248,7 +248,7 @@ public class Board extends JPanel
         timer.start(); // Avvia il timer
     }
     
-    /*
+    
     private void update() 
     {
         if (deaths == targetDeaths) 
@@ -286,8 +286,6 @@ public class Board extends JPanel
                         && shotY <= (alienY + Commons.ALIEN_HEIGHT))
                     {
 
-                        var icon = new ImageIcon(explImg);
-                        alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;
                         score++;
@@ -302,8 +300,6 @@ public class Board extends JPanel
                         && pShotY <= (alienY + Commons.ALIEN_HEIGHT))
                     {
 
-                        var icon = new ImageIcon(explImg);
-                        alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;
                         score++;
@@ -341,8 +337,6 @@ public class Board extends JPanel
                         && pShotY >= (alienY)
                         && pShotY <= (alienY + Commons.ALIEN_HEIGHT)){
 
-                        var icon = new ImageIcon(explImg);
-                        alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;
                         score++;
@@ -445,9 +439,7 @@ public class Board extends JPanel
                         && bombY <= (playerY + Commons.PLAYER_HEIGHT)) 
                 {
 
-                    var icon = new ImageIcon(explImg); //image of the player being shot
-                    playerView.setImage(icon.getImage());
-                    playerView.setDying(true);
+                      playerView.setDying(true);
                     bombController.setDestroyed(true);
                 }
             }
@@ -465,7 +457,7 @@ public class Board extends JPanel
             }
         }
     }
-    */
+    /*
     private void update() {
         if (deaths == targetDeaths) {
             level++;
@@ -548,7 +540,7 @@ public class Board extends JPanel
                 }
             }
         }
-    }
+    }*/
 
 
     private void doGameCycle() 
