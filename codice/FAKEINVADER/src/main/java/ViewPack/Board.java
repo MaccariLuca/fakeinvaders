@@ -108,8 +108,7 @@ public class Board extends JPanel
         {
             for (int j = 0; j < 6 + increaseColums; j++) 
             {
-                var alien = new Alien(Commons.ALIEN_INIT_X + 50 * j,
-                        Commons.ALIEN_INIT_Y + 50 * i);
+                var alien = new Alien(Commons.ALIEN_INIT_X + 50 * j, Commons.ALIEN_INIT_Y + 50 * i);
                 //alienModels.add(alien);
                 var alienView = new AlienView(Commons.ALIEN_INIT_Y + 50 * i);
                 //alienViews.add(alienView);
@@ -274,7 +273,6 @@ public class Board extends JPanel
 
             for (AlienController alien : aliens) 
             {
-
                 int alienX = alien.getX();
                 int alienY = alien.getY();
 
@@ -457,92 +455,7 @@ public class Board extends JPanel
             }
         }
     }
-    /*
-    private void update() {
-        if (deaths == targetDeaths) {
-            level++;
-            powerShotShooted = true;
-            deaths = 0;
-            gameCycle();
-        }
-
-        // Rimuovere gli alieni morti
-        Iterator<AlienController> iterator = aliens.iterator();
-        while (iterator.hasNext()) {
-            AlienController alien = iterator.next();
-            if (!alien.isVisible()) {
-                iterator.remove(); // Rimuovere l'alieno dalla lista tramite l'iteratore
-            }
-        }
-
-        // Rimuovere le bombe esplose
-        iterator = aliens.iterator();
-        while (iterator.hasNext()) {
-            AlienController alien = iterator.next();
-            if (alien.getBomb().isDestroyed()) {
-                iterator.remove(); // Rimuovere la bomba dalla lista tramite l'iteratore
-            }
-        }
-
-        // Aggiornare gli alieni rimasti
-        for (AlienController alien : aliens) {
-            int x = alien.getX();
-
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
-                direction = -1;
-                for (AlienController a2 : aliens) {
-                    a2.setY(a2.getY() + Commons.GO_DOWN);
-                }
-            }
-
-            if (x <= Commons.BORDER_LEFT && direction != 1) {
-                direction = 1;
-                for (AlienController a : aliens) {
-                    a.setY(a.getY() + Commons.GO_DOWN);
-                }
-            }
-
-            if (alien.isVisible()) {
-                int y = alien.getY();
-                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
-                    inGame = false;
-                   
-                }
-                alien.act(direction);
-            }
-        }
-
-        // Generare bombe
-        Random generator = new Random();
-        for (AlienController alien : aliens) {
-            int shot = generator.nextInt(350);
-            Bomb bomb = alien.getBomb();
-            if (shot == 0 && alien.isVisible() && bomb.isDestroyed()) {
-                bomb.setDestroyed(false);
-                bomb.setX(alien.getX());
-                bomb.setY(alien.getY());
-            }
-            int bombX = bomb.getX();
-            int bombY = bomb.getY();
-            int playerX = playerView.getX();
-            int playerY = playerView.getY();
-            if (playerView.isVisible() && !bomb.isDestroyed()) {
-                if (bombX >= (playerX) && bombX <= (playerX + Commons.PLAYER_WIDTH) &&
-                    bombY >= (playerY) && bombY <= (playerY + Commons.PLAYER_HEIGHT)) {
-                    playerView.setDying(true);
-                    bomb.setDestroyed(true);
-                }
-            }
-            if (!bomb.isDestroyed()) {
-                bomb.setY(bomb.getY() + 1);
-                if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
-                    bomb.setDestroyed(true);
-                }
-            }
-        }
-    }*/
-
-
+   
     private void doGameCycle() 
     {
         update();
