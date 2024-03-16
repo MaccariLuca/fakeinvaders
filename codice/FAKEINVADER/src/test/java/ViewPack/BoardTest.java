@@ -2,12 +2,19 @@ package ViewPack;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import controllerPack.AlienController;
+import game.Alien;
+import game.Commons;
+
 public class BoardTest 
 {
-
 	private Board board;
 	
 	@Before
@@ -52,5 +59,8 @@ public class BoardTest
     }
 
     
+   
+    
+  
 
 }
