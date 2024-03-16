@@ -4,9 +4,7 @@ import javax.swing.ImageIcon;
 
 public class PowerShot extends Shot {
 
-    public PowerShot() 
-    {
-    }
+    public PowerShot() {}
 
     public PowerShot(int x, int y) 
     {
