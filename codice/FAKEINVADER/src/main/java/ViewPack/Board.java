@@ -1,7 +1,5 @@
 package ViewPack;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -11,6 +9,7 @@ import controllerPack.AlienController;
 import controllerPack.BombController;
 import controllerPack.PlayerController;
 import controllerPack.ShotController;
+
 import modelPack.Alien;
 import modelPack.Bomb;
 import modelPack.Commons;
@@ -21,26 +20,18 @@ import game.GameOverMenu;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 public class Board extends JPanel 
 {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2797967856640653592L;//AUTO_GENERATED
 	
 	private Dimension dimension;
@@ -51,7 +42,7 @@ public class Board extends JPanel
     private ShotView shotView;
     private ShotController shotController;
     private PowerShot powerShot;
-    boolean powerShotShooted = true;
+    private boolean powerShotShooted = true;
     
     private int direction = -1;
     private int deaths = 0;
@@ -143,60 +134,61 @@ public class Board extends JPanel
         }
     }
 
-    private void drawPlayer(Graphics g) {
+    private void drawPlayer(Graphics g) 
+    {
 
-        if (playerView.isVisible()) {
-
+        if (playerView.isVisible()) 
+        {
             g.drawImage(playerView.getImage(), playerView.getX(), playerView.getY(), this);
         }
 
-        if (playerView.isDying()) {
-
+        if (playerView.isDying()) 
+        {
             playerView.die();
             inGame = false;
         }
     }
 
-    private void drawShot(Graphics g) {
-
-        if (shotController.getView().isVisible()) {
-
+    private void drawShot(Graphics g) 
+    {
+        if (shotController.getView().isVisible()) 
+        {
             g.drawImage(shotController.getView().getImage(), shotController.getX(), shotController.getY(), this);
         }
     }
 
-    private void drawPowerShot(Graphics g) {
-
-		if (powerShot.isVisible()) {
-
+    private void drawPowerShot(Graphics g) 
+    {
+		if (powerShot.isVisible()) 
+		{
             g.drawImage(powerShot.getImage(), powerShot.getX(), powerShot.getY(), this);
         }
     }
     
-    private void drawBomb(Graphics g) {
-
-        for (AlienController alien : aliens) {
-
+    private void drawBomb(Graphics g) 
+    {
+        for (AlienController alien : aliens) 
+        {
             Bomb b = alien.getBomb();
             BombView bombView = new BombView();
             BombController bombController = new BombController(b, bombView);
 
-            if (!bombController.isDestroyed()) {
-
+            if (!bombController.isDestroyed()) 
+            {
                 g.drawImage(bombView.getImage(), bombController.getBomb().getX(), bombController.getBomb().getY(), this);
             }
         }
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g)
+    {
         super.paintComponent(g);
-
         doDrawing(g);
     }
 
-    private void doDrawing(Graphics g) {
-
+    private void doDrawing(Graphics g) 
+    {
         g.setColor(Color.black);
         g.fillRect(0, 0, dimension.width, dimension.height);
         g.setColor(Color.green);
@@ -210,14 +202,13 @@ public class Board extends JPanel
             drawShot(g);
             drawPowerShot(g);
             drawBomb(g);
-
         } 
         else 
         {
-
-            if (timer.isRunning()) {
+            if (timer.isRunning()) 
+            {
                 timer.stop();
-        }
+            }
             
             gameOver(g);
         }
@@ -457,6 +448,7 @@ public class Board extends JPanel
         }
     }
     */
+    
     private void update() 
     {
         updateGameState();
@@ -478,7 +470,8 @@ public class Board extends JPanel
         }
     }
 
-    private void updatePlayer() {
+    private void updatePlayer() 
+    {
         playerView.act();
     }
 
@@ -638,15 +631,13 @@ public class Board extends JPanel
              int playerX = playerView.getX();
              int playerY = playerView.getY();
 
-             if (playerView.isVisible() && !bombController.isDestroyed()) //used to determine if the player is shot
+             if (playerView.isVisible() && !bombController.isDestroyed()) //used to determinate if the player is shot
              {
-
                  if (bombX >= (playerX)
                          && bombX <= (playerX + Commons.PLAYER_WIDTH)
                          && bombY >= (playerY)
                          && bombY <= (playerY + Commons.PLAYER_HEIGHT)) 
                  {
-
                        playerView.setDying(true);
                      bombController.setDestroyed(true);
                  }
@@ -654,7 +645,6 @@ public class Board extends JPanel
 
              if (!bombController.isDestroyed()) 
              {
-
                  bombController.getBomb().setY(bombController.getBomb().getY() + 1);
 
                  if (bombController.getBomb().getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) 
@@ -697,7 +687,6 @@ public class Board extends JPanel
         @Override
         public void keyPressed(KeyEvent e) 
         {
-
             player.keyPressed(e);
 
             int x = playerView.getX();

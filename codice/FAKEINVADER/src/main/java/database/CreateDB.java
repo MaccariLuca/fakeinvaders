@@ -20,16 +20,18 @@ public class CreateDB {
         return instance;
     }
 
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException 
+    {
         return DriverManager.getConnection(DB_URL);
     }
 
-    public void creaDB() throws IOException, SQLException {
+    public void creaDB() throws IOException, SQLException 
+    {
         if (new File(DB_REL_FILE).exists()) {
-            System.out.println("Il DB gia' esiste");
+            System.out.println("already existing database");
         } else {
-            getConnection(); // Crea la connessione per creare il database
-            System.out.println("Il DB e' stato creato");
+            getConnection(); 
+            System.out.println("database successfully created");
         }
     }
 
@@ -41,7 +43,7 @@ public class CreateDB {
             stmt.executeUpdate(PlayersTable);
             stmt.executeUpdate(LastGameTable);
 
-            System.out.println("Tables created successfully");
+            System.out.println("Tables successfully created ");
         }
     }
 
