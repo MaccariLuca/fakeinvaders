@@ -4,7 +4,7 @@ package modelPack;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import ViewPack.Board;
+import controllerPack.Board;
 
 public class FakeInvaders extends JFrame  {
 
@@ -26,7 +26,14 @@ public class FakeInvaders extends JFrame  {
         setVisible(true);
         ImageIcon icon = new ImageIcon("src/main/java/images/ship.png");
 		setIconImage(icon.getImage());
-        
+        /*if(board.update() == 0)
+        {
+        	System.out.println("WELAHJ");
+        }
+        if(board.update() == 1)
+        {
+        	System.out.println("ORCOCANE");
+        }*/
     }
  
 }

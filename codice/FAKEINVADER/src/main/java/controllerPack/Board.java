@@ -1,15 +1,13 @@
-package ViewPack;
+package controllerPack;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import controllerPack.AlienController;
-import controllerPack.BombController;
-import controllerPack.PlayerController;
-import controllerPack.ShotController;
-
+import ViewPack.AlienView;
+import ViewPack.BombView;
+import ViewPack.ShotView;
 import modelPack.Alien;
 import modelPack.Bomb;
 import modelPack.Commons;
