@@ -1,4 +1,4 @@
-package game;
+package modelPack;
 
 import java.awt.Image;
 import javax.swing.Icon;

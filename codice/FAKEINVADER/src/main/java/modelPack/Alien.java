@@ -1,6 +1,5 @@
 package modelPack;
 
-import javax.swing.ImageIcon;
 
 public class Alien extends Sprite 
 {

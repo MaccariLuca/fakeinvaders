@@ -1,4 +1,4 @@
-package game;
+package modelPack;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,16 +12,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
+<<<<<<< HEAD
+=======
+import javax.swing.BorderFactory;
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 >>>>>>> Stashed changes
+=======
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.Border;
+
+import ViewPack.FakeInvaders;
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
 
 class Menu extends MainMenu 
 {
@@ -80,6 +92,7 @@ class Menu extends MainMenu
     	    frame.dispose();
     	});
     	
+<<<<<<< HEAD
     	
     	
     	//Score
@@ -132,6 +145,9 @@ class Menu extends MainMenu
     	
     	
     	//Rules 
+=======
+    	//RULES
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
     	JButton buttonRules = new JButton();
     	buttonRules.setBounds(345, 453, 150, 45);
     	buttonRules.setIcon(resizeIcon(iconRules, buttonRules.getWidth(), buttonRules.getHeight()));
@@ -144,8 +160,11 @@ class Menu extends MainMenu
     	    	buttonRules.setIcon(resizeIcon(iconRules, buttonRules.getWidth(), buttonRules.getHeight())); 
     	    }
     	});
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
     	
     	buttonRules.addActionListener(e -> {
 		    
@@ -164,6 +183,7 @@ class Menu extends MainMenu
 				        g.drawImage(image, -45, -100, 768, 768, this);
 				    }
 				});
+<<<<<<< HEAD
 			} catch (IOException exception) 
             {
 				// TODO Auto-generated catch block
@@ -172,6 +192,16 @@ class Menu extends MainMenu
 
             ImageIcon iconMainMenu = new ImageIcon("src/main/java/images/mainMenu.png");
             ImageIcon iconMainMenuHover = new ImageIcon("src/main/java/images/mainMenuPush.png");
+=======
+			} catch (IOException e2) 
+            {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+
+            ImageIcon iconMainMenu = new ImageIcon("src/main/java/images/mainMenu.png");
+            ImageIcon iconMainMenuPush = new ImageIcon("src/main/java/images/mainMenuPush.png");
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
 
             rulesframe.setLayout(null);
             rulesframe.setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
@@ -192,7 +222,16 @@ class Menu extends MainMenu
             rulesTextArea.setBackground(Color.black);
             rulesTextArea.setForeground(Color.white);
             
+<<<<<<< HEAD
             rulesTextArea.setText("qui ci vanno le regole :)");
+=======
+            rulesTextArea.setText("HOW TO PLAY THE GAME\n");
+            rulesTextArea.append("KILL ALL THE ALIENS TO GET THE HARDEST LEVEL POSSIBLE!\n\n");
+            rulesTextArea.append("Arrows:\t Move the player's ship\n");
+            rulesTextArea.append("Spacebar:\t Shoot your bullet. You can't shoot until the previous bullet has reached an alien\n\t or the border of the gameboard\n");
+            rulesTextArea.append("R button:\t Shoot your powershot! You can shoot only once per level\n\n");
+            rulesTextArea.append("If an alien reaches the bottom border OR an alien's shot kills you, YOU LOSE!");
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
  
             JButton buttonBack = new JButton();
             buttonBack.setBounds(215, 470, 260, 47);
@@ -202,7 +241,11 @@ class Menu extends MainMenu
             {
         	    public void mouseEntered(java.awt.event.MouseEvent evt) 
         	    {
+<<<<<<< HEAD
         	    	buttonBack.setIcon(resizeIcon(iconMainMenuHover, buttonBack.getWidth(), buttonBack.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+=======
+        	    	buttonBack.setIcon(resizeIcon(iconMainMenuPush, buttonBack.getWidth(), buttonBack.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
         	    }
         	    public void mouseExited(java.awt.event.MouseEvent evt) 
         	    {
@@ -226,9 +269,16 @@ class Menu extends MainMenu
 
             frame.dispose();
 		});
+<<<<<<< HEAD
     	
 
     	//SCORE
+=======
+
+    	
+    	
+//SCORE
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
     	
     	JButton buttonScore = new JButton();
     	buttonScore.setBounds(175, 450, 150, 50);
@@ -276,7 +326,11 @@ class Menu extends MainMenu
 		                    });
 		
 		                    ImageIcon iconMainMenu = new ImageIcon("src/main/java/images/mainMenu.png");
+<<<<<<< HEAD
 		                    ImageIcon iconMainMenuHover = new ImageIcon("src/main/java/images/mainMenuPush.png");
+=======
+		                    ImageIcon iconMainMenuPush = new ImageIcon("src/main/java/images/mainMenuPush.png");
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
 		
 		                    scoreframe.setLayout(null);
 		                    scoreframe.setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
@@ -288,8 +342,13 @@ class Menu extends MainMenu
 		                    scrollPane.setBounds(85,50,500,400);
 		                    scoreframe.add(scrollPane);
 		                    
+<<<<<<< HEAD
 		                    Color color = new Color(0, 186, 224);
 		                    Border compoundBorder = BorderFactory.createMatteBorder(2, 2, 2, 2,color);
+=======
+		                    Color colore = new Color(0, 186, 224);
+		                    Border compoundBorder = BorderFactory.createMatteBorder(2, 2, 2, 2,colore);
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
 
 		                    scrollPane.setBorder(compoundBorder);
 		                  
@@ -305,7 +364,11 @@ class Menu extends MainMenu
 		                    buttonBack.addMouseListener(new java.awt.event.MouseAdapter() 
 		                    {
 	                    	    public void mouseEntered(java.awt.event.MouseEvent evt) {
+<<<<<<< HEAD
 	                    	    	buttonBack.setIcon(resizeIcon(iconMainMenuHover, buttonBack.getWidth(), buttonBack.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+=======
+	                    	    	buttonBack.setIcon(resizeIcon(iconMainMenuPush, buttonBack.getWidth(), buttonBack.getHeight())); // cambia icona quando il mouse entra nell'area del pulsante
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
 	                    	    }
 	
 	                    	    public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -318,8 +381,13 @@ class Menu extends MainMenu
 		                        try {
 		                            new Menu();
 		                            scoreframe.dispose();
+<<<<<<< HEAD
 		                        } catch (IOException exception2) {
 		                        	exception2.printStackTrace();
+=======
+		                        } catch (IOException e1) {
+		                            e1.printStackTrace();
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
 		                        }
 		                    });
 		
@@ -345,12 +413,18 @@ class Menu extends MainMenu
 		        ex.printStackTrace();
 		    }
 		});
+<<<<<<< HEAD
 >>>>>>> Stashed changes
 
     	
     	
     	
     	//Exit
+=======
+
+    	
+    	//EXIT
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
     	JButton buttonExit = new JButton();
     	buttonExit.setBounds(285, 520, 100, 50);
     	buttonExit.setIcon(resizeIcon(iconExit, buttonExit.getWidth(), buttonExit.getHeight()));
@@ -371,6 +445,11 @@ class Menu extends MainMenu
     	});
     	
     	
+<<<<<<< HEAD
+=======
+    	
+    	
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd
         frame.add(buttonStart);
         frame.add(buttonScore);
         frame.add(buttonExit);
@@ -382,6 +461,7 @@ class Menu extends MainMenu
 		frame.setResizable(false);
 		frame.setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 		frame.setLocationRelativeTo(null);
+<<<<<<< HEAD
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
 	}
@@ -389,3 +469,9 @@ class Menu extends MainMenu
 }
 
 
+=======
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	}
+}
+>>>>>>> 87262c081c5e6465d423307c817733412d7861fd

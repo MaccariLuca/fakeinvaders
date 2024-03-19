@@ -1,31 +1,17 @@
-package ViewPack;
+package game;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-
-import controllerPack.PlayerController;
-import modelPack.Alien;
-import modelPack.Bomb;
-import modelPack.Commons;
-import modelPack.GameOverMenu;
-import modelPack.Player;
-import modelPack.PowerShot;
-import modelPack.Shot;
-
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,32 +28,24 @@ public class Board extends JPanel
 	
 	private Dimension d;
     private List<Alien> aliens;
-    private PlayerController player;
-    private Player playerView = new Player();
+    private Player player;
     private Shot shot;
     private PowerShot powerShot;
     boolean powerShotShooted = true;
     
     private int direction = -1;
     private int deaths = 0;
-    private int score = deaths;
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";
-    private String message = "Game Over";
 
     private Timer timer;
 
-    private int level = 1;
-    private int increaseLine = 0;
-    private int increaseColums = 0;
-    
-    private int targetDeaths = 0;
 
     public Board() {
 
         initBoard();
-        gameCycle();
+        gameInit();
     }
 
     private void initBoard() 
@@ -81,43 +59,27 @@ public class Board extends JPanel
         timer = new Timer(Commons.DELAY, new GameCycle()); //used to control the state of the aliens in the game
         timer.start();
 
-        gameCycle();
+        gameInit();
     }
 
 
-    //TODO
-    private void gameCycle()
+    private void gameInit() 
     {
-    	gameInit(level);
-    }
-    
-    private void gameInit(int level) 
-    {
+
         aliens = new ArrayList<>();
 
-        
-        if(level % 2 == 0) 
+        for (int i = 0; i < 3; i++) 
         {
-        	increaseColums++;
-        }else
-        {
-        	if(level != 1)
-        		increaseLine++;
-        }
-        
-        for (int i = 0; i < 3 + increaseLine; i++) 
-        {
-            for (int j = 0; j < 6 + increaseColums; j++) 
+            for (int j = 0; j < 6; j++) 
             {
+
                 var alien = new Alien(Commons.ALIEN_INIT_X + 50 * j,
                         Commons.ALIEN_INIT_Y + 50 * i);
                 aliens.add(alien); //paints the alien...
             }
         }
-        
-        targetDeaths = (3 + increaseLine)* (6 + increaseColums);
-        
-        player = new PlayerController(playerView);//...the player...
+
+        player = new Player();//...the player...
         shot = new Shot();//...and the shot
         powerShot = new PowerShot();
     }
@@ -141,14 +103,14 @@ public class Board extends JPanel
 
     private void drawPlayer(Graphics g) {
 
-        if (playerView.isVisible()) {
+        if (player.isVisible()) {
 
-            g.drawImage(playerView.getImage(), playerView.getX(), playerView.getY(), this);
+            g.drawImage(player.getImage(), player.getX(), player.getY(), this);
         }
 
-        if (playerView.isDying()) {
+        if (player.isDying()) {
 
-            playerView.die();
+            player.die();
             inGame = false;
         }
     }
@@ -168,7 +130,6 @@ public class Board extends JPanel
             g.drawImage(powerShot.getImage(), powerShot.getX(), powerShot.getY(), this);
         }
     }
-    
     private void drawBomb(Graphics g) {
 
         for (Alien a : aliens) {
@@ -226,12 +187,13 @@ public class Board extends JPanel
 	        @Override
 	        public void actionPerformed(ActionEvent e) 
 	        {
+	            
 	            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(Board.this);
 	            frame.dispose();
 	            g.dispose();
 	
 	            try {
-	                new GameOverMenu(score);
+	                new GameOverMenu(deaths);
 	            } catch (IOException ex) {
 	                ex.printStackTrace();
 	            }
@@ -243,42 +205,19 @@ public class Board extends JPanel
     }
     
 
-    //numeri dispari --> aumento righe + 6
-    //numeri pari --> aumento colonne + 3
 
-    
-    //livello 1 --> 18 alieni
-    //livello 2 --> 21  --> 3*7 5 in piu del liv
-    //livello 3 --> 27 -->  3*9 6 in piu del liv
-    //livello 4 --> 30 -->  3*
-    //livello 5 --> 36
-    private void update() 
-    {
-        if (deaths == targetDeaths) 
-        {
-        	level++;
-        	/*
-        	if (level % 2 == 0) {
-                // Livello pari
-            	targetDeaths += 3;
-            	System.out.println("livello pari : " + targetDeaths);
-               
-            } else {
-                // Livello dispari
-            	if(level != 1)
-            		targetDeaths += 6;	
-            	System.out.println("livello dispari " + targetDeaths);
-            }
-        	*/
-        	System.out.println(targetDeaths);
-        	powerShotShooted = true;
-        	deaths = 0;
-        	gameCycle();
+    private void update() {
+
+        if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
+
+            inGame = false;
+            timer.stop();
+            message = "Game won!";
+            
         }
-        
 
         // player
-        playerView.act();
+        player.act();
 
         // shot
         if (shot.isVisible() || powerShot.isVisible()) {
@@ -304,7 +243,13 @@ public class Board extends JPanel
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;//TODO
+<<<<<<< Updated upstream
+=======
                         score++;
+
+                        
+                    	System.out.println(score);
+>>>>>>> Stashed changes
                         shot.die();
                     }
                 }
@@ -318,7 +263,12 @@ public class Board extends JPanel
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;//TODO
+<<<<<<< Updated upstream
+=======
                         score++;
+
+                    	System.out.println(score);
+>>>>>>> Stashed changes
                         shot.die();
                     }
                 }
@@ -332,11 +282,12 @@ public class Board extends JPanel
             } else {
                 shot.setY(y);
             }
+            
+            
         }
 
      // shot
-        if (powerShot.isVisible()) 
-        {
+        if (powerShot.isVisible()) {
 
             int pShotX = shot.getX();
             int pShotY = shot.getY();
@@ -346,8 +297,7 @@ public class Board extends JPanel
                 int alienX = alien.getX();
                 int alienY = alien.getY();
 
-                if (alien.isVisible() && shot.isVisible()) 
-                {
+                if (alien.isVisible() && shot.isVisible()) {
                     if (pShotX >= (alienX)
                         && pShotX <= (alienX + Commons.ALIEN_WIDTH)
                         && pShotY >= (alienY)
@@ -357,7 +307,6 @@ public class Board extends JPanel
                         alien.setImage(icon.getImage());
                         alien.setDying(true);
                         deaths++;//TODO
-                        score++;
                         shot.die();
                     }
                 }
@@ -371,6 +320,8 @@ public class Board extends JPanel
             } else {
                 powerShot.setY(y);
             }
+            
+            
         }
 
         // aliens
@@ -418,7 +369,6 @@ public class Board extends JPanel
 
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                     inGame = false;
-                    message = "Invasion!";
                 }
 
                 alien.act(direction);
@@ -444,10 +394,10 @@ public class Board extends JPanel
 
             int bombX = bomb.getX();
             int bombY = bomb.getY();
-            int playerX = playerView.getX();
-            int playerY = playerView.getY();
+            int playerX = player.getX();
+            int playerY = player.getY();
 
-            if (playerView.isVisible() && !bomb.isDestroyed()) //used to determine if the player is shot
+            if (player.isVisible() && !bomb.isDestroyed()) //used to determine if the player is shot
             {
 
                 if (bombX >= (playerX)
@@ -457,8 +407,8 @@ public class Board extends JPanel
                 {
 
                     var icon = new ImageIcon(explImg); //image of the player being shot
-                    playerView.setImage(icon.getImage());
-                    playerView.setDying(true);
+                    player.setImage(icon.getImage());
+                    player.setDying(true);
                     bomb.setDestroyed(true);
                 }
             }
@@ -510,8 +460,8 @@ public class Board extends JPanel
 
             player.keyPressed(e);
 
-            int x = playerView.getX();
-            int y = playerView.getY();
+            int x = player.getX();
+            int y = player.getY();
 
             int key = e.getKeyCode();
 
