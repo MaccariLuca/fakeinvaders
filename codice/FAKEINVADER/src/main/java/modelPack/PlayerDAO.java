@@ -21,7 +21,6 @@ public class PlayerDAO {
         }
     }
 
-
     public boolean playerExists(String username) throws SQLException {
         String sql = "SELECT * FROM PLAYERS WHERE USERNAME = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -43,6 +42,6 @@ public class PlayerDAO {
         }
     }
 
-
-    // Aggiungi altri metodi per le operazioni CRUD sui giocatori secondo necessità
+  
 }
+

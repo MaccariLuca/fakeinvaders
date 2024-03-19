@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import database.CreateDB;
 import modelPack.PlayerDAO;
 
 public class LoginMenu extends MainMenu 
@@ -135,12 +136,9 @@ public class LoginMenu extends MainMenu
 		//Listener 
 		
 		buttonLogin.addActionListener(e -> {
-			 final String DB_REL_FILE = "src/main/java/database/database.db3";
-			 final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-
 		    try {
-		        // Creazione del PlayerDAO utilizzando la connessione al database
-		        PlayerDAO playerDAO = new PlayerDAO(DriverManager.getConnection(DB_URL));
+		        // Ottieni l'istanza del PlayerDAO utilizzando la connessione al database dal Singleton
+		        PlayerDAO playerDAO = new PlayerDAO(CreateDB.getInstance().getConnection());
 
 		        // Verifica delle credenziali dell'utente nel database
 		        String usernameInput = username.getText();
@@ -151,10 +149,10 @@ public class LoginMenu extends MainMenu
 		            SessionManager.setCurrentUsername(usernameInput);
 		            frame.dispose();
 		            try {
-						new Menu();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} 
+		                new Menu();
+		            } catch (IOException e1) {
+		                e1.printStackTrace();
+		            }
 		        } else {
 		            // Se le credenziali non sono corrette, mostra un messaggio di errore
 		            System.out.println("Utente non registrato");
@@ -169,13 +167,10 @@ public class LoginMenu extends MainMenu
 		        password.setText("");
 		    }
 		});
-	
+
 
 		buttonRegistration.addActionListener(e -> {
-		    final String DB_REL_FILE = "src/main/java/database/database.db3";
-		    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
-
-		    try (Connection conn = DriverManager.getConnection(DB_URL)) {
+		    try (Connection conn =CreateDB.getInstance().getConnection()) {
 		        if (conn != null) {
 		            DatabaseMetaData meta = conn.getMetaData();
 		            System.out.println("The driver name is " + meta.getDriverName());
@@ -229,6 +224,7 @@ public class LoginMenu extends MainMenu
 		        error.setText("Unknown error");
 		    }
 		});
+
 	}
 	
 }
