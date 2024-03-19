@@ -6,8 +6,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import modelPack.LastGamesDAO;
-import modelPack.PlayerDAO;
+import database.LastGamesDAO;
+import database.PlayerDAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -7,11 +7,12 @@ import javax.swing.Timer;
 
 import ViewPack.AlienView;
 import ViewPack.BombView;
+import ViewPack.GameOverView;
 import ViewPack.ShotView;
 import modelPack.Alien;
 import modelPack.Bomb;
 import modelPack.Commons;
-import modelPack.GameOverMenu;
+import modelPack.GameOverModel;
 import modelPack.Player;
 import modelPack.PowerShot;
 import modelPack.Shot;
@@ -225,7 +226,7 @@ public class Board extends JPanel
 	            g.dispose();
 	
 	            try {
-	                new GameOverMenu(score);
+	                new GameOverController(new GameOverModel(score), new GameOverView(score));
 	            } catch (IOException ex) {
 	                ex.printStackTrace();
 	            }
