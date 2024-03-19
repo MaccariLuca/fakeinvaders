@@ -10,8 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controllerPack.AlienController;
-import game.Alien;
-import game.Commons;
 
 public class BoardTest 
 {

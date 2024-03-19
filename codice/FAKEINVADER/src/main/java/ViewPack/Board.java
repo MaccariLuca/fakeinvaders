@@ -13,10 +13,10 @@ import controllerPack.ShotController;
 import modelPack.Alien;
 import modelPack.Bomb;
 import modelPack.Commons;
+import modelPack.GameOverMenu;
 import modelPack.Player;
 import modelPack.PowerShot;
 import modelPack.Shot;
-import game.GameOverMenu;
 
 import java.awt.Color;
 import java.awt.Dimension;

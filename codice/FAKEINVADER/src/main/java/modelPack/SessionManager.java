@@ -1,4 +1,4 @@
-package game;
+package modelPack;
 
 public class SessionManager {
     private static String currentUsername;

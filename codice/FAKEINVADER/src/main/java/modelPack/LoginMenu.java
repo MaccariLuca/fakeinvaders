@@ -1,4 +1,4 @@
-package game;
+package modelPack;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -22,7 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import database.CreateDB;
-import modelPack.PlayerDAO;
 
 public class LoginMenu extends MainMenu 
 {
