@@ -14,7 +14,7 @@ public class LastGamesDAO
 {
     private static Connection connection;
     
-    final String DB_REL_FILE = "src/main/java/FAKEINVADERS_Database/FAKEINVADERS_Database.db3";
+    final String DB_REL_FILE = "src/main/java/FAKEINVADERS_Database/database.db3";
     final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
 
     public LastGamesDAO() 

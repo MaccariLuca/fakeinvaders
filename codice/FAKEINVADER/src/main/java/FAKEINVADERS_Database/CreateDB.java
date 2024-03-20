@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class CreateDB 
 {
-    public static String DB_REL_FILE = "src/main/java/FAKEINVADERS_Database/FAKEINVADERS_Database.db3";
+    public static String DB_REL_FILE = "src/main/java/FAKEINVADERS_Database/database.db3";
     public static String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
 
     private static CreateDB instance = new CreateDB();
