@@ -11,7 +11,6 @@ import modelPack.PlayerDAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -57,11 +56,11 @@ public class DatabaseTest
     public void testRetrieveLastGamesForPlayer() throws SQLException 
     {
         // Esegui un'operazione di recupero degli ultimi giochi di un giocatore dal database
-        LastGamesDAO lastGamesDAO = new LastGamesDAO();
-        ResultSet lastGames = lastGamesDAO.getLastGamesForPlayer("testuser");
+        LastGamesDAO lastGamesDAO = new LastGamesDAO(connection);
+        List<Object[]> lastGames = lastGamesDAO.getLastGamesForPlayer("testuser");
 
         // Verifica che la lista non sia vuota
-        assertFalse(lastGames.next());
+        assertFalse(lastGames.isEmpty());
     }
 
     @AfterClass
