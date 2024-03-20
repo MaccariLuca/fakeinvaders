@@ -1,6 +1,7 @@
 package game;
 
-public class SessionManager {
+public class SessionManager 
+{
     private static String currentUsername;
 
     public static String getCurrentUsername() {
