@@ -5,7 +5,6 @@ import javax.swing.*;
 
 import controllerPack.GameOverController;
 import modelPack.Commons;
-import modelPack.Menu;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -23,9 +22,11 @@ public class GameOverView
     private final JButton backButton;
     private final JButton exitButton;
 
-    public GameOverView(int lastScore) throws IOException {
+    public GameOverView(int lastScore) throws IOException 
+    {
         frame = new JFrame();
-        frame.setContentPane(new JPanel() {
+        frame.setContentPane(new JPanel() 
+        {
             private static final long serialVersionUID = 1L;
 
             File pathmenu = new File("src/main/java/images/gameOver.jpg");
@@ -103,7 +104,6 @@ public class GameOverView
                 exitButton.setIcon(resizeIcon(iconExit, exitButton.getWidth(), exitButton.getHeight()));
             }
         });
-        
 
         // Aggiunta dei componenti al frame
         frame.add(scoreLabel);
@@ -119,8 +119,6 @@ public class GameOverView
         frame.setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        
     }
 
     // Metodo per ridimensionare un'icona

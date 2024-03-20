@@ -3,7 +3,6 @@ package ViewPack;
 import javax.swing.*;
 
 import modelPack.Commons;
-import modelPack.Menu;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -163,13 +162,5 @@ public class LoginView
         frame.dispose();
     }
 
-    // Metodo per aprire una nuova schermata
-    public void openNewScreen() {
-    	try {
-			new Menu();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
+    
 }

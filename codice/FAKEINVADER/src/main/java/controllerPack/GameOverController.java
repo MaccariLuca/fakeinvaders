@@ -5,8 +5,8 @@ import modelPack.GameOverModel;
 import java.io.IOException;
 
 import ViewPack.GameOverView;
+import ViewPack.MenuView;
 import modelPack.FakeInvaders;
-import modelPack.Menu;
 
 public class GameOverController 
 {
@@ -24,21 +24,24 @@ public class GameOverController
         view.addExitButtonListener(e -> exitGame());
     }
 
-    private void startNewGame() {
+    private void startNewGame() 
+    {
         new FakeInvaders();
         view.dispose();
     }
 
-    private void returnToMainMenu() {
+    private void returnToMainMenu() 
+    {
         try {
-            new Menu();
+            new MenuController(new MenuView());
             view.dispose();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
     }
 
-    private void exitGame() {
+    private void exitGame() 
+    {
         view.dispose();
     }
 }

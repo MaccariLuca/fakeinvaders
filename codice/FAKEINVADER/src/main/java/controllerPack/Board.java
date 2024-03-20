@@ -6,8 +6,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import ViewPack.AlienView;
+import ViewPack.BoardView;
 import ViewPack.BombView;
 import ViewPack.GameOverView;
+import ViewPack.PlayerView;
+import ViewPack.PowerShotView;
 import ViewPack.ShotView;
 import modelPack.Alien;
 import modelPack.Bomb;
@@ -18,7 +21,6 @@ import modelPack.PowerShot;
 import modelPack.Shot;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,14 +35,18 @@ public class Board extends JPanel
 {
 	private static final long serialVersionUID = 2797967856640653592L;//AUTO_GENERATED
 	
-	private Dimension dimension;
+	private BoardView view;
     private List<AlienController> aliens;
     private PlayerController player;
-    private Player playerView = new Player();
+    private PlayerView playerView;
+    private Player playerModel;
+    private PlayerController playerController;
     private Shot shot;
     private ShotView shotView;
     private ShotController shotController;
+    private PowerShotView powerShotView;
     private PowerShot powerShot;
+    private PowerShotController powerShotController;
     private boolean powerShotShooted = true;
     
     private int direction = -1;
@@ -58,6 +64,7 @@ public class Board extends JPanel
 
     public Board() {
 
+        this.view = new BoardView();
         initBoard();
         gameCycle();
     }
@@ -67,8 +74,9 @@ public class Board extends JPanel
 
         addKeyListener(new TAdapter()); //keylistener to listen to the player's keyboard
         setFocusable(true); //board focusable
-        dimension = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT); //Dimension based on the default dimension
-        setBackground(Color.black); //background black like the space
+        
+        view.setFocusable(true); //board focusable
+        view.setBackground(Color.black); //background black like the space
 
         timer = new Timer(Commons.DELAY, new GameCycle()); //used to control the state of the alienModels in the game
         timer.start();
@@ -99,9 +107,7 @@ public class Board extends JPanel
             for (int j = 0; j < 6 + increaseColums; j++) 
             {
                 var alien = new Alien(Commons.ALIEN_INIT_X + 50 * j, Commons.ALIEN_INIT_Y + 50 * i);
-                //alienModels.add(alien);
                 var alienView = new AlienView(Commons.ALIEN_INIT_Y + 50 * i);
-                //alienViews.add(alienView);
                 var alienController = new AlienController(alien, alienView);
                 aliens.add(alienController);
             }
@@ -109,11 +115,15 @@ public class Board extends JPanel
         
         targetDeaths = (3 + increaseLine)* (6 + increaseColums);
         
-        player = new PlayerController(playerView);//...the player...
+        playerModel = new Player();
+        playerView = new PlayerView();
+        playerController = new PlayerController(playerModel, playerView);//...the player...
         shot = new Shot();//...and the shot
         shotView = new ShotView();
         shotController = new ShotController(shot, shotView);
-        powerShot = new PowerShot();
+        powerShot = new PowerShot(0, 0);
+        powerShotView = new PowerShotView();
+        powerShotController = new PowerShotController(powerShot, powerShotView);
     }
 
     private void drawAliens(Graphics g) 
@@ -136,14 +146,14 @@ public class Board extends JPanel
     private void drawPlayer(Graphics g) 
     {
 
-        if (playerView.isVisible()) 
+        if (playerController.isVisible()) 
         {
-            g.drawImage(playerView.getImage(), playerView.getX(), playerView.getY(), this);
+            g.drawImage(playerController.getImage(), playerController.getX(), playerController.getY(), this);
         }
 
-        if (playerView.isDying()) 
+        if (playerController.isDying()) 
         {
-            playerView.die();
+            playerController.die();
             inGame = false;
         }
     }
@@ -158,9 +168,9 @@ public class Board extends JPanel
 
     private void drawPowerShot(Graphics g) 
     {
-		if (powerShot.isVisible()) 
+		if (powerShotController.isVisible()) 
 		{
-            g.drawImage(powerShot.getImage(), powerShot.getX(), powerShot.getY(), this);
+            g.drawImage(powerShotController.getImage(), powerShotController.getX(), powerShotController.getY(), this);
         }
     }
     
@@ -188,10 +198,7 @@ public class Board extends JPanel
 
     private void doDrawing(Graphics g) 
     {
-        g.setColor(Color.black);
-        g.fillRect(0, 0, dimension.width, dimension.height);
-        g.setColor(Color.green);
-
+        view.doDrawing(g);
         if (inGame) 
         {
             g.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
@@ -237,217 +244,6 @@ public class Board extends JPanel
         timer.start(); // Avvia il timer
     }
     
-    /*
-    
-    private void update() 
-    {
-        if (deaths == targetDeaths) 
-        {
-        	level++;
-        	powerShotShooted = true;
-        	deaths = 0;
-        	gameCycle();
-        }
-
-        // player
-        playerView.act();
-
-        // shot
-        if (shotController.getView().isVisible() || powerShot.isVisible()) 
-        {
-            int shotX = shotController.getX();
-            int shotY = shotController.getY();
-            
-            int pShotX = powerShot.getX();
-            int pShotY = powerShot.getY();
-
-            for (AlienController alien : aliens) 
-            {
-                int alienX = alien.getX();
-                int alienY = alien.getY();
-
-                if (alien.isVisible() && shot.isVisible()) 
-                {
-                    if (shotX >= (alienX)
-                        && shotX <= (alienX + Commons.ALIEN_WIDTH)
-                        && shotY >= (alienY)
-                        && shotY <= (alienY + Commons.ALIEN_HEIGHT))
-                    {
-
-                        alien.setDying(true);
-                        deaths++;
-                        score++;
-                        shotController.die();
-                    }
-                }
-                if (alien.isVisible() && powerShot.isVisible()) 
-                {
-                    if (pShotX >= (alienX)
-                        && pShotX <= (alienX + Commons.ALIEN_WIDTH)
-                        && pShotY >= (alienY)
-                        && pShotY <= (alienY + Commons.ALIEN_HEIGHT))
-                    {
-
-                        alien.setDying(true);
-                        deaths++;
-                        score++;
-                        shotController.die();
-                    }
-                }
-            }
-
-            int y = shotController.getY();
-            y -= 4;
-
-            if (y < 1) {
-                shotController.die();
-            } else {
-                shotController.setY(y);
-            }
-        }
-
-        // shot
-        if (powerShot.isVisible()) 
-        {
-
-            int pShotX = shotController.getX();
-            int pShotY = shotController.getY();
-
-            for (AlienController alien : aliens) {
-
-                int alienX = alien.getX();
-                int alienY = alien.getY();
-
-                if (alien.isVisible() && shotController.isVisible()) 
-                {
-                    if (pShotX >= (alienX)
-                        && pShotX <= (alienX + Commons.ALIEN_WIDTH)
-                        && pShotY >= (alienY)
-                        && pShotY <= (alienY + Commons.ALIEN_HEIGHT)){
-
-                        alien.setDying(true);
-                        deaths++;
-                        score++;
-                        shotController.die();
-                    }
-                }
-            }
-
-            int y = powerShot.getY();
-            y -= 4;
-
-            if (y < 0) {
-                powerShot.die();
-            } else {
-                powerShot.setY(y);
-            }
-        }
-
-        // aliens
-
-        for (AlienController alien : aliens) {
-
-            int x = alien.getX();
-
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
-
-                direction = -1;
-
-                Iterator<AlienController> i1 = aliens.iterator();
-
-                while (i1.hasNext()) {
-
-                    AlienController a2 = i1.next();
-                    a2.setY(a2.getY() + Commons.GO_DOWN);
-                }
-            }
-
-            if (x <= Commons.BORDER_LEFT && direction != 1) {
-
-                direction = 1;
-
-                Iterator<AlienController> i2 = aliens.iterator();
-
-                while (i2.hasNext()) {
-
-                    AlienController a = i2.next();
-                    a.setY(a.getY() + Commons.GO_DOWN);
-                }
-            }
-        }
-
-        Iterator <AlienController> it = aliens.iterator();
-
-        while (it.hasNext()) 
-        {
-
-            AlienController alien = it.next();
-
-            if (alien.isVisible()) {
-
-                int y = alien.getY();
-
-                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
-                    inGame = false;
-                }
-
-                alien.act(direction);
-            }
-        }
-
-        // bombs
-        
-        var generator = new Random();
-
-        for (AlienController alien : aliens)
-        {
-
-            int shot = generator.nextInt(350);//random number that defines the time value of the shot (1 in 350 chance to shoot)
-            Bomb bomb = alien.getBomb();
-            BombView bombView = new BombView();
-            BombController bombController = new BombController(bomb, bombView);
-
-            if (shot == 0 && alien.isVisible() && bombController.isDestroyed()) //if the alien is still alive and the bomb is destroyed
-            {
-                bombController.setDestroyed(false);
-                bombController.getBomb().setX(alien.getX());
-                bombController.getBomb().setY(alien.getY());
-            }
-
-            int bombX = bombController.getBomb().getX();
-            int bombY = bombController.getBomb().getY();
-            int playerX = playerView.getX();
-            int playerY = playerView.getY();
-
-            if (playerView.isVisible() && !bombController.isDestroyed()) //used to determine if the player is shot
-            {
-
-                if (bombX >= (playerX)
-                        && bombX <= (playerX + Commons.PLAYER_WIDTH)
-                        && bombY >= (playerY)
-                        && bombY <= (playerY + Commons.PLAYER_HEIGHT)) 
-                {
-
-                      playerView.setDying(true);
-                    bombController.setDestroyed(true);
-                }
-            }
-
-            if (!bombController.isDestroyed()) 
-            {
-
-                bombController.getBomb().setY(bombController.getBomb().getY() + 1);
-
-                if (bombController.getBomb().getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) 
-                {
-
-                    bombController.getBomb().setDestroyed(true);
-                }
-            }
-        }
-    }
-    */
-    
     private void update() 
     {
         updateGameState();
@@ -471,7 +267,7 @@ public class Board extends JPanel
 
     private void updatePlayer() 
     {
-        playerView.act();
+        playerController.act();
     }
 
     private void updateShots() 
@@ -523,7 +319,7 @@ public class Board extends JPanel
 
     private void updatePowerShot() 
     {
-        if (powerShot.isVisible()) 
+        if (powerShotController.isVisible()) 
         {
             handlePowerShotCollisions();
             movePowerShot();
@@ -532,15 +328,15 @@ public class Board extends JPanel
 
     private void handlePowerShotCollisions() 
     {
-        int pShotX = powerShot.getX();
-        int pShotY = powerShot.getY();
+        int pShotX = powerShotController.getX();
+        int pShotY = powerShotController.getY();
 
         for (AlienController alien : aliens) 
         {
             int alienX = alien.getX();
             int alienY = alien.getY();
 
-            if (alien.isVisible() && powerShot.isVisible() && pShotX >= alienX && pShotX <= alienX + Commons.ALIEN_WIDTH
+            if (alien.isVisible() && powerShotController.isVisible() && pShotX >= alienX && pShotX <= alienX + Commons.ALIEN_WIDTH
                     && pShotY >= alienY && pShotY <= alienY + Commons.ALIEN_HEIGHT) 
             {
                 alien.setDying(true);
@@ -553,11 +349,11 @@ public class Board extends JPanel
 
     private void movePowerShot() 
     {
-        int y = powerShot.getY() - 4;
+        int y = powerShotController.getY() - 4;
         if (y < 0) {
-            powerShot.die();
+        	powerShotController.die();
         } else {
-            powerShot.setY(y);
+        	powerShotController.setY(y);
         }
     }
 
@@ -627,17 +423,17 @@ public class Board extends JPanel
 
              int bombX = bombController.getBomb().getX();
              int bombY = bombController.getBomb().getY();
-             int playerX = playerView.getX();
-             int playerY = playerView.getY();
+             int playerX = playerController.getX();
+             int playerY = playerController.getY();
 
-             if (playerView.isVisible() && !bombController.isDestroyed()) //used to determinate if the player is shot
+             if (playerController.isVisible() && !bombController.isDestroyed()) //used to determinate if the player is shot
              {
                  if (bombX >= (playerX)
                          && bombX <= (playerX + Commons.PLAYER_WIDTH)
                          && bombY >= (playerY)
                          && bombY <= (playerY + Commons.PLAYER_HEIGHT)) 
                  {
-                       playerView.setDying(true);
+                       playerController.setDying(true);
                      bombController.setDestroyed(true);
                  }
              }
@@ -680,16 +476,16 @@ public class Board extends JPanel
         public void keyReleased(KeyEvent e) 
         {
 
-            player.keyReleased(e);
+            playerController.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) 
         {
-            player.keyPressed(e);
+            playerController.keyPressed(e);
 
-            int x = playerView.getX();
-            int y = playerView.getY();
+            int x = playerController.getX();
+            int y = playerController.getY();
 
             int key = e.getKeyCode();
 
@@ -711,9 +507,11 @@ public class Board extends JPanel
     			powerShotShooted = false;
             	if(inGame)
             	{
-            		if(!powerShot.isVisible())
+            		if(!powerShotController.isVisible())
             		{
             			powerShot = new PowerShot(x, y);
+            			powerShotView = new PowerShotView();
+            			powerShotController = new PowerShotController(powerShot, powerShotView);
             		}
             	}			
             }

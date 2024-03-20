@@ -1,10 +1,13 @@
 package controllerPack;
 
 import modelPack.LoginModel;
+import modelPack.SessionManager;
 import ViewPack.LoginView;
+import ViewPack.MenuView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class LoginController 
 {
@@ -16,21 +19,29 @@ public class LoginController
         this.model = model;
         this.view = view;
 
-        // Aggiunta dei listener per i pulsanti
         view.addLoginListener(new LoginButtonListener());
         view.addRegistrationListener(new RegistrationButtonListener());
     }
 
     // ActionListener per il pulsante di login
-    private class LoginButtonListener implements ActionListener {
+    private class LoginButtonListener implements ActionListener 
+    {
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) 
+        {
             String username = view.getUsername();
             String password = view.getPassword();
-            boolean loginSuccess = model.checkCredentials(username, password);
-            if (loginSuccess) {
+
+            if (model.checkCredentials(username, password)) 
+            {
+            	SessionManager.setCurrentUsername(username);
                 view.dispose();
-                view.openNewScreen();
+                try {
+					new MenuController(new MenuView());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             } else {
                 view.showError("Attention: unregistered user!");
             }
@@ -40,12 +51,20 @@ public class LoginController
     // ActionListener per il pulsante di registrazione
     private class RegistrationButtonListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) 
+        {
             String username = view.getUsername();
             String password = view.getPassword();
-            if (model.registerPlayer(username, password)) {
+            if (model.registerPlayer(username, password)) 
+            {
+            	SessionManager.setCurrentUsername(username);
 			    view.dispose();
-			    view.openNewScreen();
+			    try {
+					new MenuController(new MenuView());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} else {
 			    view.showError("Attention: User already registered!");
 			}
