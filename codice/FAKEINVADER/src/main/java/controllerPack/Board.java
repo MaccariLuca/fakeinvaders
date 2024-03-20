@@ -31,8 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Board extends JPanel 
+public class Board extends JPanel
 {
+	
 	private static final long serialVersionUID = 2797967856640653592L;//AUTO_GENERATED
 	
 	private BoardView view;

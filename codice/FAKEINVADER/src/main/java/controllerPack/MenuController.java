@@ -2,7 +2,6 @@ package controllerPack;
 
 import java.io.IOException;
 import ViewPack.MenuView;
-import modelPack.FakeInvaders;
 
 public class MenuController 
 {

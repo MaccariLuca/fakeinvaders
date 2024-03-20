@@ -14,11 +14,12 @@ public class LoginController
     private final LoginModel model;
     private final LoginView view;
 
-    public LoginController(LoginModel model, LoginView view) 
+    public LoginController() throws IOException 
     {
-        this.model = model;
-        this.view = view;
-
+    	model = new LoginModel();
+    	view = new LoginView();
+		
+    
         view.addLoginListener(new LoginButtonListener());
         view.addRegistrationListener(new RegistrationButtonListener());
     }

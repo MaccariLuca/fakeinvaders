@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import ViewPack.GameOverView;
 import ViewPack.MenuView;
-import modelPack.FakeInvaders;
 
 public class GameOverController 
 {

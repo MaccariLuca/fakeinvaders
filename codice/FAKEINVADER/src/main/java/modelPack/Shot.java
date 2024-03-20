@@ -8,10 +8,6 @@ public class Shot extends Sprite {
 
     public Shot(int x, int y) 
     {
-        var shotImg = "src/main/java/images/shot.png";
-        var ii = new ImageIcon(shotImg);
-        setImage(ii.getImage());
-
         int H_SPACE = 17;
         setX(x + H_SPACE);
 
