@@ -100,7 +100,7 @@ public class Board extends JPanel
     {
         powerShot = new PowerShot(0, 0);
         powerShotView = new PowerShotView();
-        powerShotController = new PowerShotController(powerShot, powerShotView);
+        powerShotController = new PowerShotController(getPowerShot(), powerShotView);
     }
 
     private void initializeKeyAndFocus() 
@@ -272,7 +272,7 @@ public class Board extends JPanel
         if (deaths == targetDeaths) 
         {
             level++;
-            powerShotShooted = true;
+            setPowerShotShooted(true);
             deaths = 0;
             gameInit(level);
         }
@@ -330,16 +330,16 @@ public class Board extends JPanel
         }
     }
 
-    private void updatePowerShot() 
+    public void updatePowerShot() 
     {
         if (powerShotController.isVisible()) 
         {
             handlePowerShotCollisions();
             movePowerShot();
-        }
+        }       
     }
 
-    private void handlePowerShotCollisions() 
+    public void handlePowerShotCollisions() 
     {
         int pShotX = powerShotController.getX();
         int pShotY = powerShotController.getY();
@@ -356,14 +356,19 @@ public class Board extends JPanel
                 deaths++;
                 score++;
                 shotController.die();
+            }    
+            
+            if(pShotY >= Commons.BOARD_HEIGHT)
+            {
+            	setPowerShotShooted(false);
             }
         }
     }
 
-    private void movePowerShot() 
+    public void movePowerShot() 
     {
         int y = powerShotController.getY() - 4;
-        if (y < 0) {
+        if (y < 0) {       	
         	powerShotController.die();
         } else {
         	powerShotController.setY(y);
@@ -405,7 +410,7 @@ public class Board extends JPanel
         }
     }
 
-    private void handleAlienCollisions() 
+    public void handleAlienCollisions() 
     {
         for (AlienController alien : aliens) 
         {
@@ -514,17 +519,17 @@ public class Board extends JPanel
                     }
                 }
             }
-            if(key == KeyEvent.VK_R && powerShotShooted)
+            if(key == KeyEvent.VK_R && isPowerShotShooted())
             {
 
-    			powerShotShooted = false;
+    			setPowerShotShooted(false);
             	if(inGame)
             	{
             		if(!powerShotController.isVisible())
             		{
             			powerShot = new PowerShot(x, y);
             			powerShotView = new PowerShotView();
-            			powerShotController = new PowerShotController(powerShot, powerShotView);
+            			powerShotController = new PowerShotController(getPowerShot(), powerShotView);
             		}
             	}			
             }
@@ -580,6 +585,22 @@ public class Board extends JPanel
 
 		public void setDirection(int direction) {
 			this.direction = direction;
+		}
+
+		public boolean isPowerShotShooted() {
+			return powerShotShooted;
+		}
+
+		public void setPowerShotShooted(boolean powerShotShooted) {
+			this.powerShotShooted = powerShotShooted;
+		}
+
+		public PowerShot getPowerShot() {
+			return powerShot;
+		}
+
+		public void setPowerShot(PowerShotController powerShot2) {
+			this.powerShotController = powerShot2;
 		}
         
 
