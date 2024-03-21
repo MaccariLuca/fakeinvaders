@@ -17,35 +17,37 @@ public class BoardTest {
     private Board board;
 
     @Before
-    public void setUp() {
+    public void setUp() 
+    {
         board = new Board();
     }
 
     @Test
-    public void testLevelIncrementation() {
-        // Set up mocks for aliens and deaths
+    public void testLevelIncrementation() 
+    {
+        // Set up dei mock per aliens e deaths
         List<AlienController> aliensMock = new ArrayList<>();
-        for (int i = 0; i < 18; i++) {
-            aliensMock.add(mock(AlienController.class));
-        }
+        for (int i = 0; i < 18; i++) { aliensMock.add(mock(AlienController.class));}
+        
         board.setAliens(aliensMock);
         board.setDeaths(18);
 
-        // Verify initial level
-        assertEquals(1, board.getLevel());
+     
+        assertEquals(1, board.getLevel());	//verfica che il game parte a livello 1 
 
-        // Verify initial increaseLine and increaseColumns
+        //verifica degli incrementi iniziali 
         assertEquals(0, board.getIncreaseLine());
         assertEquals(0, board.getIncreaseColums());
 
-        // Update game state
-        board.incrementLevel();
+        board.incrementLevel();	//incremento
 
-        // Verify level incrementation
-        assertEquals(2, board.getLevel());
+        assertEquals(2, board.getLevel());	//verifica incremento 
 
         // Verify increaseLine and increaseColumns incrementation
         assertEquals(0, board.getIncreaseLine());
         assertEquals(1, board.getIncreaseColums());
     }
+    
+    
+    
 }
