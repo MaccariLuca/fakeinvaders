@@ -22,11 +22,7 @@ public class BoardTest {
     @Test
     public void testLevelIncrementation() 
     {
-        // Set up dei mock per aliens e deaths
-        List<AlienController> aliensMock = new ArrayList<>();
-        for (int i = 0; i < 18; i++) { aliensMock.add(mock(AlienController.class));}
         
-        board.setAliens(aliensMock);
         board.setDeaths(18);
 
      
@@ -43,6 +39,24 @@ public class BoardTest {
         // Verify increaseLine and increaseColumns incrementation
         assertEquals(0, board.getIncreaseLine());
         assertEquals(1, board.getIncreaseColums());
+    }
+    
+    @Test
+    public void testPointsPerDeath()
+    {
+    	List<AlienController> aliensMock = new ArrayList<>();
+        for (int i = 0; i < 18; i++) { aliensMock.add(mock(AlienController.class));}
+        
+        board.setAliens(aliensMock);
+        for(int i = 0; i < 18; i++)
+        {
+        	if(!aliensMock.get(i).isDying()) //se l'alieno non è morto
+        	{
+        		board.setDeaths(board.getDeaths() + 1);
+        	}
+        }
+        
+        assertEquals(board.getDeaths(), 18);
     }
     
     
