@@ -9,13 +9,8 @@ public class LoginModel {
     private final PlayerDAO playerDAO;
 
     public LoginModel() {
-        try {
-            // Inizializza il DAO solo una volta per evitare la duplicazione delle connessioni al FAKEINVADERS_Database
-            playerDAO = new PlayerDAO(CreateDB.getInstance().getConnection());
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException("Errore durante l'inizializzazione del modello di login", ex);
-        }
+        // Inizializza il DAO solo una volta per evitare la duplicazione delle connessioni al FAKEINVADERS_Database
+		playerDAO = new PlayerDAO();
     }
 
     public boolean checkCredentials(String username, String password) {

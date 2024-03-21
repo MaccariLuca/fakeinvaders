@@ -1,15 +1,27 @@
 package FAKEINVADERS_Database;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PlayerDAO {
-    private Connection connection;
+public class PlayerDAO 
+{
+private static Connection connection;
+    
+    final String DB_REL_FILE = "src/main/java/FAKEINVADERS_Database/database.db3";
+    final String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
 
-    public PlayerDAO(Connection connection) {
-        this.connection = connection;
+
+    public PlayerDAO() {
+    	 PlayerDAO.setConnection(connection);
+         try {
+        	 PlayerDAO.setConnection(DriverManager.getConnection(DB_URL));
+ 		} catch (SQLException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
     }
 
     public boolean insertPlayer(String username, String password) throws SQLException {
@@ -41,7 +53,10 @@ public class PlayerDAO {
             }
         }
     }
-
+    
+    public static void setConnection(Connection connection) {
+    	PlayerDAO.connection = connection;
+	}
   
 }
 

@@ -63,31 +63,55 @@ public class Board extends JPanel
     
     private int targetDeaths = -1;
 
-    public Board() {
+    public Board() 
+    {
+        initializeViews();
+        initializePlayer();
+        initializeShot();
+        initializePowerShot();
+        initializeKeyAndFocus();
+        initializeTimer();
+        gameInit(level);
+    }
 
+    private void initializeViews() 
+    {
         this.view = new BoardView();
-        initBoard();
-        gameCycle();
+        view.setFocusable(true);
+        view.setBackground(Color.black);
     }
 
-    private void initBoard() 
+    private void initializePlayer() 
     {
+        playerModel = new Player();
+        playerView = new PlayerView();
+        playerController = new PlayerController(playerModel, playerView);
+    }
 
-        addKeyListener(new TAdapter()); //keylistener to listen to the player's keyboard
-        setFocusable(true); //board focusable
-        
-        view.setFocusable(true); //board focusable
-        view.setBackground(Color.black); //background black like the space
+    private void initializeShot() 
+    {
+        shot = new Shot();
+        shotView = new ShotView();
+        shotController = new ShotController(shot, shotView);
+    }
 
-        timer = new Timer(Commons.DELAY, new GameCycle()); //used to control the state of the alienModels in the game
+    private void initializePowerShot() 
+    {
+        powerShot = new PowerShot(0, 0);
+        powerShotView = new PowerShotView();
+        powerShotController = new PowerShotController(powerShot, powerShotView);
+    }
+
+    private void initializeKeyAndFocus() 
+    {
+        addKeyListener(new TAdapter());
+        setFocusable(true);
+    }
+
+    private void initializeTimer() 
+    {
+        timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
-
-        gameCycle();
-    }
-  
-    private void gameCycle()
-    {
-    	gameInit(level);
     }
     
     void gameInit(int level) 
@@ -113,23 +137,11 @@ public class Board extends JPanel
                 aliens.add(alienController);
             }
         }
-        
         targetDeaths = (3 + increaseLine)* (6 + increaseColums);
-        
-        playerModel = new Player();
-        playerView = new PlayerView();
-        playerController = new PlayerController(playerModel, playerView);//...the player...
-        shot = new Shot();//...and the shot
-        shotView = new ShotView();
-        shotController = new ShotController(shot, shotView);
-        powerShot = new PowerShot(0, 0);
-        powerShotView = new PowerShotView();
-        powerShotController = new PowerShotController(powerShot, powerShotView);
     }
 
     private void drawAliens(Graphics g) 
     {
-
         for (AlienController alien : aliens) {
 
             if (alien.isVisible()) {
@@ -146,7 +158,6 @@ public class Board extends JPanel
 
     private void drawPlayer(Graphics g) 
     {
-
         if (playerController.isVisible()) 
         {
             g.drawImage(playerController.getImage(), playerController.getX(), playerController.getY(), this);
@@ -262,7 +273,7 @@ public class Board extends JPanel
             level++;
             powerShotShooted = true;
             deaths = 0;
-            gameCycle();
+            gameInit(level);
         }
     }
 
@@ -533,5 +544,36 @@ public class Board extends JPanel
     public int getLevel() {
         return this.level;
     }
+    public void setAliens(List<AlienController> aliens) {
+        this.aliens = aliens;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+    public boolean getGameState() {
+        return inGame;
+    }
+
+    public void incrementLevel() {
+        updateGameState();
+    }
+
+        public int getCurrentLevel() {
+            return level;
+        }
+
+        
+        public boolean isInGame() {
+            return inGame;
+        }
+
+       
+        public int getDeaths() {
+            return deaths;
+        }
+        
+
+
     
 }

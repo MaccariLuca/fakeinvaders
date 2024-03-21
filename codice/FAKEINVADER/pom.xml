@@ -51,6 +51,14 @@
         <version>1.7.32</version>
     </dependency>
     
+    <dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version> <!-- Assicurati di utilizzare l'ultima versione -->
+    <scope>test</scope>
+</dependency>
+
+    
   </dependencies>
 
   <build>
