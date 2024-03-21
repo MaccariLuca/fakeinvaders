@@ -1,6 +1,8 @@
 package FAKEINVADERS_ControllerPack;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,8 +36,7 @@ public class BoardTest {
     {
         
         board.setDeaths(18);
-
-     
+        
         assertEquals(1, board.getLevel());	//verfica che il game parte a livello 1 
 
         //verifica degli incrementi iniziali 
@@ -118,14 +119,12 @@ public class BoardTest {
         assertEquals(board.isInGame(), false);
     }
     
-   /* @Test
+    /*
+   @Test
     public void onlyOnePowerShot()
     //in every level, the player can shoot only one powerShot
     {
     	//it's a powershot that has reached the top of the board. So it has to be shooted
-    	PowerShot model = new PowerShot(0, Commons.BOARD_HEIGHT);
-    	PowerShotView view = new PowerShotView();
-    	PowerShotController powerShot = new PowerShotController(model, view);
         
     	board.setPowerShot(powerShot);
     	board.updatePowerShot();
@@ -139,4 +138,22 @@ public class BoardTest {
     	board.handlePowerShotCollisions();
     	assertEquals(board.isPowerShotShooted(), false);
     }*/
+   
+   @Test
+   public void testPowerShotAvailabilityAfterLevelUp() {
+       // Creiamo un nuovo oggetto Board
+       Board board = new Board();
+       
+       // Assicuriamoci che il powershot sia disponibile all'inizio del gioco
+       assertTrue(board.isPowerShotShooted());
+
+       board.setPowerShotShooted(false);	//sparo un colpo
+
+       board.setTargetDeaths(0);	//metto target deaths uguale a deaths che è zero
+       
+       board.incrementLevel();
+
+       // Assicuriamoci che il powershot non sia più disponibile dopo aver superato il livello
+       assertTrue(board.isPowerShotShooted());
+   }
 }

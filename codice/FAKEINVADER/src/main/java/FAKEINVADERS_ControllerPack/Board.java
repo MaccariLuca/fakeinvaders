@@ -47,7 +47,8 @@ public class Board extends JPanel
     private ShotView shotView;
     private ShotController shotController;
     private PowerShotView powerShotView;
-    private PowerShot powerShot;
+  
+	private PowerShot powerShot;
     private PowerShotController powerShotController;
     private boolean powerShotShooted = true;
     
@@ -62,7 +63,7 @@ public class Board extends JPanel
     private int increaseLine = 0;
     private int increaseColums = 0;
     
-    private int targetDeaths = -1;
+    private int targetDeaths = -1;	//valore che è diverso dal valore iniziale di deaths
 
     public Board() 
     {
@@ -565,43 +566,171 @@ public class Board extends JPanel
         updateGameState();
     }
 
-        public int getCurrentLevel() {
-            return level;
-        }
+    public int getCurrentLevel() {
+        return level;
+    }
 
-        
-        public boolean isInGame() {
-            return inGame;
-        }
+    
+    public boolean isInGame() {
+        return inGame;
+    }
 
-       
-        public int getDeaths() {
-            return deaths;
-        }
+   
+    public int getDeaths() {
+        return deaths;
+    }
 
-		public int getDirection() {
-			return direction;
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	public boolean isPowerShotShooted() {
+		return powerShotShooted;
+	}
+
+	public void setPowerShotShooted(boolean powerShotShooted) {
+		this.powerShotShooted = powerShotShooted;
+	}
+
+	public PowerShot getPowerShot() {
+		return powerShot;
+	}
+
+	public void setPowerShot(PowerShotController powerShot2) {
+		this.powerShotController = powerShot2;
+	}
+	  public BoardView getView() {
+			return view;
 		}
 
-		public void setDirection(int direction) {
-			this.direction = direction;
+		public void setView(BoardView view) {
+			this.view = view;
 		}
 
-		public boolean isPowerShotShooted() {
-			return powerShotShooted;
+		public PlayerController getPlayer() {
+			return player;
 		}
 
-		public void setPowerShotShooted(boolean powerShotShooted) {
-			this.powerShotShooted = powerShotShooted;
+		public void setPlayer(PlayerController player) {
+			this.player = player;
 		}
 
-		public PowerShot getPowerShot() {
-			return powerShot;
+		public PlayerView getPlayerView() {
+			return playerView;
 		}
 
-		public void setPowerShot(PowerShotController powerShot2) {
-			this.powerShotController = powerShot2;
+		public void setPlayerView(PlayerView playerView) {
+			this.playerView = playerView;
 		}
+
+		public Player getPlayerModel() {
+			return playerModel;
+		}
+
+		public void setPlayerModel(Player playerModel) {
+			this.playerModel = playerModel;
+		}
+
+		public PlayerController getPlayerController() {
+			return playerController;
+		}
+
+		public void setPlayerController(PlayerController playerController) {
+			this.playerController = playerController;
+		}
+
+		public Shot getShot() {
+			return shot;
+		}
+
+		public void setShot(Shot shot) {
+			this.shot = shot;
+		}
+
+		public ShotView getShotView() {
+			return shotView;
+		}
+
+		public void setShotView(ShotView shotView) {
+			this.shotView = shotView;
+		}
+
+		public ShotController getShotController() {
+			return shotController;
+		}
+
+		public void setShotController(ShotController shotController) {
+			this.shotController = shotController;
+		}
+
+		public PowerShotView getPowerShotView() {
+			return powerShotView;
+		}
+
+		public void setPowerShotView(PowerShotView powerShotView) {
+			this.powerShotView = powerShotView;
+		}
+
+		public PowerShotController getPowerShotController() {
+			return powerShotController;
+		}
+
+		public void setPowerShotController(PowerShotController powerShotController) {
+			this.powerShotController = powerShotController;
+		}
+
+		public int getScore() {
+			return score;
+		}
+
+		public void setScore(int score) {
+			this.score = score;
+		}
+
+		public Timer getTimer() {
+			return timer;
+		}
+
+		public void setTimer(Timer timer) {
+			this.timer = timer;
+		}
+
+		public int getTargetDeaths() {
+			return targetDeaths;
+		}
+
+		public void setTargetDeaths(int targetDeaths) {
+			this.targetDeaths = targetDeaths;
+		}
+
+		public static long getSerialversionuid() {
+			return serialVersionUID;
+		}
+
+		public void setPowerShot(PowerShot powerShot) {
+			this.powerShot = powerShot;
+		}
+
+		public void setInGame(boolean inGame) {
+			this.inGame = inGame;
+		}
+
+		public void setLevel(int level) {
+			this.level = level;
+		}
+
+		public void setIncreaseLine(int increaseLine) {
+			this.increaseLine = increaseLine;
+		}
+
+		public void setIncreaseColums(int increaseColums) {
+			this.increaseColums = increaseColums;
+		}
+
         
 
 
