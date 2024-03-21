@@ -1,13 +1,16 @@
 package FAKEINVADERS_ControllerPack;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import FAKEINVADERS_ModelPack.Alien;
+import FAKEINVADERS_ModelPack.Commons;
+import FAKEINVADERS_ViewPack.AlienView;
 
 public class BoardTest {
 
@@ -44,13 +47,15 @@ public class BoardTest {
     @Test
     public void testPointsPerDeath()
     {
+    	AlienController a = new AlienController(new Alien(0,0), new AlienView(0)); //creates only an alien, we don't need really 18 aliens
     	List<AlienController> aliensMock = new ArrayList<>();
-        for (int i = 0; i < 18; i++) { aliensMock.add(mock(AlienController.class));}
+        for (int i = 0; i < 18; i++) { aliensMock.add(a);} //we put 18 aliens in the arraylist
         
-        board.setAliens(aliensMock);
+        
+        board.setAliens(aliensMock);//the aliens are set in the board
         for(int i = 0; i < 18; i++)
         {
-        	if(!aliensMock.get(i).isDying()) //se l'alieno non è morto
+        	if(!aliensMock.get(i).isDying()) //if the alien is still alive
         	{
         		board.setDeaths(board.getDeaths() + 1);
         	}
@@ -59,6 +64,29 @@ public class BoardTest {
         assertEquals(board.getDeaths(), 18);
     }
     
+    @Test
+    public void alienTouchesTheBorder()
+	{
+    	List<AlienController> aliensMock = new ArrayList<>();
+    	//creates an alien and puts it in the extreme right if the frame
+    	AlienController lastAlien = new AlienController(new Alien((Commons.BOARD_WIDTH - Commons.BORDER_RIGHT), 60), new AlienView(60));
+        aliensMock.add(lastAlien);
+        board.setAliens(aliensMock); 
+        //we expect that, moving the alien thowards right, it will bounce, changing the value of direction
+        board.setDirection(1);
+    	board.moveAliens();
+    	assertEquals(board.getDirection(), -1);
+    	
+    	//viceversa, now the alien is on the extreme left of the board
+    	AlienController anotherAlien = new AlienController(new Alien(Commons.BORDER_LEFT, 60), new AlienView(60));
+    	aliensMock.add(anotherAlien);
+        board.setAliens(aliensMock); 
+        //we expect that, moving the alien thowards left, it will bounce, changing the value of direction
+        board.setDirection(-1);
+    	board.moveAliens();
+    	assertEquals(board.getDirection(), 1);
+        
+	}
     
     
 }

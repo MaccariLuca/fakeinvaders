@@ -376,24 +376,24 @@ public class Board extends JPanel
         handleAlienCollisions();
     }
 
-    private void moveAliens() {
+    public void moveAliens() {
         for (AlienController alien : aliens) 
         {
             int x = alien.getX();
 
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) 
+            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && getDirection() != -1) 
             {
-                direction = -1;
+                setDirection(-1);
                 moveAliensDown();
             }
 
-            if (x <= Commons.BORDER_LEFT && direction != 1) 
+            if (x <= Commons.BORDER_LEFT && getDirection() != 1) 
             {
-                direction = 1;
+                setDirection(1);
                 moveAliensDown();
             }
 
-            alien.act(direction);
+            alien.act(getDirection());
         }
     }
 
@@ -573,6 +573,14 @@ public class Board extends JPanel
         public int getDeaths() {
             return deaths;
         }
+
+		public int getDirection() {
+			return direction;
+		}
+
+		public void setDirection(int direction) {
+			this.direction = direction;
+		}
         
 
 
