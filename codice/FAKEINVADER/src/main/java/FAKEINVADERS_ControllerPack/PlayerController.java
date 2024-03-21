@@ -21,10 +21,11 @@ public class PlayerController {
     {
 
         int key = e.getKeyCode();
+        System.out.println(e.getKeyCode());
 
-        if (key == KeyEvent.VK_LEFT) 
+        if (key == KeyEvent.VK_LEFT || key == 39) 
         {
-            model.setDx(-2);
+        	model.setDx(-2);
         }
 
         if (key == KeyEvent.VK_RIGHT) 
@@ -141,21 +142,13 @@ public class PlayerController {
     {
     	model.act();
     }
-	/*public int getDx() {
-		return dx;
-	}
-
-	public void setDx(int dx) {
-		this.dx = dx;
+	public int getDx() {
+		return model.getDx();
 	}
 
 	public int getUp() {
-		return up;
+		return model.getUp();
 	}
-
-	public void setUp(int up) {
-		this.up = up;
-	}*/
 
 	
 }
