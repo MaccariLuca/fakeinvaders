@@ -7,7 +7,8 @@ import FAKEINVADERS_Database.LastGamesDAO;
 
 public class GameOverModel 
 {
-    private int lastScore;
+	@SuppressWarnings("unused")
+	private int lastScore;
 
     public GameOverModel(int lastScore) 
     {

@@ -2,7 +2,6 @@ package FAKEINVADERS_ModelPack;
 
 import javax.swing.ImageIcon;
 
-import java.awt.event.KeyEvent;
 
 public class Player extends Sprite 
 {

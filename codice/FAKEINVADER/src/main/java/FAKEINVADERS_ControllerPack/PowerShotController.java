@@ -3,10 +3,8 @@ package FAKEINVADERS_ControllerPack;
 import java.awt.Image;
 
 import FAKEINVADERS_ModelPack.PowerShot;
-import FAKEINVADERS_ModelPack.Shot;
 import FAKEINVADERS_ModelPack.Sprite;
 import FAKEINVADERS_ViewPack.PowerShotView;
-import FAKEINVADERS_ViewPack.ShotView;
 
 public class PowerShotController extends Sprite {
 

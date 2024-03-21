@@ -1,7 +1,5 @@
 package FAKEINVADERS_ModelPack;
 
-import javax.swing.ImageIcon;
-
 public class Shot extends Sprite {
 
     public Shot() {}

@@ -8,9 +8,9 @@ import FAKEINVADERS_ViewPack.MenuView;
 
 public class GameOverController 
 {
+	@SuppressWarnings("unused")
 	private final GameOverModel model;
 	private final GameOverView view;
-    private int lastScore;
 
     public GameOverController(GameOverModel model ,GameOverView view ) 
     {

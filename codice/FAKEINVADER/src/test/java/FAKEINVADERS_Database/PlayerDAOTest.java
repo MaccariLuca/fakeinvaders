@@ -28,7 +28,7 @@ public class PlayerDAOTest
         mockResultSet = mock(ResultSet.class);
         
         playerDAO = new PlayerDAO();
-        playerDAO.setConnection(mockConnection);
+        PlayerDAO.setConnection(mockConnection);
     }
 
     public void testInsertPlayer() throws SQLException 

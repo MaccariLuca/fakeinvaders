@@ -2,7 +2,6 @@ package FAKEINVADERS_ModelPack;
 
 import java.sql.SQLException;
 
-import FAKEINVADERS_Database.CreateDB;
 import FAKEINVADERS_Database.PlayerDAO;
 
 public class LoginModel {

@@ -3,7 +3,6 @@ package FAKEINVADERS_ViewPack;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import FAKEINVADERS_ControllerPack.GameOverController;
 import FAKEINVADERS_ModelPack.Commons;
 
 import java.awt.*;

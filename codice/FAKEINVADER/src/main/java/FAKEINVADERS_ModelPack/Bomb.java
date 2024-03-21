@@ -1,6 +1,5 @@
 package FAKEINVADERS_ModelPack;
 
-import javax.swing.ImageIcon;
 
 public class Bomb extends Sprite 
 {   

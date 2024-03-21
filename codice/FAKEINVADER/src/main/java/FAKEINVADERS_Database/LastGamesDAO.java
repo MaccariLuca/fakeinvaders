@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -19,11 +18,11 @@ public class LastGamesDAO
 
     public LastGamesDAO() 
     {
-        this.setConnection(connection);
+        LastGamesDAO.setConnection(connection);
         try {
 			LastGamesDAO.setConnection(DriverManager.getConnection(DB_URL));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			//Auto-generated catch block
 			e.printStackTrace();
 		}
     }

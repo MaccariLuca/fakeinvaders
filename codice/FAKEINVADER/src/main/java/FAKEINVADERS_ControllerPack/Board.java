@@ -38,7 +38,8 @@ public class Board extends JPanel
 	
 	private BoardView view;
     private List<AlienController> aliens;
-    private PlayerController player;
+    @SuppressWarnings("unused")
+	private PlayerController player;
     private PlayerView playerView;
     private Player playerModel;
     private PlayerController playerController;

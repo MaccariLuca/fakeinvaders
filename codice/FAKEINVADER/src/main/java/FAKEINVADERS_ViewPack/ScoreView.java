@@ -7,9 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -23,10 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
-import FAKEINVADERS_Database.LastGamesDAO;
 import FAKEINVADERS_ModelPack.Commons;
-import FAKEINVADERS_ModelPack.ScoreModel;
-import FAKEINVADERS_ModelPack.SessionManager;
 
 public class ScoreView 
 {
