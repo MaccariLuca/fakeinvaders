@@ -299,7 +299,7 @@ public class Board extends JPanel
         }
     }
 
-    private void handleStandardShotCollisions() 
+    public void handleStandardShotCollisions() 
     {
         int shotX = shotController.getX();
         int shotY = shotController.getY();
@@ -317,6 +317,7 @@ public class Board extends JPanel
                 deaths++;
                 score++;
                 shotController.die();
+                System.out.println(score);
             }
         }
     }

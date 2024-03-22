@@ -17,9 +17,11 @@ import FAKEINVADERS_ModelPack.Alien;
 import FAKEINVADERS_ModelPack.Commons;
 import FAKEINVADERS_ModelPack.Player;
 import FAKEINVADERS_ModelPack.PowerShot;
+import FAKEINVADERS_ModelPack.Shot;
 import FAKEINVADERS_ViewPack.AlienView;
 import FAKEINVADERS_ViewPack.PlayerView;
 import FAKEINVADERS_ViewPack.PowerShotView;
+import FAKEINVADERS_ViewPack.ShotView;
 
 public class BoardTest {
 
@@ -141,13 +143,13 @@ public class BoardTest {
    
    @Test
    public void testPowerShotAvailabilityAfterLevelUp() {
-       // Creiamo un nuovo oggetto Board
-       Board board = new Board();
        
        // Assicuriamoci che il powershot sia disponibile all'inizio del gioco
        assertTrue(board.isPowerShotShooted());
 
        board.setPowerShotShooted(false);	//sparo un colpo
+       
+       assertFalse(board.isPowerShotShooted());
 
        board.setTargetDeaths(0);	//metto target deaths uguale a deaths che è zero
        
@@ -155,5 +157,31 @@ public class BoardTest {
 
        // Assicuriamoci che il powershot non sia più disponibile dopo aver superato il livello
        assertTrue(board.isPowerShotShooted());
+   }
+   
+   @Test
+   public void testPoints()
+   {
+	   assertEquals(board.getDeaths(), 0);
+	   AlienController a;
+	   List<AlienController> aliensMock = new ArrayList<>();
+       for (int i = 0; i < 5; i++) 
+       { 
+    	   a = new AlienController(new Alien(i + Commons.ALIEN_WIDTH, i), new AlienView(i)); //creates only an alien, we don't need really 18 aliens
+    	   a.setVisible(true);
+    	   aliensMock.add(a);
+       } //we put 5 aliens in the arraylist
+       
+       board.setAliens(aliensMock);
+       ShotController shotController;
+       
+       for (int i = 0; i < 5; i++) 
+       { 
+    	   shotController = new ShotController(new Shot(i + (Commons.ALIEN_WIDTH - 1), i), new ShotView());
+    	   shotController.setVisible(true);
+    	   board.setShotController(shotController);
+           board.handleStandardShotCollisions();
+       } 
+       assertEquals(board.getScore(), 10);      
    }
 }
