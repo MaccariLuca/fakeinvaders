@@ -6,7 +6,8 @@ import java.awt.event.KeyEvent;
 import FAKEINVADERS_ModelPack.Player;
 import FAKEINVADERS_ViewPack.PlayerView;
 
-public class PlayerController {
+public class PlayerController 
+{
 	
 	private Player model;
 	private PlayerView view;
@@ -19,7 +20,6 @@ public class PlayerController {
 
 	public void keyPressed(KeyEvent e) 
     {
-
         int key = e.getKeyCode();
         System.out.println(e.getKeyCode());
 
@@ -74,13 +74,11 @@ public class PlayerController {
     
     public void die() 
     {
-
         view.setVisible(false);
     }
 
     public boolean isVisible() 
     {
-
         return view.isVisible();
     }
 
@@ -142,6 +140,7 @@ public class PlayerController {
     {
     	model.act();
     }
+    
 	public int getDx() {
 		return model.getDx();
 	}

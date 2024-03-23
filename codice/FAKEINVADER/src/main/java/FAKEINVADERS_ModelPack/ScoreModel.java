@@ -13,9 +13,8 @@ public class ScoreModel
     	lastGamesDAO = new LastGamesDAO();
     }
     
-    public List<Object[]> getLastGamesForPlayer(String username) throws SQLException {
+    public List<Object[]> getLastGamesForPlayer(String username) throws SQLException 
+    {
         return lastGamesDAO.getLastGamesForPlayer(username);
     }
-
-
 }

@@ -1,7 +1,8 @@
 package FAKEINVADERS_ModelPack;
 
 
-public class PowerShot extends Shot {
+public class PowerShot extends ShotModel 
+{
 
     public PowerShot() {}
 

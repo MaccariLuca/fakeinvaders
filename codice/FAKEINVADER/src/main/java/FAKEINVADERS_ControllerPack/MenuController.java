@@ -32,7 +32,6 @@ public class MenuController
     {
     	view.dispose();
     	try {
-    		
     		new RulesController();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -45,7 +44,6 @@ public class MenuController
     	view.dispose();
     	try {
 			new ScoreController();
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

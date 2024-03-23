@@ -1,19 +1,20 @@
 package FAKEINVADERS_ControllerPack;
 
 
-
-import FAKEINVADERS_ModelPack.Shot;
+import FAKEINVADERS_ModelPack.ShotModel;
 import FAKEINVADERS_ModelPack.Sprite;
 import FAKEINVADERS_ViewPack.ShotView;
 
-public class ShotController extends Sprite {
-
-	private Shot model;
+public class ShotController extends Sprite 
+{
+	private boolean shotActive;
+	private ShotModel model;
 	private ShotView view;
-    public ShotController(Shot s, ShotView sv) 
+    public ShotController(ShotModel s, ShotView sv) 
     {
     	model = s;
     	setView(sv);
+    	shotActive = false;
     }
 
     @Override
@@ -37,22 +38,33 @@ public class ShotController extends Sprite {
     	return model.getY();
     }
 
-	public ShotView getView() {
+	public ShotView getView() 
+	{
 		return view;
 	}
 
-	public void setView(ShotView view) {
+	public void setView(ShotView view) 
+	{
 		this.view = view;
 	}
 	
-	public void reload(Shot s)
+	public void reload(ShotModel shot)
 	{
-		this.model = s;
+		this.model = shot;
 	}
 	
 	public void die()
 	{
 		this.model.die();
 		this.view.die();
+		shotActive = false;
 	}
+	
+	public boolean isShotActive() {
+        return shotActive;
+    }
+
+    public void setShotActive(boolean active) {
+        shotActive = active;
+    }
 }

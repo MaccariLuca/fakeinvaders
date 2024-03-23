@@ -17,7 +17,7 @@ import FAKEINVADERS_ModelPack.Alien;
 import FAKEINVADERS_ModelPack.Commons;
 import FAKEINVADERS_ModelPack.Player;
 import FAKEINVADERS_ModelPack.PowerShot;
-import FAKEINVADERS_ModelPack.Shot;
+import FAKEINVADERS_ModelPack.ShotModel;
 import FAKEINVADERS_ViewPack.AlienView;
 import FAKEINVADERS_ViewPack.PlayerView;
 import FAKEINVADERS_ViewPack.PowerShotView;
@@ -142,21 +142,20 @@ public class BoardTest {
     }*/
    
    @Test
-   public void testPowerShotAvailabilityAfterLevelUp() {
-       
-       // Assicuriamoci che il powershot sia disponibile all'inizio del gioco
-       assertTrue(board.isPowerShotShooted());
+   public void testPowerShotAvailabilityAfterLevelUp() 
+   {
+       assertTrue(board.isPowerShotShooted());  //verifico che powershot sia disponibile all'inizio del gioco
 
        board.setPowerShotShooted(false);	//sparo un colpo
        
-       assertFalse(board.isPowerShotShooted());
+       assertFalse(board.isPowerShotShooted());		//verifico che powershot non sia disponibile dopo averlo sparato
 
-       board.setTargetDeaths(0);	//metto target deaths uguale a deaths che è zero
+       board.setTargetDeaths(0);	//metto target deaths uguale a deaths che è zero in modo da poter avere condizione vera per incermentare il liv
        
        board.incrementLevel();
 
-       // Assicuriamoci che il powershot non sia più disponibile dopo aver superato il livello
-       assertTrue(board.isPowerShotShooted());
+      
+       assertTrue(board.isPowerShotShooted()); 	//verifico che il powershot sia più disponibile dopo aver superato il livello
    }
    
    @Test
@@ -177,7 +176,7 @@ public class BoardTest {
        
        for (int i = 0; i < 5; i++) 
        { 
-    	   shotController = new ShotController(new Shot(i + (Commons.ALIEN_WIDTH - 1), i), new ShotView());
+    	   shotController = new ShotController(new ShotModel(i + (Commons.ALIEN_WIDTH - 1), i), new ShotView());
     	   shotController.setVisible(true);
     	   board.setShotController(shotController);
            board.handleStandardShotCollisions();

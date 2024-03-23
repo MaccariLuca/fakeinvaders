@@ -110,7 +110,7 @@ public class ScoreView
 	 }
 	 
 	 public void showLastGames(List<Object[]> lastGames) {
-		 	resultTextArea.setText(""); // Pulisce il contenuto attuale della JTextArea prima di visualizzare i nuovi risultati
+		 	resultTextArea.setText("");  // Pulisce il contenuto della JTextArea prima di visualizzare i nuovi risultati
 	        for (Object[] game : lastGames) 
 	        {
 	            String gameInfo = "Username: " + game[0] + ", Score: " + game[1] + ", Day: " + game[2] + "\n";

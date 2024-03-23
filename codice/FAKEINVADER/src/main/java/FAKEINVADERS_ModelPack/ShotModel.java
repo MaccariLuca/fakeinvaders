@@ -1,10 +1,9 @@
 package FAKEINVADERS_ModelPack;
 
-public class Shot extends Sprite {
-
-    public Shot() {}
-
-    public Shot(int x, int y) 
+public class ShotModel extends Sprite 
+{
+	public ShotModel() {} 
+    public ShotModel(int x, int y) 
     {
         int H_SPACE = 17;
         setX(x + H_SPACE);

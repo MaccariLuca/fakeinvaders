@@ -11,7 +11,7 @@ import FAKEINVADERS_ModelPack.Commons;
 import FAKEINVADERS_ModelPack.GameOverModel;
 import FAKEINVADERS_ModelPack.Player;
 import FAKEINVADERS_ModelPack.PowerShot;
-import FAKEINVADERS_ModelPack.Shot;
+import FAKEINVADERS_ModelPack.ShotModel;
 import FAKEINVADERS_ViewPack.AlienView;
 import FAKEINVADERS_ViewPack.BoardView;
 import FAKEINVADERS_ViewPack.BombView;
@@ -43,7 +43,7 @@ public class Board extends JPanel
     private PlayerView playerView;
     private Player playerModel;
     private PlayerController playerController;
-    private Shot shot;
+    private ShotModel shot;
     private ShotView shotView;
     private ShotController shotController;
     private PowerShotView powerShotView;
@@ -92,14 +92,14 @@ public class Board extends JPanel
 
     private void initializeShot() 
     {
-        shot = new Shot();
+        shot = new ShotModel();
         shotView = new ShotView();
         shotController = new ShotController(shot, shotView);
     }
 
     private void initializePowerShot() 
     {
-        powerShot = new PowerShot(0, 0);
+        powerShot = new PowerShot();
         powerShotView = new PowerShotView();
         powerShotController = new PowerShotController(getPowerShot(), powerShotView);
     }
@@ -274,6 +274,7 @@ public class Board extends JPanel
         {
             level++;
             setPowerShotShooted(true);
+            
             deaths = 0;
             gameInit(level);
         }
@@ -312,22 +313,28 @@ public class Board extends JPanel
             if (alien.isVisible() && shot.isVisible() && shotX >= alienX && shotX <= alienX + Commons.ALIEN_WIDTH
                     && shotY >= alienY && shotY <= alienY + Commons.ALIEN_HEIGHT) 
             {
-
                 alien.setDying(true);
                 deaths++;
                 score++;
+                
                 shotController.die();
-                System.out.println(score);
             }
+        }
+        if(shotY >= Commons.BOARD_HEIGHT)
+        {
+        	
+        	shotController.die();
         }
     }
 
     private void moveStandardShot() 
     {
         int y = shotController.getY() - 4;
-        if (y < 1) {
+        if (y < 1) 
+        {
             shotController.die();
-        } else {
+        } else 
+        {
             shotController.setY(y);
         }
     }
@@ -370,9 +377,11 @@ public class Board extends JPanel
     public void movePowerShot() 
     {
         int y = powerShotController.getY() - 4;
-        if (y < 0) {       	
+        if (y < 0) 
+        {       	
         	powerShotController.die();
-        } else {
+        } else 
+        {
         	powerShotController.setY(y);
         }
     }
@@ -383,7 +392,8 @@ public class Board extends JPanel
         handleAlienCollisions();
     }
 
-    public void moveAliens() {
+    public void moveAliens() 
+    {
         for (AlienController alien : aliens) 
         {
             int x = alien.getX();
@@ -464,7 +474,6 @@ public class Board extends JPanel
 
                  if (bombController.getBomb().getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) 
                  {
-
                      bombController.getBomb().setDestroyed(true);
                  }
              }
@@ -484,7 +493,6 @@ public class Board extends JPanel
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-
             doGameCycle();
         }
     }
@@ -508,32 +516,26 @@ public class Board extends JPanel
             int y = playerController.getY();
 
             int key = e.getKeyCode();
+            
 
-            if (key == KeyEvent.VK_SPACE) {
-
-                if (inGame) {
-
-                	shotController.getView().setVisible(true);
-                    if (shotController.getView().isVisible()) {
-
-                        shot = new Shot(x, y);
-                        shotController.reload(shot);
-                    }
-                }
+            if (key == KeyEvent.VK_SPACE && inGame && !shotController.isShotActive()) 
+            {
+            	shotController.setShotActive(true);
+                shotController.getView().setVisible(true);
+                shot = new ShotModel(x, y);
+                shotController.reload(shot);
             }
+
             if(key == KeyEvent.VK_R && isPowerShotShooted())
             {
-
     			setPowerShotShooted(false);
-            	if(inGame)
-            	{
-            		if(!powerShotController.isVisible())
-            		{
-            			powerShot = new PowerShot(x, y);
-            			powerShotView = new PowerShotView();
-            			powerShotController = new PowerShotController(getPowerShot(), powerShotView);
-            		}
-            	}			
+            	
+        		if(!powerShotController.isVisible() && inGame)
+        		{
+        			powerShot = new PowerShot(x, y);
+        			powerShotView = new PowerShotView();
+        			powerShotController = new PowerShotController(getPowerShot(), powerShotView);
+        		}			
             }
         }
     }
@@ -644,11 +646,11 @@ public class Board extends JPanel
 			this.playerController = playerController;
 		}
 
-		public Shot getShot() {
+		public ShotModel getShot() {
 			return shot;
 		}
 
-		public void setShot(Shot shot) {
+		public void setShot(ShotModel shot) {
 			this.shot = shot;
 		}
 

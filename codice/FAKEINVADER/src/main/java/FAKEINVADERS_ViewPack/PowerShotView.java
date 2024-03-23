@@ -2,9 +2,9 @@ package FAKEINVADERS_ViewPack;
 
 import javax.swing.ImageIcon;
 
-import FAKEINVADERS_ModelPack.Shot;
+import FAKEINVADERS_ModelPack.ShotModel;
 
-public class PowerShotView extends Shot
+public class PowerShotView extends ShotModel
 {
 	public PowerShotView()
 	{

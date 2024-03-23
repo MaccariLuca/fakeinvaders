@@ -38,7 +38,7 @@ public class ScoreController
             List<Object[]> lastGames = model.getLastGamesForPlayer(username);
             view.showLastGames(lastGames);
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.printStackTrace(); 
         }
     }
     
