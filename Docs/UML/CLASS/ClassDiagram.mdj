@@ -3251,7 +3251,7 @@
 											"top": 711,
 											"width": 206.91796875,
 											"height": 13,
-											"text": "-drawAliens(g: Graphics): void",
+											"text": "-drawSprites(g: Graphics): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3263,6 +3263,7 @@
 											"model": {
 												"$ref": "AAAAAAGMtYreHGb/rQg="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 877,
 											"top": 726,
@@ -3280,9 +3281,10 @@
 											"model": {
 												"$ref": "AAAAAAGMtYtMlmd9ytM="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 877,
-											"top": 741,
+											"top": 726,
 											"width": 206.91796875,
 											"height": 13,
 											"text": "-drawShot(g: Graphics): void",
@@ -3297,9 +3299,10 @@
 											"model": {
 												"$ref": "AAAAAAGMtYuvdmfQH0Q="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 877,
-											"top": 756,
+											"top": 726,
 											"width": 206.91796875,
 											"height": 13,
 											"text": "-drawPowerShot(g: Graphics): void",
@@ -3316,7 +3319,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 877,
-											"top": 771,
+											"top": 726,
 											"width": 206.91796875,
 											"height": 13,
 											"text": "-drawBomb(g: Graphics): void",
@@ -3333,7 +3336,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 877,
-											"top": 786,
+											"top": 741,
 											"width": 206.91796875,
 											"height": 13,
 											"text": "-drawComponent(g: Graphics): void",
@@ -3350,7 +3353,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 877,
-											"top": 801,
+											"top": 756,
 											"width": 206.91796875,
 											"height": 13,
 											"text": "-doDrawing(g: Graphics): void",
@@ -3367,7 +3370,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 877,
-											"top": 816,
+											"top": 771,
 											"width": 206.91796875,
 											"height": 13,
 											"text": "-gameOver(g: Graphics): void",
@@ -3384,7 +3387,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 877,
-											"top": 831,
+											"top": 786,
 											"width": 206.91796875,
 											"height": 13,
 											"text": "-update(): void",
@@ -3401,7 +3404,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 877,
-											"top": 846,
+											"top": 801,
 											"width": 206.91796875,
 											"height": 13,
 											"text": "-doGameCycle(): void",
@@ -3412,7 +3415,7 @@
 									"left": 872,
 									"top": 676,
 									"width": 216.91796875,
-									"height": 188
+									"height": 143
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -10300,7 +10303,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGMtPqdUl4sVuU="
 							},
-							"name": "drawAliens",
+							"name": "drawSprites",
 							"visibility": "private",
 							"parameters": [
 								{

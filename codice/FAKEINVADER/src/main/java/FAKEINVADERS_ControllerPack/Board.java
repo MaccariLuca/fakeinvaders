@@ -47,7 +47,7 @@ public class Board extends JPanel
   
 	private PowerShot powerShot;
     private PowerShotController powerShotController;
-    private boolean powerShotShooted = true;
+    private boolean powerShotAvailable = true;
     
     private int direction = -1;
     private int deaths = 0;
@@ -101,7 +101,7 @@ public class Board extends JPanel
     {
         powerShot = new PowerShot();
         powerShotView = new PowerShotView();
-        powerShotController = new PowerShotController(getPowerShot(), powerShotView);
+        powerShotController = new PowerShotController(powerShot, powerShotView);
     }
 
     //Adds a key listener and set focus on true
@@ -275,20 +275,112 @@ public class Board extends JPanel
     private void update() 
     {
         updateGameState();
-        updatePlayer();
-        updateShots();
-        updateAliens();
+        updateSprites();
         updateBombs();
        
     }
 
+    public void updateSprites()
+    {
+    	//player - movement and collisions
+    	playerController.act();
+        handlePlayerCollisions();
+        
+        //shot - movement and collisions
+        if (shotController.getView().isVisible()) 
+        {
+            moveStandardShot();
+            handleStandardShotCollisions();
+        }
+        
+        //powerShot - movement and collisions
+        if (powerShotController.isVisible()) 
+        {
+            handlePowerShotCollisions();
+            movePowerShot();
+        } 
+        
+        //aliens - movement and invasion
+        for (AlienController alien : aliens) 
+        {
+            int x = alien.getX();
+
+            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) 
+            {
+                direction = -1;
+                moveAliensDown();
+            }
+
+            if (x <= Commons.BORDER_LEFT && direction != 1) 
+            {
+            	direction = 1;
+                moveAliensDown();
+            }
+
+            alien.act(direction);
+            
+            int y = alien.getY();
+            if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) 
+            {
+                inGame = false;
+            }
+        }
+        
+    }
+    
+    private void updateBombs() 
+    {
+        Random generator = new Random();
+
+        for (AlienController alien : aliens) {
+        	 int shot = generator.nextInt(350);//random number that defines the time value of the shot (1 in 350 chance to shoot)
+             Bomb bomb = alien.getBomb();
+             BombView bombView = new BombView();
+             BombController bombController = new BombController(bomb, bombView);
+
+             if (shot == 0 && alien.isVisible() && bombController.isDestroyed()) //if the alien is still alive and the bomb is destroyed
+             {
+                 bombController.setDestroyed(false);
+                 bombController.getBomb().setX(alien.getX());
+                 bombController.getBomb().setY(alien.getY());
+             }
+
+             int bombX = bombController.getBomb().getX();
+             int bombY = bombController.getBomb().getY();
+             int playerX = playerController.getX();
+             int playerY = playerController.getY();
+
+             if (playerController.isVisible() && !bombController.isDestroyed()) //used to determinate if the player is shot
+             {
+                 if (bombX >= (playerX)
+                         && bombX <= (playerX + Commons.PLAYER_WIDTH)
+                         && bombY >= (playerY)
+                         && bombY <= (playerY + Commons.PLAYER_HEIGHT)) 
+                 {
+                       playerController.setDying(true);
+                     bombController.setDestroyed(true);
+                 }
+             }
+
+             if (!bombController.isDestroyed()) 
+             {
+                 bombController.getBomb().setY(bombController.getBomb().getY() + 1);
+
+                 if (bombController.getBomb().getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) 
+                 {
+                     bombController.getBomb().setDestroyed(true);
+                 }
+             }
+        }
+    }
+    
     //used to increase the led and reset the score
-    private void updateGameState() 
+    public void updateGameState() 
     {
         if (deaths == targetDeaths) 
         {
             level++;
-            setPowerShotShooted(true);
+            powerShotAvailable = true;
             
             deaths = 0;
             gameInit(level);
@@ -296,26 +388,8 @@ public class Board extends JPanel
     }
 
     //list of function used to update the state of every element in the game
-    private void updatePlayer() 
-    {
-        playerController.act();
-        handlePlayerCollisions();
-    }
-
-    private void updateShots() 
-    {
-        updateStandardShot();
-        updatePowerShot();
-    }
-
-    private void updateStandardShot() 
-    {
-        if (shotController.getView().isVisible()) 
-        {
-            handleStandardShotCollisions();
-            moveStandardShot();
-        }
-    }
+    
+    
     public void handlePlayerCollisions() 
     {
     	int playerX = playerController.getX();
@@ -377,15 +451,7 @@ public class Board extends JPanel
         }
     }
 
-    //used to handle the status of the powershot
-    public void updatePowerShot() 
-    {
-        if (powerShotController.isVisible()) 
-        {
-            handlePowerShotCollisions();
-            movePowerShot();
-        }       
-    }
+    
 
     //used when the powershot hits an alien
     public void handlePowerShotCollisions() 
@@ -409,7 +475,7 @@ public class Board extends JPanel
             
             if(pShotY >= Commons.BOARD_HEIGHT)
             {
-            	setPowerShotShooted(false);
+            	powerShotAvailable =false;
             }
         }
     }
@@ -427,34 +493,6 @@ public class Board extends JPanel
         }
     }
 
-    
-    private void updateAliens()
-    {
-        moveAliens();
-        handleAlienCollisions();
-    }
-
-    public void moveAliens() 
-    {
-        for (AlienController alien : aliens) 
-        {
-            int x = alien.getX();
-
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && getDirection() != -1) 
-            {
-                setDirection(-1);
-                moveAliensDown();
-            }
-
-            if (x <= Commons.BORDER_LEFT && getDirection() != 1) 
-            {
-                setDirection(1);
-                moveAliensDown();
-            }
-
-            alien.act(getDirection());
-        }
-    }
 
     private void moveAliensDown() 
     {
@@ -463,64 +501,8 @@ public class Board extends JPanel
             alien.setY(alien.getY() + Commons.GO_DOWN);
         }
     }
-
-    public void handleAlienCollisions() 
-    {
-        for (AlienController alien : aliens) 
-        {
-            int y = alien.getY();
-            if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) 
-            {
-                inGame = false;
-            }
-        }
-    }
-
-    private void updateBombs() 
-    {
-        Random generator = new Random();
-
-        for (AlienController alien : aliens) {
-        	 int shot = generator.nextInt(350);//random number that defines the time value of the shot (1 in 350 chance to shoot)
-             Bomb bomb = alien.getBomb();
-             BombView bombView = new BombView();
-             BombController bombController = new BombController(bomb, bombView);
-
-             if (shot == 0 && alien.isVisible() && bombController.isDestroyed()) //if the alien is still alive and the bomb is destroyed
-             {
-                 bombController.setDestroyed(false);
-                 bombController.getBomb().setX(alien.getX());
-                 bombController.getBomb().setY(alien.getY());
-             }
-
-             int bombX = bombController.getBomb().getX();
-             int bombY = bombController.getBomb().getY();
-             int playerX = playerController.getX();
-             int playerY = playerController.getY();
-
-             if (playerController.isVisible() && !bombController.isDestroyed()) //used to determinate if the player is shot
-             {
-                 if (bombX >= (playerX)
-                         && bombX <= (playerX + Commons.PLAYER_WIDTH)
-                         && bombY >= (playerY)
-                         && bombY <= (playerY + Commons.PLAYER_HEIGHT)) 
-                 {
-                       playerController.setDying(true);
-                     bombController.setDestroyed(true);
-                 }
-             }
-
-             if (!bombController.isDestroyed()) 
-             {
-                 bombController.getBomb().setY(bombController.getBomb().getY() + 1);
-
-                 if (bombController.getBomb().getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) 
-                 {
-                     bombController.getBomb().setDestroyed(true);
-                 }
-             }
-        }
-    }
+ 
+    
    
     private void doGameCycle() 
     {
@@ -528,78 +510,6 @@ public class Board extends JPanel
         repaint();
     }
 
-    public List<AlienController> getAliens() {
-        return this.aliens;
-    }
-    
-    public void setAliens(List<AlienController> aliens) {
-        this.aliens = aliens;
-    }
-    
-    public int getIncreaseLine() {
-        return this.increaseLine;
-    }
- 
-    public int getIncreaseColums() {
-        return this.increaseColums;
-    }
-    
-    public int getLevel() {
-        return this.level;
-    }
-    
-    public void setDeaths(int deaths) {
-        this.deaths = deaths;
-    }
-    
-    public int getDeaths() {
-        return deaths;
-    }
-
-    public void incrementLevel() {
-        updateGameState();
-    }
-
-    public int getCurrentLevel() {
-        return level;
-    }
-
-    public boolean isInGame() {
-        return inGame;
-    }
-
-	public int getDirection() {
-		return direction;
-	}
-
-	public void setDirection(int direction) {
-		this.direction = direction;
-	}
-
-	public boolean isPowerShotShooted() {
-		return powerShotShooted;
-	}
-
-	public void setPowerShotShooted(boolean powerShotShooted) {
-		this.powerShotShooted = powerShotShooted;
-	}
-
-	public PowerShot getPowerShot() {
-		return powerShot;
-	}
-	 
-	public void setTargetDeaths(int targetDeaths) {
-		this.targetDeaths = targetDeaths;
-	}
-	
-	public void setShotController(ShotController shotController) {
-		this.shotController = shotController;
-	}
-	
-	public int getScore() {
-		return score;
-	}
-		
     private class GameCycle implements ActionListener 
     {
         @Override
@@ -608,6 +518,7 @@ public class Board extends JPanel
             doGameCycle();
         }
     }
+    
 
     private class PlayerInput extends KeyAdapter 
     {
@@ -638,15 +549,15 @@ public class Board extends JPanel
                 shotController.reload(shot);
             }
 
-            if(key == KeyEvent.VK_R && isPowerShotShooted())
+            if(key == KeyEvent.VK_R && powerShotAvailable)
             {
-    			setPowerShotShooted(false);
+            	powerShotAvailable = false;
             	
         		if(!powerShotController.isVisible() && inGame)
         		{
         			powerShot = new PowerShot(x, y);
         			powerShotView = new PowerShotView();
-        			powerShotController = new PowerShotController(getPowerShot(), powerShotView);
+        			powerShotController = new PowerShotController(powerShot, powerShotView);
         		}			
             }
         }
@@ -659,7 +570,72 @@ public class Board extends JPanel
 	public PlayerController getPlayer() {
 		return player;
 	}
+	
+	public void setAliens(List<AlienController> aliens) {
+        this.aliens = aliens;
+    }
 
-  
+	public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+	
+	public int getDeaths() {
+        return deaths;
+    }
 
+	public int getLevel() {
+        return this.level;
+    }
+	
+	public int getIncreaseLine() {
+        return this.increaseLine;
+    }
+ 
+    public int getIncreaseColums() {
+        return this.increaseColums;
+    }
+    public int getDirection() {
+		return direction;
+	}
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+	public boolean isInGame() {
+        return inGame;
+	}
+	public boolean isPowerShotAvailable() {
+		return powerShotAvailable;
+	}
+	public void setPowerShotAvailable(boolean powerShotAvailable) {
+		this.powerShotAvailable = powerShotAvailable;
+	}
+	public int getScore() {
+		return score;
+	}
+    
+    public List<AlienController> getAliens() {
+        return this.aliens;
+    }
+
+    public int getCurrentLevel() {
+        return level;
+    }
+
+	public PowerShot getPowerShot() {
+		return powerShot;
+	}
+	 
+	public void setTargetDeaths(int targetDeaths) {
+		this.targetDeaths = targetDeaths;
+	}
+
+	public void setShotController(ShotController shotController2) {
+		this.shotController = shotController2;
+		
+	}
+	
+	
+		
+
+	
 }
