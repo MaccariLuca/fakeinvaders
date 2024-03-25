@@ -321,8 +321,6 @@ public class Board extends JPanel
     	int playerX = playerController.getX();
     	int playerY = playerController.getY();
     	
-    	System.out.println(playerX);
-
         for (AlienController alien : aliens) 
         {
             int alienX = alien.getX();
@@ -657,6 +655,10 @@ public class Board extends JPanel
     public void setPlayerController(PlayerController playerController) {
         this.playerController = playerController;
     }
+
+	public PlayerController getPlayer() {
+		return player;
+	}
 
   
 

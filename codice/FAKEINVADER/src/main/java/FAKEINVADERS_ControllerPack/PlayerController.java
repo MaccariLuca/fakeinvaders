@@ -21,7 +21,6 @@ public class PlayerController
 	public void keyPressed(KeyEvent e) 
     {
         int key = e.getKeyCode();
-        System.out.println(e.getKeyCode());
 
         if (key == KeyEvent.VK_LEFT || key == 39) 
         {

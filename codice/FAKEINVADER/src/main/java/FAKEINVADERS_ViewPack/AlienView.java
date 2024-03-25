@@ -6,6 +6,9 @@ import FAKEINVADERS_ModelPack.Sprite;
 
 public class AlienView extends Sprite
 {
+	public AlienView()
+	{}
+	
 	public AlienView(int y)
 	{
 		String alienImage = "src/main/java/FAKEINVADERS_Images/alien.png"; //default sprite of the alien 
