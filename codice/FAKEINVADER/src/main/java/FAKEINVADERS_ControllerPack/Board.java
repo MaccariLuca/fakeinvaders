@@ -32,7 +32,6 @@ import java.util.Random;
 
 public class Board extends JPanel
 {
-	
 	private static final long serialVersionUID = 2797967856640653592L;//AUTO_GENERATED
 	
 	private BoardView view;
@@ -317,7 +316,6 @@ public class Board extends JPanel
             moveStandardShot();
         }
     }
-
     public void handlePlayerCollisions() 
     {
     	int playerX = playerController.getX();
@@ -340,6 +338,7 @@ public class Board extends JPanel
             }
         }
     }
+ 
 
     //used to handle every time a shot kills an alien
     public void handleStandardShotCollisions() 
@@ -526,7 +525,6 @@ public class Board extends JPanel
              }
         }
     }
-
    
     private void doGameCycle() 
     {
@@ -537,10 +535,15 @@ public class Board extends JPanel
     public List<AlienController> getAliens() {
         return this.aliens;
     }
+    
+    public void setAliens(List<AlienController> aliens) {
+        this.aliens = aliens;
+    }
+    
     public int getIncreaseLine() {
         return this.increaseLine;
     }
-    
+ 
     public int getIncreaseColums() {
         return this.increaseColums;
     }
@@ -548,15 +551,13 @@ public class Board extends JPanel
     public int getLevel() {
         return this.level;
     }
-    public void setAliens(List<AlienController> aliens) {
-        this.aliens = aliens;
-    }
-
+    
     public void setDeaths(int deaths) {
         this.deaths = deaths;
     }
-    public boolean getGameState() {
-        return inGame;
+    
+    public int getDeaths() {
+        return deaths;
     }
 
     public void incrementLevel() {
@@ -567,14 +568,8 @@ public class Board extends JPanel
         return level;
     }
 
-    
     public boolean isInGame() {
         return inGame;
-    }
-
-   
-    public int getDeaths() {
-        return deaths;
     }
 
 	public int getDirection() {
@@ -596,141 +591,21 @@ public class Board extends JPanel
 	public PowerShot getPowerShot() {
 		return powerShot;
 	}
-
-	public void setPowerShot(PowerShotController powerShot2) {
-		this.powerShotController = powerShot2;
+	 
+	public void setTargetDeaths(int targetDeaths) {
+		this.targetDeaths = targetDeaths;
 	}
-	  public BoardView getView() {
-			return view;
-		}
-
-		public void setView(BoardView view) {
-			this.view = view;
-		}
-
-		public PlayerController getPlayer() {
-			return player;
-		}
-
-		public void setPlayer(PlayerController player) {
-			this.player = player;
-		}
-
-		public PlayerView getPlayerView() {
-			return playerView;
-		}
-
-		public void setPlayerView(PlayerView playerView) {
-			this.playerView = playerView;
-		}
-
-		public Player getPlayerModel() {
-			return playerModel;
-		}
-
-		public void setPlayerModel(Player playerModel) {
-			this.playerModel = playerModel;
-		}
-
-		public PlayerController getPlayerController() {
-			return playerController;
-		}
-
-		public void setPlayerController(PlayerController playerController) {
-			this.playerController = playerController;
-		}
-
-		public ShotModel getShot() {
-			return shot;
-		}
-
-		public void setShot(ShotModel shot) {
-			this.shot = shot;
-		}
-
-		public ShotView getShotView() {
-			return shotView;
-		}
-
-		public void setShotView(ShotView shotView) {
-			this.shotView = shotView;
-		}
-
-		public ShotController getShotController() {
-			return shotController;
-		}
-
-		public void setShotController(ShotController shotController) {
-			this.shotController = shotController;
-		}
-
-		public PowerShotView getPowerShotView() {
-			return powerShotView;
-		}
-
-		public void setPowerShotView(PowerShotView powerShotView) {
-			this.powerShotView = powerShotView;
-		}
-
-		public PowerShotController getPowerShotController() {
-			return powerShotController;
-		}
-
-		public void setPowerShotController(PowerShotController powerShotController) {
-			this.powerShotController = powerShotController;
-		}
-
-		public int getScore() {
-			return score;
-		}
-
-		public void setScore(int score) {
-			this.score = score;
-		}
-
-		public Timer getTimer() {
-			return timer;
-		}
-
-		public void setTimer(Timer timer) {
-			this.timer = timer;
-		}
-
-		public int getTargetDeaths() {
-			return targetDeaths;
-		}
-
-		public void setTargetDeaths(int targetDeaths) {
-			this.targetDeaths = targetDeaths;
-		}
-
-		public static long getSerialversionuid() {
-			return serialVersionUID;
-		}
-
-		public void setPowerShot(PowerShot powerShot) {
-			this.powerShot = powerShot;
-		}
-
-		public void setInGame(boolean inGame) {
-			this.inGame = inGame;
-		}
-
-		public void setLevel(int level) {
-			this.level = level;
-		}
-
-		public void setIncreaseLine(int increaseLine) {
-			this.increaseLine = increaseLine;
-		}
-
-		public void setIncreaseColums(int increaseColums) {
-			this.increaseColums = increaseColums;
-		}
+	
+	public void setShotController(ShotController shotController) {
+		this.shotController = shotController;
+	}
+	
+	public int getScore() {
+		return score;
+	}
 		
     private class GameCycle implements ActionListener 
     {
-
         @Override
         public void actionPerformed(ActionEvent e) 
         {
@@ -779,12 +654,5 @@ public class Board extends JPanel
         		}			
             }
         }
-    }
-    
-    
-
-        
-
-
-    
+    }    
 }
