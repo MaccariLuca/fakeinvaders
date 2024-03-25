@@ -300,6 +300,7 @@ public class Board extends JPanel
     private void updatePlayer() 
     {
         playerController.act();
+        handlePlayerCollisions();
     }
 
     private void updateShots() 
@@ -314,6 +315,29 @@ public class Board extends JPanel
         {
             handleStandardShotCollisions();
             moveStandardShot();
+        }
+    }
+
+    public void handlePlayerCollisions() 
+    {
+    	int playerX = playerController.getX();
+    	int playerY = playerController.getY();
+    	
+    	System.out.println(playerX);
+
+        for (AlienController alien : aliens) 
+        {
+            int alienX = alien.getX();
+            int alienY = alien.getY();
+
+            if (alien.isVisible() && playerController.isVisible() && playerX + Commons.PLAYER_WIDTH >= alienX && playerX <= alienX + Commons.ALIEN_WIDTH
+                    && playerY + Commons.PLAYER_HEIGHT >= alienY && playerY <= alienY + Commons.ALIEN_HEIGHT) 
+            {
+
+            	inGame = false;
+
+                
+            }
         }
     }
 
