@@ -3,10 +3,8 @@ package FAKEINVADERS_ControllerPack;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import java.awt.event.KeyEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,21 +14,26 @@ import org.junit.Test;
 import FAKEINVADERS_ModelPack.Alien;
 import FAKEINVADERS_ModelPack.Commons;
 import FAKEINVADERS_ModelPack.Player;
-import FAKEINVADERS_ModelPack.PowerShot;
 import FAKEINVADERS_ModelPack.ShotModel;
 import FAKEINVADERS_ViewPack.AlienView;
 import FAKEINVADERS_ViewPack.PlayerView;
-import FAKEINVADERS_ViewPack.PowerShotView;
 import FAKEINVADERS_ViewPack.ShotView;
 
-public class BoardTest {
+public class BoardTest 
+{
 
-    private Board board;
-
+	private Board board;
+    private PlayerController playerController;
+    private List<AlienController> aliens;
+    
     @Before
     public void setUp() 
     {
         board = new Board();
+        playerController = new PlayerController(new Player(), new PlayerView());
+        board.setPlayerController(playerController);
+        aliens = new ArrayList<>();
+        board.setAliens(aliens);
     }
 
     @Test
@@ -45,8 +48,7 @@ public class BoardTest {
         assertEquals(0, board.getIncreaseLine());
         assertEquals(0, board.getIncreaseColums());
 
-        board.incrementLevel();	//incremento
-
+        board.updateGameState();
         assertEquals(2, board.getLevel());	//verifica incremento 
 
         // Verify increaseLine and increaseColumns incrementation
@@ -78,6 +80,7 @@ public class BoardTest {
     public void alienTouchesTheBorder()
 	{
     	List<AlienController> aliensMock = new ArrayList<>();
+    	
     	//creates an alien and puts it in the extreme right if the frame
     	AlienController lastAlien = new AlienController(new Alien((Commons.BOARD_WIDTH - Commons.BORDER_RIGHT), 60), new AlienView(60));
         aliensMock.add(lastAlien);
@@ -86,7 +89,7 @@ public class BoardTest {
         board.setAliens(aliensMock); 
         //we expect that, moving the alien thowards right, it will bounce, changing the value of direction
         board.setDirection(1);
-    	board.moveAliens();
+    	board.updateSprites();
     	assertEquals(board.getDirection(), -1); //the direction was 1, but now it needs to be -1 because the aliens touched the border
     	//the y-value needs to be smaller than before. In the board is used a fixed value, and we expect that the y value has decreased by that value
     	assertEquals(aliensMock.get(0).getY(), yStart + Commons.GO_DOWN); 
@@ -98,7 +101,7 @@ public class BoardTest {
         board.setAliens(aliensMock); 
         //we expect that, moving the alien thowards left, it will bounce, changing the value of direction
         board.setDirection(-1);
-    	board.moveAliens();
+    	board.updateSprites();
     	assertEquals(board.getDirection(), 1);
     	assertEquals(aliensMock.get(1).getY(), yStart + Commons.GO_DOWN);
         
@@ -117,45 +120,25 @@ public class BoardTest {
         board.setAliens(aliensMock); 
         
         assertEquals(board.isInGame(), true);
-        board.handleAlienCollisions();
+        board.updateSprites();
         assertEquals(board.isInGame(), false);
     }
-    
-    /*
-   @Test
-    public void onlyOnePowerShot()
-    //in every level, the player can shoot only one powerShot
-    {
-    	//it's a powershot that has reached the top of the board. So it has to be shooted
-        
-    	board.setPowerShot(powerShot);
-    	board.updatePowerShot();
-    	assertEquals(board.isPowerShotShooted(), true);
-    	board.handlePowerShotCollisions();
-    	assertEquals(board.isPowerShotShooted(), false);
-    	
-    	//at the next level, tha player can shoot another powershot
-    	board.incrementLevel();
-    	assertEquals(board.isPowerShotShooted(), true);
-    	board.handlePowerShotCollisions();
-    	assertEquals(board.isPowerShotShooted(), false);
-    }*/
    
    @Test
    public void testPowerShotAvailabilityAfterLevelUp() 
    {
-       assertTrue(board.isPowerShotShooted());  //verifico che powershot sia disponibile all'inizio del gioco
+       assertTrue(board.isPowerShotAvailable());  //verifico che powershot sia disponibile all'inizio del gioco
 
-       board.setPowerShotShooted(false);	//sparo un colpo
+       board.setPowerShotAvailable(false);	//sparo un colpo
        
-       assertFalse(board.isPowerShotShooted());		//verifico che powershot non sia disponibile dopo averlo sparato
+       assertFalse(board.isPowerShotAvailable());		//verifico che powershot non sia disponibile dopo averlo sparato
 
        board.setTargetDeaths(0);	//metto target deaths uguale a deaths che è zero in modo da poter avere condizione vera per incermentare il liv
        
-       board.incrementLevel();
+       board.updateGameState();
 
       
-       assertTrue(board.isPowerShotShooted()); 	//verifico che il powershot sia più disponibile dopo aver superato il livello
+       assertTrue(board.isPowerShotAvailable()); 	//verifico che il powershot sia più disponibile dopo aver superato il livello
    }
    
    @Test
@@ -182,5 +165,33 @@ public class BoardTest {
            board.handleStandardShotCollisions();
        } 
        assertEquals(board.getScore(), 10);      
+   }
+   
+   @Test
+   public void player_Collides_With_Alien_Should_Set_InGame_False() 
+   {       
+       AlienController alienController = new AlienController(new Alien(10, 10), new AlienView());
+       alienController.setVisible(true);
+       aliens.add(alienController);
+       playerController.setVisible(true);
+       playerController.setPosition(10, 10);	//player nelle stesse coordinate da alien
+
+       board.handlePlayerCollisions();
+
+       assertFalse(board.isInGame());
+   }
+
+   @Test
+   public void no_Collisions_Should_Keep_InGame_True() 
+   {
+       AlienController alienController = new AlienController(new Alien(100, 100), new AlienView());
+       alienController.setVisible(true);
+       aliens.add(alienController);
+       playerController.setVisible(true);
+       playerController.setPosition(0, 0);	//player in coordinate diverse da alien 
+
+       board.handlePlayerCollisions();
+
+       assertTrue(board.isInGame());
    }
 }

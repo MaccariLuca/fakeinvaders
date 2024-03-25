@@ -1,4 +1,4 @@
-package FAKEINVADERS_ControllerPack;
+			package FAKEINVADERS_ControllerPack;
 
 import java.awt.Image;
 

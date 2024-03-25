@@ -21,7 +21,6 @@ public class PlayerController
 	public void keyPressed(KeyEvent e) 
     {
         int key = e.getKeyCode();
-        System.out.println(e.getKeyCode());
 
         if (key == KeyEvent.VK_LEFT || key == 39) 
         {
@@ -149,5 +148,9 @@ public class PlayerController
 		return model.getUp();
 	}
 
+  public void setPosition(int x, int y) {
+        model.setX(x);
+        model.setY(y);
+    }
 	
 }
