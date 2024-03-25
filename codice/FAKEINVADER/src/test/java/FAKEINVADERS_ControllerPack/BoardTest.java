@@ -81,6 +81,7 @@ public class BoardTest
     public void alienTouchesTheBorder()
 	{
     	List<AlienController> aliensMock = new ArrayList<>();
+    	
     	//creates an alien and puts it in the extreme right if the frame
     	AlienController lastAlien = new AlienController(new Alien((Commons.BOARD_WIDTH - Commons.BORDER_RIGHT), 60), new AlienView(60));
         aliensMock.add(lastAlien);
@@ -168,13 +169,13 @@ public class BoardTest
    }
    
    @Test
-   public void PlayerCollidesWithAlien_ShouldSetInGameFalse() 
+   public void player_Collides_With_Alien_Should_Set_InGame_False() 
    {       
-       AlienController alienController = new AlienController(new Alien(10, 10), new AlienView(10));
+       AlienController alienController = new AlienController(new Alien(10, 10), new AlienView());
        alienController.setVisible(true);
        aliens.add(alienController);
        playerController.setVisible(true);
-       playerController.setPosition(10, 10);
+       playerController.setPosition(10, 10);	//player nelle stesse coordinate da alien
 
        board.handlePlayerCollisions();
 
@@ -182,18 +183,16 @@ public class BoardTest
    }
 
    @Test
-   public void noCollisions_ShouldKeepInGameTrue() 
+   public void no_Collisions_Should_Keep_InGame_True() 
    {
-       AlienController alienController = new AlienController(new Alien(100, 100), new AlienView(100));
+       AlienController alienController = new AlienController(new Alien(100, 100), new AlienView());
        alienController.setVisible(true);
        aliens.add(alienController);
        playerController.setVisible(true);
-       playerController.setPosition(0, 0);
+       playerController.setPosition(0, 0);	//player in coordinate diverse da alien 
 
        board.handlePlayerCollisions();
 
        assertTrue(board.isInGame());
    }
-   
-   
 }
