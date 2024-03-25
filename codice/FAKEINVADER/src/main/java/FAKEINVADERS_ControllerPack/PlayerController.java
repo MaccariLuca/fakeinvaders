@@ -149,5 +149,9 @@ public class PlayerController
 		return model.getUp();
 	}
 
+  public void setPosition(int x, int y) {
+        model.setX(x);
+        model.setY(y);
+    }
 	
 }

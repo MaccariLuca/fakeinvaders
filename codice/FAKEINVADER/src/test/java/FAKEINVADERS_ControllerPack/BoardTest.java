@@ -13,18 +13,27 @@ import org.junit.Test;
 
 import FAKEINVADERS_ModelPack.Alien;
 import FAKEINVADERS_ModelPack.Commons;
+import FAKEINVADERS_ModelPack.Player;
 import FAKEINVADERS_ModelPack.ShotModel;
 import FAKEINVADERS_ViewPack.AlienView;
+import FAKEINVADERS_ViewPack.PlayerView;
 import FAKEINVADERS_ViewPack.ShotView;
 
-public class BoardTest {
+public class BoardTest 
+{
 
-    private Board board;
-
+	private Board board;
+    private PlayerController playerController;
+    private List<AlienController> aliens;
+    
     @Before
     public void setUp() 
     {
         board = new Board();
+        playerController = new PlayerController(new Player(), new PlayerView());
+        board.setPlayerController(playerController);
+        aliens = new ArrayList<>();
+        board.setAliens(aliens);
     }
 
     @Test
@@ -157,4 +166,34 @@ public class BoardTest {
        } 
        assertEquals(board.getScore(), 10);      
    }
+   
+   @Test
+   public void PlayerCollidesWithAlien_ShouldSetInGameFalse() 
+   {       
+       AlienController alienController = new AlienController(new Alien(10, 10), new AlienView(10));
+       alienController.setVisible(true);
+       aliens.add(alienController);
+       playerController.setVisible(true);
+       playerController.setPosition(10, 10);
+
+       board.handlePlayerCollisions();
+
+       assertFalse(board.isInGame());
+   }
+
+   @Test
+   public void noCollisions_ShouldKeepInGameTrue() 
+   {
+       AlienController alienController = new AlienController(new Alien(100, 100), new AlienView(100));
+       alienController.setVisible(true);
+       aliens.add(alienController);
+       playerController.setVisible(true);
+       playerController.setPosition(0, 0);
+
+       board.handlePlayerCollisions();
+
+       assertTrue(board.isInGame());
+   }
+   
+   
 }

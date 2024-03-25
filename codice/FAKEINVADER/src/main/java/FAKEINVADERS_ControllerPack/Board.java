@@ -332,9 +332,7 @@ public class Board extends JPanel
                     && playerY + Commons.PLAYER_HEIGHT >= alienY && playerY <= alienY + Commons.ALIEN_HEIGHT) 
             {
 
-            	inGame = false;
-
-                
+            	inGame = false; 
             }
         }
     }
@@ -654,5 +652,12 @@ public class Board extends JPanel
         		}			
             }
         }
-    }    
+    }
+
+    public void setPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
+    }
+
+  
+
 }
