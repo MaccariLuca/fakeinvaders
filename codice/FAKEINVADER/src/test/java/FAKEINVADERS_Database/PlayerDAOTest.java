@@ -31,6 +31,7 @@ public class PlayerDAOTest
         PlayerDAO.setConnection(mockConnection);
     }
 
+    @Test
     public void testInsertPlayer() throws SQLException 
     {
       

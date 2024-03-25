@@ -3,10 +3,8 @@ package FAKEINVADERS_ControllerPack;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import java.awt.event.KeyEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +13,8 @@ import org.junit.Test;
 
 import FAKEINVADERS_ModelPack.Alien;
 import FAKEINVADERS_ModelPack.Commons;
-import FAKEINVADERS_ModelPack.Player;
-import FAKEINVADERS_ModelPack.PowerShot;
 import FAKEINVADERS_ModelPack.ShotModel;
 import FAKEINVADERS_ViewPack.AlienView;
-import FAKEINVADERS_ViewPack.PlayerView;
-import FAKEINVADERS_ViewPack.PowerShotView;
 import FAKEINVADERS_ViewPack.ShotView;
 
 public class BoardTest {
@@ -120,26 +114,6 @@ public class BoardTest {
         board.handleAlienCollisions();
         assertEquals(board.isInGame(), false);
     }
-    
-    /*
-   @Test
-    public void onlyOnePowerShot()
-    //in every level, the player can shoot only one powerShot
-    {
-    	//it's a powershot that has reached the top of the board. So it has to be shooted
-        
-    	board.setPowerShot(powerShot);
-    	board.updatePowerShot();
-    	assertEquals(board.isPowerShotShooted(), true);
-    	board.handlePowerShotCollisions();
-    	assertEquals(board.isPowerShotShooted(), false);
-    	
-    	//at the next level, tha player can shoot another powershot
-    	board.incrementLevel();
-    	assertEquals(board.isPowerShotShooted(), true);
-    	board.handlePowerShotCollisions();
-    	assertEquals(board.isPowerShotShooted(), false);
-    }*/
    
    @Test
    public void testPowerShotAvailabilityAfterLevelUp() 
